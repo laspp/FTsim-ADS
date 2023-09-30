@@ -5,6 +5,9 @@
 [Bb]uilds/
 [Ll]ogs/
 
+# Me: here things like Buildsettings, TargetPlatform etc. are stored so you don't have to switch it manually everytime you clone.
+!/[Ll]ibrary/*.asset
+
 # Uncomment this line if you wish to ignore the asset store tools plugin
 # [Aa]ssets/AssetStoreTools*
 
