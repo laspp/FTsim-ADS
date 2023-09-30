@@ -22,10 +22,10 @@ public class PanelControls : MonoBehaviour
     void Update()
     {
         // Control lights
-        lightRed.GetComponent<Button>().interactable = com.GetTagValue("LightRed");
-        lightGreen.GetComponent<Button>().interactable = com.GetTagValue("LightGreen");
-        lightBlueTop.GetComponent<Button>().interactable = com.GetTagValue("LightBlueTop");
-        lightBlueBottom.GetComponent<Button>().interactable = com.GetTagValue("LightBlueBottom");
+        lightRed.GetComponent<Toggle>().isOn = com.GetTagValue("LightRed");
+        lightGreen.GetComponent<Toggle>().isOn = com.GetTagValue("LightGreen");
+        lightBlueTop.GetComponent<Toggle>().isOn = com.GetTagValue("LightBlueTop");
+        lightBlueBottom.GetComponent<Toggle>().isOn = com.GetTagValue("LightBlueBottom");
     }
 
     public void CreateNewWorkpiece()
