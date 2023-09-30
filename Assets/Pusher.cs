@@ -2,6 +2,13 @@
 using System.Collections;
 using UnityEngine.UI;
 
+public enum PositionAxis
+{
+    x,
+    y,
+    z
+}
+
 public class Pusher : MonoBehaviour
 {
     [Tooltip("A name of tag (defined in config.json)")]
@@ -15,22 +22,29 @@ public class Pusher : MonoBehaviour
     [Tooltip("How should direction be treated. If false, pusher moves forward when direction is 1.")]
     public bool reversePolarity = false;
     public float speed = 0.5f;
-    
+    [Tooltip("How much distance can pusher travel.")]
+    public float travelDistance = 0.9f;
+    [Tooltip("Do not show danger sign if that far away from end switch.")]
+    public float dangerMargin = 0.1f; 
+    [Tooltip("Stop movement if that far from end switch. Should be larger than danger margin.")]
+    public float dangerOffset = 0.5f;
     [Tooltip("Object with danger sign. If None, child 'DangerSign' will be searched for.")]
     public GameObject dangerSign;
+
+    public PositionAxis selectPositionAxis = new PositionAxis();
+    public bool inverseDirection = false;
 
     Vector3 moveVector = new(1, 0, 0);
 
     Communication com;
 
-    float positionStart = 0f;
-    float positionEnd = 1.1f;
-    float dangerMargin = 0.1f; // do not report danger if this far away from reference
-    float dangerOffset = 0.5f; // stop if this far from reference positions
-    float position = 0;
-    bool isOnStart = false;
-    bool isOnEnd = false;
-    bool dangerousPosition = false;
+    private float position;
+    private float positionStart;
+    private float positionEnd;
+    
+    private bool isOnStart = false;
+    private bool isOnEnd = false;
+    private bool dangerousPosition = false;
 
     private int switchStartValue, switchStartNewValue;
     private int switchEndValue, switchEndNewValue;
@@ -55,14 +69,36 @@ public class Pusher : MonoBehaviour
         switchEndValue = -1;
         switchEndForceTrue = false;
         switchEndForceFalse = false;
-    }
 
+        // Initial absolute position x of the object
+        
+        position = GetPosition();
+        // Positions of start and end switches (imaginary)
+        positionStart = position;
+        positionEnd = positionStart + travelDistance;
+
+    }
+    float GetPosition() {
+
+        switch (selectPositionAxis)
+        {
+            case PositionAxis.x:
+                return transform.position.x * (inverseDirection ? -1 : 1);                
+            case PositionAxis.y:
+                return transform.position.y * (inverseDirection ? -1 : 1);                
+            case PositionAxis.z:
+                return transform.position.z * (inverseDirection ? -1 : 1);                
+            default:
+                return 0;
+        }       
+
+    }
     void MoveForward()
     {
         if (position < (positionEnd + dangerOffset))
         {
-            position += Time.deltaTime * speed * moveVector.x;
             transform.Translate(Time.deltaTime * speed * moveVector);
+            position = GetPosition();
         }
     }
 
@@ -70,8 +106,8 @@ public class Pusher : MonoBehaviour
     {
         if (position > (positionStart - dangerOffset))
         {
-            position -= Time.deltaTime * speed * moveVector.x;
             transform.Translate(Time.deltaTime * speed * -moveVector);
+            position = GetPosition();
         }
     }
 
