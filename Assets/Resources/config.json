@@ -1,0 +1,47 @@
+{
+  "PlcAmsNetId": "local", // "local" = "0.0.0.0.0.0"
+  "PlcAdsPort": 851, // 851 = first PLC in a project, 852 = second ...
+  "NotificationCycleTime": 200, // How frequently should PLC check for data change. In miliseconds.
+  "NotificationMaxDelay": 0, // The maximum Delay time for ADS Notifications. In miliseconds.
+  "InputVariableMap": {
+    "ToggleSwitch": "IO.Key",
+    "ButtonRed": "IO.ButtonRed",
+    "ButtonGreen": "IO.ButtonGreen",
+    "ButtonBlackTopLeft": "IO.ButtonBlackLeftUp",
+    "ButtonBlackTopRight": "IO.ButtonBlackRightUp",
+    "ButtonBlackBottomLeft": "IO.ButtonBlackLeftDown",
+    "ButtonBlackBottomRight": "IO.ButtonBlackRightDown",
+    "PhotocellEntry": "IO.FotoEntry",
+    "PhotocellBelt1": "IO.FotoBelt1",
+    "PhotocellBelt2": "IO.FotoMachine1",
+    "PhotocellBelt3": "IO.FotoMachine2",
+    "PhotocellExit": "IO.FotoExit",
+    "SwitchPusher1Start": "IO.Pusher1Start",
+    "SwitchPusher1End": "IO.Pusher1End",
+    "SwitchPusher2Start": "IO.Pusher2Start",
+    "SwitchPusher2End": "IO.Pusher2End"
+  },
+  "OutputVariableMap": {
+    "LightRed": "IO.LEDRed",
+    "LightGreen": "IO.LEDGreen",
+    "LightBlueTop": "IO.LEDBlueUp",
+    "LightBlueBottom": "IO.LEDBlueDown",
+    "Belt1Direction": "IO.Belt1Direction",
+    "Belt1Movement": "IO.Belt1Movement",
+    "Belt2Direction": "IO.Belt2Direction",
+    "Belt2Movement": "IO.Belt2Movement",
+    "Belt3Direction": "IO.Belt3Direction",
+    "Belt3Movement": "IO.Belt3Movement",
+    "Belt4Direction": "IO.Belt4Direction",
+    "Belt4Movement": "IO.Belt4Movement",
+    "Machine1Direction": "IO.Machine1Direction",
+    "Machine1Movement": "IO.Machine1Movement",
+    "Machine2Direction": "IO.Machine2Direction",
+    "Machine2Movement": "IO.Machine2Movement",
+    "Pusher1Direction": "IO.Pusher1Direction",
+    "Pusher1Movement": "IO.Pusher1Movement",
+    "Pusher2Direction": "IO.Pusher2Direction",
+    "Pusher2Movement": "IO.Pusher2Movement"
+  },
+  "ShowFPS": false
+}

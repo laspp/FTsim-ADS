@@ -1,0 +1,2221 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>TwinCAT.Ads.Server</name>
+    </assembly>
+    <members>
+        <member name="T:TwinCAT.Ads.Server.AdsServer">
+            <summary>
+            Base implementation for an ADS Server. 
+            </summary>
+            <remarks>
+            Derived classes should overwrite the AMS indication methods to react on incoming requests. AMS The confirmation methods should be overwritten to receive
+            replies on asynchronous requests sent by this ADS server.
+            </remarks>
+            <example>
+            The following sample shows how to derive from the <see cref="T:TwinCAT.Ads.Server.AdsServer"/> class and create your own Customized ADS Server.
+            <code language="C#" source="..\..\Samples\TwinCAT.ADS.NET_Samples\60_ADS.NET_Server\Program.cs" region="CODE_SAMPLE_SERVERMAIN"/>
+            <code language="C#" source="..\..\Samples\TwinCAT.ADS.NET_Samples\60_ADS.NET_Server\Worker.cs" region="CODE_SAMPLE_SERVERMAIN"/>
+            <code language="C#" source="..\..\Samples\TwinCAT.ADS.NET_Samples\60_ADS.NET_Server\AdsSampleServer.cs" region="SERVER_CODE_SAMPLE"/>
+            </example>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.#ctor(System.UInt16,System.String)">
+            <summary>
+            Create a new <see cref="T:TwinCAT.Ads.Server.AdsServer"/> instance with a fixed ADS port number specified by parameter.
+            </summary>
+            <param name="port">The ADS server port for this server. For custom Servers, the port range should be in between
+            <see cref="F:TwinCAT.Ads.AmsPortRange.CUSTOMER_FIRST"/> and <see cref="F:TwinCAT.Ads.AmsPortRange.CUSTOMER_LAST"/>
+            or
+            <see cref="F:TwinCAT.Ads.AmsPortRange.CUSTOMERPRIVATE_FIRST"/> and <see cref="F:TwinCAT.Ads.AmsPortRange.CUSTOMERPRIVATE_LAST"/>
+            </param>
+            <param name="portName">A string describing this ADS server</param>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.#ctor(System.UInt16,System.String,Microsoft.Extensions.Logging.ILogger)">
+            <summary>   
+            Create a new <see cref="T:TwinCAT.Ads.Server.AdsServer"/> instance with a fixed ADS port number specified by parameter.
+            </summary>
+            <param name="port">The ADS server port for this server. For custom Servers, the port range should be in between
+            <see cref="F:TwinCAT.Ads.AmsPortRange.CUSTOMER_FIRST"/> and <see cref="F:TwinCAT.Ads.AmsPortRange.CUSTOMER_LAST"/>
+            or
+            <see cref="F:TwinCAT.Ads.AmsPortRange.CUSTOMERPRIVATE_FIRST"/> and <see cref="F:TwinCAT.Ads.AmsPortRange.CUSTOMERPRIVATE_LAST"/>
+            </param>
+            <param name="portName">A string describing this ADS server</param>
+            <param name="logger">The logger interface (Microsoft.Extensions.Logging.ILogger)</param>
+            <exclude/>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.#ctor(System.String)">
+            <summary>
+            Create a new <see cref="T:TwinCAT.Ads.Server.AdsServer"/> instance with an ADS port number assigned by the local ADS router.
+            </summary>
+            <remarks>This constructor will request an Dynamic port between
+            0x8000 and 0xFFFE (<see cref="F:TwinCAT.Ads.AmsPort.UNFIXEDPORT"/>) and will be used for implementing AdsClients - which are in
+            fact AdsServer with a dynamic port.
+            </remarks>
+            <param name="portName">A string describing this ADS server</param>
+            <exclude/>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.#ctor(System.String,Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+            Create a new <see cref="T:TwinCAT.Ads.Server.AdsServer"/> instance with an ADS port number assigned by the local ADS router.
+            </summary>
+            <remarks>This constructor will request an Dynamic port between
+            0x8000 and 0xFFFE (<see cref="F:TwinCAT.Ads.AmsPort.UNFIXEDPORT"/>) and will be used for implementing AdsClients - which are in
+            fact AdsServer with a dynamic port.
+            </remarks>
+            <param name="portName">A string describing this ADS server</param>
+            <param name="logger">The logger.</param>
+            <exclude/>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.#ctor(System.UInt16,System.String,System.Boolean,Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+            Create a new <see cref="T:TwinCAT.Ads.Server.AdsServer" /> instance with an fixed ADS port number specified by parameter.
+            Optional the <see cref="T:TwinCAT.Ads.Server.AdsServer" /> can be configured to use the overloaded TcAdsDeviceNotification-method to implement an own notification-parser.
+            </summary>
+            <param name="port">The ADS server port for this server. For custom Servers, the port range should be in between
+            <see cref="F:TwinCAT.Ads.AmsPortRange.CUSTOMER_FIRST"/> and <see cref="F:TwinCAT.Ads.AmsPortRange.CUSTOMER_LAST"/>
+            or
+            <see cref="F:TwinCAT.Ads.AmsPortRange.CUSTOMERPRIVATE_FIRST"/> and <see cref="F:TwinCAT.Ads.AmsPortRange.CUSTOMERPRIVATE_LAST"/>
+            </param>
+            <param name="portName">A string describing this ADS server.</param>
+            <param name="useSingleNotificationHandler">Enables the overloaded TcAdsDeviceNotification-Method to implement an own notification-parser.</param>
+            <param name="logger">The logger.</param>
+            <exclude/>
+        </member>
+        <member name="F:TwinCAT.Ads.Server.AdsServer._logger">
+            <summary>
+            Logger interface
+            </summary>
+        </member>
+        <member name="P:TwinCAT.Ads.Server.AdsServer.Logger">
+            <summary>
+            Gets the logger object.
+            </summary>
+            <value>The logger.</value>
+        </member>
+        <member name="F:TwinCAT.Ads.Server.AdsServer.amsServer">
+            <summary>
+            AmsServer
+            </summary>
+        </member>
+        <member name="P:TwinCAT.Ads.Server.AdsServer.AmsServer">
+            <summary>
+            Gets the the internal <see cref="P:TwinCAT.Ads.Server.AdsServer.AmsServer"></see> object.
+            </summary>
+            <value>The ams server.</value>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.GetServerName">
+            <summary>
+            Gets the name of the server.
+            </summary>
+            <remarks>
+            Because the ServerName is used as DeviceName in the DeviceInfoStruct, this string must be shorter or equal than 16 bytes in ANSII encoding.
+            The default implementation is
+            '{AmsServer.PortName} ({amsServer.Port})'
+            or for longer PortNames:
+            'AdsServer_{amsServer.Port}'
+            </remarks>
+            <returns>The ServerName.</returns>
+        </member>
+        <member name="P:TwinCAT.Ads.Server.AdsServer.ServerName">
+            <summary>
+            Gets the name of the server.
+            </summary>
+            <value>The name of the server.</value>
+        </member>
+        <member name="F:TwinCAT.Ads.Server.AdsServer.serverVersion">
+            <summary>
+            The version of the AdsServer
+            </summary>
+        </member>
+        <member name="P:TwinCAT.Ads.Server.AdsServer.ServerVersion">
+            <summary>
+            Gets the Version of the Server.
+            </summary>
+            <value>The version.</value>
+        </member>
+        <member name="P:TwinCAT.Ads.Server.AdsServer.ServerPort">
+            <summary>
+            Gets the server port.
+            </summary>
+            <value>The server port.</value>
+        </member>
+        <member name="P:TwinCAT.Ads.Server.AdsServer.IsDynamicPort">
+            <summary>
+            Gets a value indicating this <see cref="T:TwinCAT.Ads.Server.AdsServer"/> has a dynamic/unfixed port.
+            </summary>
+            <remarks>In general all Clients have dynamic ports and inherit from AdsServer.</remarks>
+            <value><c>true</c> if dynamic/unfixed port; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:TwinCAT.Ads.Server.AdsServer.IsConnected">
+            <summary>
+            Gets a value indicating whether <see cref="T:TwinCAT.Ads.Server.AdsServer"/> is connected.
+            </summary>
+            <value><c>true</c> if this instance is connected; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="F:TwinCAT.Ads.Server.AdsServer._useSingleNotificationEventHandler">
+            <summary>
+            Use a Single notification handler
+            </summary>
+        </member>
+        <member name="E:TwinCAT.Ads.Server.AdsServer.ServerConnectionStateChanged">
+            <summary>
+            The connection status has changed
+            </summary>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.OnServerConnectionStateChanged(System.Object,TwinCAT.Ads.Server.ServerConnectionStateChangedEventArgs)">
+            <summary>
+            Handles the <see cref="E:TwinCAT.Ads.Server.AdsServer.ServerConnectionStateChanged" /> event.
+            </summary>
+            <param name="sender">The sender.</param>
+            <param name="e">The <see cref="T:TwinCAT.Ads.Server.ServerConnectionStateChangedEventArgs"/> instance containing the event data.</param>
+        </member>
+        <member name="E:TwinCAT.Ads.Server.AdsServer.AdsServerException">
+            <summary>
+            Occurs, if the Server receives an Exception
+            </summary>
+            <exclude/>
+        </member>
+        <member name="F:TwinCAT.Ads.Server.AdsServer._sync">
+            <summary>
+            Synchronization object
+            </summary>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.ConnectServer">
+            <summary>
+            Connect this ADS server to the local ADS router.
+            </summary>
+            <returns>The AmsServer Port.</returns>
+            <exception cref="T:TwinCAT.Ads.Server.AdsServerException">The connect call has failed!.</exception>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.ConnectServerAsync(System.Threading.CancellationToken)">
+            <summary>
+            Registers the <see cref="T:TwinCAT.Ads.Server.AdsServer"/> at the router asynchronously.
+            </summary>
+            <returns>Returns a task object that represents the <see cref="M:TwinCAT.Ads.Server.AdsServer.ConnectServerAndWaitAsync(System.Threading.CancellationToken)"/> operation which returns an <see cref="T:TwinCAT.Ads.AdsErrorCode"/>" as result..</returns>
+            <remarks>The connection is hold until a cancel is requested, that means this method will wait until disconnect.
+            </remarks>
+            <exclude/>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.ConnectServerAndWaitAsync(System.Threading.CancellationToken)">
+            <summary>
+            Registers the <see cref="T:TwinCAT.Ads.Server.AdsServer"/> at the router asynchronously.
+            </summary>
+            <returns>Returns a task object that represents the <see cref="M:TwinCAT.Ads.Server.AdsServer.ConnectServerAndWaitAsync(System.Threading.CancellationToken)"/> operation which returns an <see cref="T:TwinCAT.Ads.AdsErrorCode"/>" as result..</returns>
+            <remarks>The connection is hold until a cancel is requested, that means this method will wait until disconnect.
+            </remarks>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.OnBeforeConnected">
+            <summary>
+            Handler function that is called, when the <see cref="T:TwinCAT.Ads.Server.AdsServer"/> is connected, but before calling <see cref="M:TwinCAT.Ads.Server.AdsServer.OnConnected"/>.
+            </summary>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.OnConnected">
+            <summary>
+            Handler function that is called, when the <see cref="T:TwinCAT.Ads.Server.AdsServer"/> is connected.
+            </summary>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.OnAmsServerException(System.Object,TwinCAT.Ads.Server.ErrorEventArgs)">
+            <summary>
+            Handles the <see cref="E:AmsServerException" /> event.
+            </summary>
+            <param name="sender">The sender.</param>
+            <param name="e">The <see cref="T:TwinCAT.Ads.Server.ErrorEventArgs"/> instance containing the event data.</param>
+        </member>
+        <member name="F:TwinCAT.Ads.Server.AdsServer.disconnecting">
+            <summary>
+            Indicates, that the <see cref="T:TwinCAT.Ads.Server.AdsServer"/> is actually disconnecting.
+            </summary>
+        </member>
+        <member name="P:TwinCAT.Ads.Server.AdsServer.IsDisconnecting">
+            <summary>
+            Indicates, that the <see cref="T:TwinCAT.Ads.Server.AdsServer"/> is actually disconnecting.
+            </summary>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.Disconnect">
+            <summary>
+            Disconnects this ADS server from the local ADS router.
+            </summary>
+            <returns><c>true</c> if disconnected, <c>false</c> if the <see cref="T:TwinCAT.Ads.Server.AdsServer"/> was diconnected before.</returns>
+            <exception cref="T:TwinCAT.Ads.Server.AdsServerException">Thrown if the disconnect call fails.</exception>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.OnDisconnect">
+            <summary>
+            Called when the <see cref="T:TwinCAT.Ads.Server.AdsServer"/> is about to be disconnected.
+            </summary>
+            <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.Dump">
+            <summary>
+            Dumps the Address information of this <see cref="T:TwinCAT.Ads.Server.AdsServer"/> for Debug purposes.
+            </summary>
+            <returns>System.String.</returns>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.OnReceivedAsync(TwinCAT.Ams.AmsCommand,System.Threading.CancellationToken)">
+            <summary>
+            Handler function for incoming <see cref="T:TwinCAT.Ams.AmsCommand"/> frames.
+            </summary>
+            <param name="frame">The incoming AmsCommand frame.</param>
+            <param name="cancel">Cancellation token.</param>
+            <returns>Task&lt;AdsErrorCode&gt;.</returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+            <exclude/>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.ReadDeviceInfoRequestSync(TwinCAT.Ads.AmsAddress,System.UInt32)">
+            <summary>
+            Sends an ADS Read Device Info request synchronously.
+            </summary>
+            <param name="target">The receiver's AMS address</param>
+            <param name="invokeId">The invokeId for this call. Used to find the matching ADS Confirmation</param>
+            <returns>The ADS error code for this call.</returns>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.ReadDeviceInfoRequestAsync(TwinCAT.Ads.AmsAddress,System.UInt32,System.Threading.CancellationToken)">
+            <summary>
+            Sends an ADS Read Device Info request asynchronously
+            </summary>
+            <param name="target">The receiver's AMS address</param>
+            <param name="invokeId">The invokeId for this call. Used to find the matching ADS Confirmation</param>
+            <param name="cancel">The cancellation token.</param>
+            <returns>A task that represents the asynchronous <see cref="M:TwinCAT.Ads.Server.AdsServer.ReadDeviceInfoRequestAsync(TwinCAT.Ads.AmsAddress,System.UInt32,System.Threading.CancellationToken)"/> operation. The <see cref="T:System.Threading.Tasks.Task`1"/> parameter contains the <see cref="T:TwinCAT.Ads.AdsErrorCode"/> as
+            <see cref="P:System.Threading.Tasks.Task`1.Result"/>.
+            </returns>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.ReadRequest(TwinCAT.Ads.AmsAddress,System.UInt32,System.UInt32,System.UInt32,System.Int32)">
+            <summary>
+            Sends an ADS Read Request.
+            </summary>
+            <param name="target">The receiver's AMS address</param>
+            <param name="invokeId">The invokeId for this call. Used to find the matching ADS Confirmation</param>
+            <param name="indexGroup">The index group of the requested ADS service</param>
+            <param name="indexOffset">The index group of the requested ADS service</param>
+            <param name="readLength">The number of bytes to be read</param>
+            <returns>The ADS error code for this call.</returns>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.ReadRequestAsync(TwinCAT.Ads.AmsAddress,System.UInt32,System.UInt32,System.UInt32,System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Sends an ADS Read Request asynchronously.
+            </summary>
+            <param name="target">The receiver's AMS address</param>
+            <param name="invokeId">The invokeId for this call. Used to find the matching ADS Confirmation</param>
+            <param name="indexGroup">The index group of the requested ADS service</param>
+            <param name="indexOffset">The index group of the requested ADS service</param>
+            <param name="readLength">The number of bytes to be read</param>
+            <param name="cancel">The cancellation token.</param>
+            <returns>A task that represents the asynchronous <see cref="M:TwinCAT.Ads.Server.AdsServer.ReadRequestAsync(TwinCAT.Ads.AmsAddress,System.UInt32,System.UInt32,System.UInt32,System.Int32,System.Threading.CancellationToken)"/> operation. The <see cref="T:System.Threading.Tasks.Task`1"/> parameter contains the <see cref="T:TwinCAT.Ads.AdsErrorCode"/> as
+            <see cref="P:System.Threading.Tasks.Task`1.Result"/>.
+            </returns>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.WriteRequest(TwinCAT.Ads.AmsAddress,System.UInt32,System.UInt32,System.UInt32,System.ReadOnlySpan{System.Byte})">
+            <summary>
+            Sends an ADS Write request synchronously.
+            </summary>
+            <param name="target">The receiver's AMS address</param>
+            <param name="invokeId">The invokeId for this call. Used to find the matching ADS Confirmation</param>
+            <param name="indexGroup">The index group of the requested ADS service</param>
+            <param name="indexOffset">The index group of the requested ADS service</param>
+            <param name="data">The data to be written</param>
+            <returns>The ADS error code for this call.</returns>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.WriteRequestAsync(TwinCAT.Ads.AmsAddress,System.UInt32,System.UInt32,System.UInt32,System.ReadOnlyMemory{System.Byte},System.Threading.CancellationToken)">
+            <summary>
+            Sends an ADS Write request asynchronously.
+            </summary>
+            <param name="target">The receiver's AMS address</param>
+            <param name="invokeId">The invokeId for this call. Used to find the matching ADS Confirmation</param>
+            <param name="indexGroup">The index group of the requested ADS service</param>
+            <param name="indexOffset">The index group of the requested ADS service</param>
+            <param name="data">The data to be written</param>
+            <param name="cancel">The cancellation token.</param>
+            <returns>A task that represents the asynchronous 'WriteRequest' operation. The <see cref="T:System.Threading.Tasks.Task`1"/> parameter contains the <see cref="T:TwinCAT.Ads.AdsErrorCode"/> as
+            <see cref="P:System.Threading.Tasks.Task`1.Result"/>.
+            </returns>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.ReadDeviceStateRequestSync(TwinCAT.Ads.AmsAddress,System.UInt32)">
+            <summary>
+            Sends an ADS Read State request (synchronous)
+            </summary>
+            <param name="target">The receiver's AMS address</param>
+            <param name="invokeId">The invokeId for this call. Used to find the matching ADS Confirmation</param>
+            <returns>The ADS error code for this call.</returns>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.ReadDeviceStateRequestAsync(TwinCAT.Ads.AmsAddress,System.UInt32,System.Threading.CancellationToken)">
+            <summary>
+            Sends an ADS Read State request (asynchronous)
+            </summary>
+            <param name="target">The receiver's AMS address</param>
+            <param name="invokeId">The invokeId for this call. Used to find the matching ADS Confirmation</param>
+            <param name="cancel">The cancellation token.</param>
+            <returns>A task that represents the asynchronous <see cref="M:TwinCAT.Ads.Server.AdsServer.ReadDeviceStateRequestAsync(TwinCAT.Ads.AmsAddress,System.UInt32,System.Threading.CancellationToken)"/> operation. The <see cref="T:System.Threading.Tasks.Task`1"/> parameter contains the <see cref="T:TwinCAT.Ads.AdsErrorCode"/> as
+            <see cref="P:System.Threading.Tasks.Task`1.Result"/>.
+            </returns>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.WriteControlRequest(TwinCAT.Ads.AmsAddress,System.UInt32,TwinCAT.Ads.AdsState,System.UInt16,System.ReadOnlySpan{System.Byte})">
+            <summary>
+            Sends an ADS Write Control request (synchronous)
+            </summary>
+            <param name="target">The receiver's AMS address</param>
+            <param name="invokeId">The invokeId for this call. Used to find the matching ADS Confirmation</param>
+            <param name="adsState">The requested new ADS state of the receiver.</param>
+            <param name="deviceState">The requested new ADS state of the receiver.</param>
+            <param name="data">An additional data buffer for the Control request.</param>
+            <returns>The ADS error code for this call.</returns>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.WriteControlRequestAsync(TwinCAT.Ads.AmsAddress,System.UInt32,TwinCAT.Ads.AdsState,System.UInt16,System.ReadOnlyMemory{System.Byte},System.Threading.CancellationToken)">
+            <summary>
+            Sends an ADS Write Control request (asynchronous).
+            </summary>
+            <param name="target">The receiver's AMS address</param>
+            <param name="invokeId">The invokeId for this call. Used to find the matching ADS Confirmation</param>
+            <param name="adsState">The requested new ADS state of the receiver</param>
+            <param name="deviceState">The requested new ADS state of the receiver</param>
+            <param name="data">The data to be written.</param>
+            <param name="cancel">The cancellation token.</param>
+            <returns>A task that represents the asynchronous <see cref="M:TwinCAT.Ads.Server.AdsServer.WriteControlRequestAsync(TwinCAT.Ads.AmsAddress,System.UInt32,TwinCAT.Ads.AdsState,System.UInt16,System.ReadOnlyMemory{System.Byte},System.Threading.CancellationToken)"/> operation. The <see cref="T:System.Threading.Tasks.Task`1"/> parameter contains the <see cref="T:TwinCAT.Ads.AdsErrorCode"/> as
+            <see cref="P:System.Threading.Tasks.Task`1.Result"/>.
+            </returns>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.WriteControlRequestSync(TwinCAT.Ads.AmsAddress,System.UInt32,TwinCAT.Ads.AdsState,System.UInt16,System.ReadOnlySpan{System.Byte})">
+            <summary>
+            Sends an ADS Write Control request (synchronous).
+            </summary>
+            <param name="target">The receiver's AMS address</param>
+            <param name="invokeId">The invokeId for this call. Used to find the matching ADS Confirmation</param>
+            <param name="adsState">The requested new ADS state of the receiver</param>
+            <param name="deviceState">The requested new ADS state of the receiver</param>
+            <param name="data">The data to be written.</param>
+            <returns>A task that represents the asynchronous <see cref="M:TwinCAT.Ads.Server.AdsServer.WriteControlRequestAsync(TwinCAT.Ads.AmsAddress,System.UInt32,TwinCAT.Ads.AdsState,System.UInt16,System.ReadOnlyMemory{System.Byte},System.Threading.CancellationToken)"/> operation. The <see cref="T:System.Threading.Tasks.Task`1"/> parameter contains the <see cref="T:TwinCAT.Ads.AdsErrorCode"/> as
+            <see cref="P:System.Threading.Tasks.Task`1.Result"/>.
+            </returns>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.AddDeviceNotificationRequest(TwinCAT.Ads.AmsAddress,System.UInt32,System.UInt32,System.UInt32,System.Int32,TwinCAT.Ads.NotificationSettings)">
+            <summary>
+            Sends an ADS Add Device Notification request (synchronous).
+            </summary>
+            <param name="target">The receiver's AMS address</param>
+            <param name="invokeId">The invokeId for this call. Used to find the matching ADS Confirmation</param>
+            <param name="indexGroup">The index group of the requested ADS service</param>
+            <param name="indexOffset">The index group of the requested ADS service</param>
+            <param name="dataLength">The number of bytes to be transmitted</param>
+            <param name="settings">The notification settings.</param>
+            <returns>The ADS error code for this call.</returns>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.AddDeviceNotificationRequestAsync(TwinCAT.Ads.AmsAddress,System.UInt32,System.UInt32,System.UInt32,System.Int32,TwinCAT.Ads.NotificationSettings,System.Threading.CancellationToken)">
+            <summary>
+            Sends an ADS Add Device Notification request (async)
+            </summary>
+            <param name="target">The receiver's AMS address</param>
+            <param name="invokeId">The invokeId for this call. Used to find the matching ADS Confirmation</param>
+            <param name="indexGroup">The index group of the requested ADS service</param>
+            <param name="indexOffset">The index group of the requested ADS service</param>
+            <param name="dataLength">The number of bytes to be transmitted</param>
+            <param name="settings">The notification settings.</param>
+            <param name="cancel">The cancellation token.</param>
+            <returns>A task that represents the asynchronous <see cref="M:TwinCAT.Ads.Server.AdsServer.AddDeviceNotificationRequestAsync(TwinCAT.Ads.AmsAddress,System.UInt32,System.UInt32,System.UInt32,System.Int32,TwinCAT.Ads.NotificationSettings,System.Threading.CancellationToken)"/> operation. The <see cref="T:System.Threading.Tasks.Task`1" /> parameter contains the <see cref="T:TwinCAT.Ads.AdsErrorCode" /> as
+            <see cref="P:System.Threading.Tasks.Task`1.Result" />.</returns>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.DeleteDeviceNotificationRequest(TwinCAT.Ads.AmsAddress,System.UInt32,System.UInt32)">
+            <summary>
+            Sends an ADS Delete Device Notification request (synchronous).
+            </summary>
+            <param name="target">The receiver's AMS address</param>
+            <param name="invokeId">The invokeId for this call. Used to find the matching ADS Confirmation</param>
+            <param name="hNotification">The notification ID to be deleted</param>
+            <returns>The ADS error code for this call.</returns>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.DeleteDeviceNotificationRequestAsync(TwinCAT.Ads.AmsAddress,System.UInt32,System.UInt32,System.Threading.CancellationToken)">
+            <summary>
+            Sends an ADS Delete Device Notification request (async).
+            </summary>
+            <param name="target">The receiver's AMS address</param>
+            <param name="invokeId">The invokeId for this call. Used to find the matching ADS Confirmation</param>
+            <param name="hNotification">The notification ID to be deleted</param>
+            <param name="cancel">The cancellation token.</param>
+            <returns>A task that represents the asynchronous <see cref="M:TwinCAT.Ads.Server.AdsServer.DeleteDeviceNotificationRequestAsync(TwinCAT.Ads.AmsAddress,System.UInt32,System.UInt32,System.Threading.CancellationToken)"/> operation. The <see cref="T:System.Threading.Tasks.Task`1"/> parameter contains the <see cref="T:TwinCAT.Ads.AdsErrorCode"/> as
+            <see cref="P:System.Threading.Tasks.Task`1.Result"/>.
+            </returns>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.DeviceNotificationRequestSync(TwinCAT.Ads.AmsAddress,System.UInt32,System.UInt32,TwinCAT.Ads.Server.NotificationSamplesStamp[])">
+            <summary>
+            Sends an ADS Device Notification request (sync)
+            </summary>
+            <param name="target">The receiver's AMS address</param>
+            <param name="invokeId">The invokeId for this call. Used to find the matching ADS Confirmation</param>
+            <param name="numStampHeaders">The number of ADS Stamp Headers to be sent</param>
+            <param name="notificationHeaders">The array of ADS Stamp Headers to be sent</param>
+            <returns>The ADS error code for this call.</returns>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.DeviceNotificationRequestAsync(TwinCAT.Ads.AmsAddress,System.UInt32,System.UInt32,TwinCAT.Ads.Server.NotificationSamplesStamp[],System.Threading.CancellationToken)">
+            <summary>
+            Sends an ADS Device Notification request asynchronously
+            </summary>
+            <param name="target">The receiver's AMS address</param>
+            <param name="invokeId">The invokeId for this call. Used to find the matching ADS Confirmation</param>
+            <param name="numStampHeaders">The number of ADS Stamp Headers to be sent</param>
+            <param name="notificationHeaders">The array of ADS Stamp Headers to be sent</param>
+            <param name="cancel">The cancellation token.</param>
+            <returns>The ADS error code for this call.</returns>
+            <exception cref="T:System.ArgumentNullException">target</exception>
+            <exception cref="T:System.ArgumentNullException">notificationHeaders</exception>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.ReadWriteRequestSync(TwinCAT.Ads.AmsAddress,System.UInt32,System.UInt32,System.UInt32,System.Int32,System.ReadOnlySpan{System.Byte})">
+            <summary>
+            Sends an ADS Read Write request synchronously
+            </summary>
+            <param name="target">The receiver's AMS address</param>
+            <param name="invokeId">The invokeId for this call. Used to find the matching ADS Confirmation</param>
+            <param name="indexGroup">The index group of the requested ADS service</param>
+            <param name="indexOffset">The index group of the requested ADS service</param>
+            <param name="readLength">The number of bytes to be read</param>
+            <param name="data">The data to be written</param>
+            <returns>The ADS error code for this call.</returns>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.ReadWriteRequestAsync(TwinCAT.Ads.AmsAddress,System.UInt32,System.UInt32,System.UInt32,System.Int32,System.ReadOnlyMemory{System.Byte},System.Threading.CancellationToken)">
+            <summary>
+            Sends an ADS Read Write request.
+            </summary>
+            <param name="target">The receiver's AMS address</param>
+            <param name="invokeId">The invokeId for this call. Used to find the matching ADS Confirmation</param>
+            <param name="indexGroup">The index group of the requested ADS service</param>
+            <param name="indexOffset">The index group of the requested ADS service</param>
+            <param name="readLength">The number of bytes to be read</param>
+            <param name="writeData">The data to be written</param>
+            <param name="cancel">The cancellation token.</param>
+            <returns>A task that represents the asynchronous 'ReadWriteRequest' operation. The <see cref="T:System.Threading.Tasks.Task`1" /> parameter contains the <see cref="T:TwinCAT.Ads.AdsErrorCode" /> as
+            <see cref="P:System.Threading.Tasks.Task`1.Result" />.</returns>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.RequestSync(TwinCAT.Ads.AmsAddress,System.UInt32,TwinCAT.Ads.AdsCommandId,TwinCAT.Ams.ITcAdsHeader,System.ReadOnlySpan{System.Byte})">
+            <summary>
+            Sends an synchronous ADS Request.
+            </summary>
+            <param name="target">The target.</param>
+            <param name="invokeId">The invoke identifier.</param>
+            <param name="serviceId">The service identifier.</param>
+            <param name="adsHeader">The ADS header or NULL</param>
+            <param name="data">The data.</param>
+            <returns>AdsErrorCode.</returns>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.RequestAsync(TwinCAT.Ads.AmsAddress,System.UInt32,TwinCAT.Ads.AdsCommandId,TwinCAT.Ams.ITcAdsHeader,System.ReadOnlyMemory{System.Byte},System.Threading.CancellationToken)">
+            <summary>
+            Sens an asynchronous Request to the target.
+            </summary>
+            <param name="target">The target address.</param>
+            <param name="invokeId">The invoke identifier.</param>
+            <param name="serviceId">The service identifier.</param>
+            <param name="adsHeader">The AdsHeader.</param>
+            <param name="adsData">The data.</param>
+            <param name="cancel">The cancellation token.</param>
+            <returns>A task that represents the asynchronous <see cref="M:TwinCAT.Ads.Server.AdsServer.RequestAsync(TwinCAT.Ads.AmsAddress,System.UInt32,TwinCAT.Ads.AdsCommandId,TwinCAT.Ams.ITcAdsHeader,System.ReadOnlyMemory{System.Byte},System.Threading.CancellationToken)"/> operation. The <see cref="T:System.Threading.Tasks.Task`1"/> parameter contains the <see cref="T:TwinCAT.Ads.AdsErrorCode"/> as
+            <see cref="P:System.Threading.Tasks.Task`1.Result"/>.
+            </returns>
+            <exception cref="T:System.ArgumentNullException">target</exception>
+            <exclude/>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.onConfirmationDeviceInfoAsync(TwinCAT.Ads.AmsAddress,System.UInt32,TwinCAT.Ads.AdsErrorCode,System.String,TwinCAT.Ads.AdsVersion,System.Threading.CancellationToken)">
+            <summary>
+            Called when [read device information confirmation].
+            </summary>
+            <param name="target">The target.</param>
+            <param name="invokeId">The invoke identifier.</param>
+            <param name="result">The result.</param>
+            <param name="name">The name.</param>
+            <param name="version">The version.</param>
+            <param name="cancel">The cancellation token.</param>
+            <returns>A task that represents the asynchronous <see cref="M:TwinCAT.Ads.Server.AdsServer.onConfirmationDeviceInfoAsync(TwinCAT.Ads.AmsAddress,System.UInt32,TwinCAT.Ads.AdsErrorCode,System.String,TwinCAT.Ads.AdsVersion,System.Threading.CancellationToken)"/> operation. The <see cref="T:System.Threading.Tasks.Task`1"/> parameter contains the <see cref="T:TwinCAT.Ads.AdsErrorCode"/> as
+            <see cref="P:System.Threading.Tasks.Task`1.Result"/>.
+            </returns>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.OnReadDeviceInfoConfirmationAsync(TwinCAT.Ads.AmsAddress,System.UInt32,TwinCAT.Ads.AdsErrorCode,System.String,TwinCAT.Ads.AdsVersion,System.Threading.CancellationToken)">
+            <summary>
+            Called when an ADS Read Device Info confirmation is received.
+            </summary>
+            <remarks>
+            Overwrite this method in derived classes to react on ADS Read Device Info confirmations.
+            The Default implementaton just returns <see cref="F:TwinCAT.Ads.AdsErrorCode.NoError"/>. Because the Confirmation is the last
+            step in the ADS communication an Error will just be logged, but not processed any further.
+            For a functional <see cref="T:TwinCAT.Ads.Server.AdsServer"/>, this confirmation handler doesn't need to be overloaded!
+            </remarks>
+            <param name="sender">The sender's AMS address</param>
+            <param name="invokeId">The invoke id provided by this server during the corresponding request</param>
+            <param name="result">The ADS error code provided by the sender</param>
+            <param name="name">The sender's name</param>
+            <param name="version">The sender's version</param>
+            <param name="cancel">The cancellation token.</param>
+            <returns>A task that represents the asynchronous <see cref="M:TwinCAT.Ads.Server.AdsServer.OnReadDeviceInfoConfirmationAsync(TwinCAT.Ads.AmsAddress,System.UInt32,TwinCAT.Ads.AdsErrorCode,System.String,TwinCAT.Ads.AdsVersion,System.Threading.CancellationToken)" /> operation. The <see cref="T:System.Threading.Tasks.Task`1" /> parameter contains the <see cref="T:TwinCAT.Ads.AdsErrorCode" /> as
+            <see cref="P:System.Threading.Tasks.Task`1.Result" />.</returns>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.onConfirmationReadAsync(TwinCAT.Ads.AmsAddress,System.UInt32,TwinCAT.Ads.AdsErrorCode,System.ReadOnlyMemory{System.Byte},System.Threading.CancellationToken)">
+            <summary>
+            Called when [read confirmation asynchronous].
+            </summary>
+            <param name="sender">The target.</param>
+            <param name="invokeId">The invoke identifier.</param>
+            <param name="result">The result.</param>
+            <param name="readData">The data.</param>
+            <param name="cancel">The cancellation token.</param>
+            <returns>A task that represents the asynchronous <see cref="M:TwinCAT.Ads.Server.AdsServer.onConfirmationReadAsync(TwinCAT.Ads.AmsAddress,System.UInt32,TwinCAT.Ads.AdsErrorCode,System.ReadOnlyMemory{System.Byte},System.Threading.CancellationToken)"/> operation. The <see cref="T:System.Threading.Tasks.Task`1"/> parameter contains the <see cref="T:TwinCAT.Ads.AdsErrorCode"/> as
+            <see cref="P:System.Threading.Tasks.Task`1.Result"/>.
+            </returns>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.OnReadConfirmationAsync(TwinCAT.Ads.AmsAddress,System.UInt32,TwinCAT.Ads.AdsErrorCode,System.ReadOnlyMemory{System.Byte},System.Threading.CancellationToken)">
+            <summary>
+            Called when an ADS Read confirmation is received.
+            </summary>
+            <remarks>
+            Overwrite this method in derived classes to react on ADS Read confirmations.
+            The Default implementaton just returns <see cref="F:TwinCAT.Ads.AdsErrorCode.NoError"/>. Because the Confirmation is the last
+            step in the ADS communication an Error will just be logged, but not processed any further.
+            For a functional <see cref="T:TwinCAT.Ads.Server.AdsServer"/>, this confirmation handler doesn't need to be overloaded!
+            </remarks>
+            <param name="targetAddress">The sender's AMS address</param>
+            <param name="invokeId">The invoke id provided by this server during the corresponding request</param>
+            <param name="result">The ADS error code provided by the sender</param>
+            <param name="readData">The read data buffer</param>
+            <param name="cancel">The cancellation token.</param>
+            <returns>A task that represents the asynchronous <see cref="M:TwinCAT.Ads.Server.AdsServer.OnReadConfirmationAsync(TwinCAT.Ads.AmsAddress,System.UInt32,TwinCAT.Ads.AdsErrorCode,System.ReadOnlyMemory{System.Byte},System.Threading.CancellationToken)"/> operation. The <see cref="T:System.Threading.Tasks.Task`1"/> parameter contains the <see cref="T:TwinCAT.Ads.AdsErrorCode"/> as
+            <see cref="P:System.Threading.Tasks.Task`1.Result"/>.
+            </returns>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.onConfirmationWriteAsync(TwinCAT.Ads.AmsAddress,System.UInt32,TwinCAT.Ads.AdsErrorCode,System.Threading.CancellationToken)">
+            <summary>
+            Called when [write confirmation].
+            </summary>
+            <param name="target">The target.</param>
+            <param name="invokeId">The invoke identifier.</param>
+            <param name="result">The result.</param>
+            <param name="cancel">The cancellation token.</param>
+            <returns>A task that represents the asynchronous <see cref="M:TwinCAT.Ads.Server.AdsServer.onConfirmationWriteAsync(TwinCAT.Ads.AmsAddress,System.UInt32,TwinCAT.Ads.AdsErrorCode,System.Threading.CancellationToken)"/> operation. The <see cref="T:System.Threading.Tasks.Task`1"/> parameter contains the <see cref="T:TwinCAT.Ads.AdsErrorCode"/> as
+            <see cref="P:System.Threading.Tasks.Task`1.Result"/>.
+            </returns>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.OnWriteConfirmationAsync(TwinCAT.Ads.AmsAddress,System.UInt32,TwinCAT.Ads.AdsErrorCode,System.Threading.CancellationToken)">
+            <summary>
+            Called when an ADS Write confirmation is received.
+            </summary>
+            <remarks>
+            Overwrite this method in derived classes to react on ADS Write confirmations.
+            The Default implementaton just returns <see cref="F:TwinCAT.Ads.AdsErrorCode.NoError"/>. Because the Confirmation is the last
+            step in the ADS communication an Error will just be logged, but not processed any further.
+            For a functional <see cref="T:TwinCAT.Ads.Server.AdsServer"/>, this confirmation handler doesn't need to be overloaded!
+            </remarks>
+            <param name="sender">The sender's AMS address</param>
+            <param name="invokeId">The invoke id provided by this server during the corresponding request</param>
+            <param name="result">The ADS error code provided by the sender</param>
+            <param name="cancel">The cancellation token.</param>
+            <returns>A task that represents the asynchronous <see cref="M:TwinCAT.Ads.Server.AdsServer.OnWriteConfirmationAsync(TwinCAT.Ads.AmsAddress,System.UInt32,TwinCAT.Ads.AdsErrorCode,System.Threading.CancellationToken)" /> operation. The <see cref="T:System.Threading.Tasks.Task`1" /> parameter contains the <see cref="T:TwinCAT.Ads.AdsErrorCode" /> as
+            <see cref="P:System.Threading.Tasks.Task`1.Result" />.</returns>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.OnReadDeviceStateConfirmationAsync(TwinCAT.Ads.AmsAddress,System.UInt32,TwinCAT.Ads.AdsErrorCode,TwinCAT.Ads.AdsState,System.UInt16,System.Threading.CancellationToken)">
+            <summary>
+            Called when an ADS Read State confirmation is received.
+            </summary>
+            <remarks>
+            Overwrite this method in derived classes to react on ADS Read State confirmations.
+            The Default implementaton just returns <see cref="F:TwinCAT.Ads.AdsErrorCode.NoError"/>. Because the Confirmation is the last
+            step in the ADS communication an Error will just be logged, but not processed any further.
+            For a functional <see cref="T:TwinCAT.Ads.Server.AdsServer"/>, this confirmation handler doesn't need to be overloaded!
+            </remarks>
+            <param name="sender">The sender's AMS address</param>
+            <param name="invokeId">The invoke id provided by this server during the corresponding request</param>
+            <param name="result">The ADS error code provided by the sender</param>
+            <param name="adsState">The ADS state of the sender</param>
+            <param name="deviceState">The device state of the sender</param>
+            <param name="cancel">The cancellation token.</param>
+            <returns>A task that represents the asynchronous <see cref="M:TwinCAT.Ads.Server.AdsServer.OnReadDeviceStateConfirmationAsync(TwinCAT.Ads.AmsAddress,System.UInt32,TwinCAT.Ads.AdsErrorCode,TwinCAT.Ads.AdsState,System.UInt16,System.Threading.CancellationToken)" /> operation. The <see cref="T:System.Threading.Tasks.Task`1" /> parameter contains the <see cref="T:TwinCAT.Ads.AdsErrorCode" /> as
+            <see cref="P:System.Threading.Tasks.Task`1.Result" />.</returns>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.onConfirmationWriteControlAsync(TwinCAT.Ads.AmsAddress,System.UInt32,TwinCAT.Ads.AdsErrorCode,System.Threading.CancellationToken)">
+            <summary>
+            Handler function when an WriteControl Confirmation is received.
+            </summary>
+            <param name="target">The target.</param>
+            <param name="invokeId">The invoke identifier.</param>
+            <param name="result">The result.</param>
+            <param name="cancel">The cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+            <returns>Task&lt;AdsErrorCode&gt;.</returns>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.OnWriteControlConfirmationAsync(TwinCAT.Ads.AmsAddress,System.UInt32,TwinCAT.Ads.AdsErrorCode,System.Threading.CancellationToken)">
+            <summary>
+            Called when an ADS Write Control confirmation is received.
+            </summary>
+            <remarks>
+            Overwrite this method in derived classes to react on ADS Write Control confirmations.
+            The Default implementaton just returns <see cref="F:TwinCAT.Ads.AdsErrorCode.NoError"/>. Because the Confirmation is the last
+            step in the ADS communication an Error will just be logged, but not processed any further.
+            For a functional <see cref="T:TwinCAT.Ads.Server.AdsServer"/>, this confirmation handler doesn't need to be overloaded!
+            </remarks>
+            <param name="sender">The sender's AMS address</param>
+            <param name="invokeId">The invoke id provided by this server during the corresponding request</param>
+            <param name="result">The ADS error code provided by the sender</param>
+            <param name="cancel">The cancellation token.</param>
+            <returns>A task that represents the asynchronous <see cref="M:TwinCAT.Ads.Server.AdsServer.OnWriteControlConfirmationAsync(TwinCAT.Ads.AmsAddress,System.UInt32,TwinCAT.Ads.AdsErrorCode,System.Threading.CancellationToken)" /> operation. The <see cref="T:System.Threading.Tasks.Task`1" /> parameter contains the <see cref="T:TwinCAT.Ads.AdsErrorCode" /> as
+            <see cref="P:System.Threading.Tasks.Task`1.Result" />.</returns>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.onConfirmationAddDeviceNotificationAsync(TwinCAT.Ads.AmsAddress,System.UInt32,TwinCAT.Ads.AdsErrorCode,System.UInt32,System.Threading.CancellationToken)">
+            <summary>
+            Called when Add device Notification Confirmation is send.
+            </summary>
+            <param name="target">The r addr.</param>
+            <param name="invokeId">The invoke identifier.</param>
+            <param name="result">The result.</param>
+            <param name="notificationHandle">The notification handle.</param>
+            <param name="cancel">The cancellation token.</param>
+            <returns>A task that represents the asynchronous <see cref="M:TwinCAT.Ads.Server.AdsServer.onConfirmationAddDeviceNotificationAsync(TwinCAT.Ads.AmsAddress,System.UInt32,TwinCAT.Ads.AdsErrorCode,System.UInt32,System.Threading.CancellationToken)" /> operation. The <see cref="T:System.Threading.Tasks.Task`1" /> parameter contains the <see cref="T:TwinCAT.Ads.AdsErrorCode" /> as
+            <see cref="P:System.Threading.Tasks.Task`1.Result" />.</returns>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.OnAddDeviceNotificationConfirmationAsync(TwinCAT.Ads.AmsAddress,System.UInt32,TwinCAT.Ads.AdsErrorCode,System.UInt32,System.Threading.CancellationToken)">
+            <summary>
+            Called when an ADS Add Device Notification confirmation is received.
+            </summary>
+            <remarks>
+            Overwrite this method in derived classes to react on ADS Add Device Notification confirmations.
+            The Default implementaton just returns <see cref="F:TwinCAT.Ads.AdsErrorCode.NoError"/>. Because the Confirmation is the last
+            step in the ADS communication an Error will just be logged, but not processed any further.
+            For a functional <see cref="T:TwinCAT.Ads.Server.AdsServer"/>, this confirmation handler doesn't need to be overloaded!
+            </remarks>
+            <param name="sender">The sender's AMS address</param>
+            <param name="invokeId">The invoke id provided by this server during the corresponding request</param>
+            <param name="result">The ADS error code provided by the sender</param>
+            <param name="notificationHandle">The notification handle provided by the sender</param>
+            <param name="cancel">The cancellation token.</param>
+            <returns>A task that represents the asynchronous <see cref="M:TwinCAT.Ads.Server.AdsServer.OnAddDeviceNotificationConfirmationAsync(TwinCAT.Ads.AmsAddress,System.UInt32,TwinCAT.Ads.AdsErrorCode,System.UInt32,System.Threading.CancellationToken)" /> operation. The <see cref="T:System.Threading.Tasks.Task`1" /> parameter contains the <see cref="T:TwinCAT.Ads.AdsErrorCode" /> as
+            <see cref="P:System.Threading.Tasks.Task`1.Result" />.</returns>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.onConfirmationDeleteDeviceNotificationAsync(TwinCAT.Ads.AmsAddress,System.UInt32,TwinCAT.Ads.AdsErrorCode,System.Threading.CancellationToken)">
+            <summary>
+            Handler function when an DeleteDeviceNotification confirmation is received.
+            </summary>
+            <param name="target">The target.</param>
+            <param name="invokeId">The invoke identifier.</param>
+            <param name="result">The result.</param>
+            <param name="cancel">The cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+            <returns>Task&lt;AdsErrorCode&gt;.</returns>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.OnDeleteDeviceNotificationConfirmationAsync(TwinCAT.Ads.AmsAddress,System.UInt32,TwinCAT.Ads.AdsErrorCode,System.Threading.CancellationToken)">
+            <summary>
+            Called when an ADS Delete Device Notification confirmation is received.
+            </summary>
+            <remarks>
+            Overwrite this method in derived classes to react on ADS Delete Device Notification confirmations.
+            The Default implementaton just returns <see cref="F:TwinCAT.Ads.AdsErrorCode.NoError"/>. Because the Confirmation is the last
+            step in the ADS communication an Error will just be logged, but not processed any further.
+            For a functional <see cref="T:TwinCAT.Ads.Server.AdsServer"/>, this confirmation handler doesn't need to be overloaded!
+            </remarks>
+            <param name="sender">The sender's AMS address</param>
+            <param name="invokeId">The invoke id provided by this server during the corresponding request</param>
+            <param name="result">The ADS error code provided by the sender</param>
+            <param name="cancel">The cancellation token.</param>
+            <returns>A task that represents the asynchronous <see cref="M:TwinCAT.Ads.Server.AdsServer.OnDeleteDeviceNotificationConfirmationAsync(TwinCAT.Ads.AmsAddress,System.UInt32,TwinCAT.Ads.AdsErrorCode,System.Threading.CancellationToken)" /> operation. The <see cref="T:System.Threading.Tasks.Task`1" /> parameter contains the <see cref="T:TwinCAT.Ads.AdsErrorCode" /> as
+            <see cref="P:System.Threading.Tasks.Task`1.Result" />.</returns>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.onConfirmationReadWriteAsync(TwinCAT.Ads.AmsAddress,System.UInt32,TwinCAT.Ads.AdsErrorCode,System.ReadOnlyMemory{System.Byte},System.Threading.CancellationToken)">
+            <summary>
+            Internal Handler function for an received ReadWrite Confirmation
+            </summary>
+            <param name="target">The target.</param>
+            <param name="invokeId">The invoke identifier.</param>
+            <param name="result">The result.</param>
+            <param name="readData">The read data.</param>
+            <param name="cancel">The cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+            <returns>Task&lt;AdsErrorCode&gt;.</returns>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.OnReadWriteConfirmationAsync(TwinCAT.Ads.AmsAddress,System.UInt32,TwinCAT.Ads.AdsErrorCode,System.ReadOnlyMemory{System.Byte},System.Threading.CancellationToken)">
+            <summary>
+            Called when an ADS Read Write confirmation is received.
+            </summary>
+            <remarks>
+            Overwrite this method in derived classes to react on ADS Read Write confirmations.
+            The Default implementaton just returns <see cref="F:TwinCAT.Ads.AdsErrorCode.NoError"/>. Because the Confirmation is the last
+            step in the ADS communication an Error will just be logged, but not processed any further.
+            For a functional <see cref="T:TwinCAT.Ads.Server.AdsServer"/>, this confirmation handler doesn't need to be overloaded!
+            </remarks>
+            <param name="sender">The sender's AMS address</param>
+            <param name="invokeId">The invoke id provided by this server during the corresponding request</param>
+            <param name="result">The ADS error code provided by the sender</param>
+            <param name="readData">The read data buffer</param>
+            <param name="cancel">The cancellation token.</param>
+            <returns>A task that represents the asynchronous <see cref="M:TwinCAT.Ads.Server.AdsServer.OnReadWriteConfirmationAsync(TwinCAT.Ads.AmsAddress,System.UInt32,TwinCAT.Ads.AdsErrorCode,System.ReadOnlyMemory{System.Byte},System.Threading.CancellationToken)" /> operation. The <see cref="T:System.Threading.Tasks.Task`1" /> parameter contains the <see cref="T:TwinCAT.Ads.AdsErrorCode" /> as
+            <see cref="P:System.Threading.Tasks.Task`1.Result" />.</returns>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.ReadDeviceInfoResponseAsync(TwinCAT.Ads.AmsAddress,System.UInt32,TwinCAT.Ads.AdsErrorCode,System.String,TwinCAT.Ads.AdsVersion,System.Threading.CancellationToken)">
+            <summary>
+            Sends an ADS Read Device Info response.
+            </summary>
+            <param name="target">The receiver's AMS address</param>
+            <param name="invokeId">The invoke ID provided by the receiver</param>
+            <param name="result">The ADS error code for the response</param>
+            <param name="name">The name of this ADS server</param>
+            <param name="version">The version of this ADS server</param>
+            <param name="cancel">The cancellation token.</param>
+            <returns>A task that represents the asynchronous <see cref="M:TwinCAT.Ads.Server.AdsServer.ReadDeviceInfoResponseAsync(TwinCAT.Ads.AmsAddress,System.UInt32,TwinCAT.Ads.AdsErrorCode,System.String,TwinCAT.Ads.AdsVersion,System.Threading.CancellationToken)" /> operation. The <see cref="T:System.Threading.Tasks.Task`1" /> parameter contains the <see cref="T:TwinCAT.Ads.AdsErrorCode" /> as
+            <see cref="P:System.Threading.Tasks.Task`1.Result" />.</returns>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.ReadResponseAsync(TwinCAT.Ads.AmsAddress,System.UInt32,TwinCAT.Ads.AdsErrorCode,System.ReadOnlyMemory{System.Byte},System.Threading.CancellationToken)">
+            <summary>
+            Sends an ADS Read response.
+            </summary>
+            <param name="target">The receiver's AMS address</param>
+            <param name="invokeId">The invoke ID provided by the receiver</param>
+            <param name="result">The ADS error code for the response</param>
+            <param name="data">The read data buffer</param>
+            <param name="cancel">The cancellation token.</param>
+            <returns>A task that represents the asynchronous <see cref="M:TwinCAT.Ads.Server.AdsServer.ReadResponseAsync(TwinCAT.Ads.AmsAddress,System.UInt32,TwinCAT.Ads.AdsErrorCode,System.ReadOnlyMemory{System.Byte},System.Threading.CancellationToken)" /> operation. The <see cref="T:System.Threading.Tasks.Task`1" /> parameter contains the <see cref="T:TwinCAT.Ads.AdsErrorCode" /> as
+            <see cref="P:System.Threading.Tasks.Task`1.Result" />.</returns>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.WriteResponseAsync(TwinCAT.Ads.AmsAddress,System.UInt32,TwinCAT.Ads.AdsErrorCode,System.Threading.CancellationToken)">
+            <summary>
+            Sends an ADS Write response.
+            </summary>
+            <param name="target">The receiver's AMS address</param>
+            <param name="invokeId">The invoke ID provided by the receiver</param>
+            <param name="result">The ADS error code for the response</param>
+            <param name="cancel">The cancellation token.</param>
+            <returns>A task that represents the asynchronous <see cref="M:TwinCAT.Ads.Server.AdsServer.WriteResponseAsync(TwinCAT.Ads.AmsAddress,System.UInt32,TwinCAT.Ads.AdsErrorCode,System.Threading.CancellationToken)" /> operation. The <see cref="T:System.Threading.Tasks.Task`1" /> parameter contains the <see cref="T:TwinCAT.Ads.AdsErrorCode" /> as
+            <see cref="P:System.Threading.Tasks.Task`1.Result" />.</returns>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.ReadDeviceStateResponseAsync(TwinCAT.Ads.AmsAddress,System.UInt32,TwinCAT.Ads.AdsErrorCode,TwinCAT.Ads.AdsState,System.UInt16,System.Threading.CancellationToken)">
+            <summary>
+            Sends an ADS Read State response.
+            </summary>
+            <param name="target">The receiver's AMS address</param>
+            <param name="invokeId">The invoke ID provided by the receiver</param>
+            <param name="result">The ADS error code for the response</param>
+            <param name="adsState">The current ADS state of this ADS server</param>
+            <param name="deviceState">The device state of this ADS server</param>
+            <param name="cancel">The cancellation token.</param>
+            <returns>A task that represents the asynchronous <see cref="M:TwinCAT.Ads.Server.AdsServer.ReadDeviceStateResponseAsync(TwinCAT.Ads.AmsAddress,System.UInt32,TwinCAT.Ads.AdsErrorCode,TwinCAT.Ads.AdsState,System.UInt16,System.Threading.CancellationToken)"/> operation. The <see cref="T:System.Threading.Tasks.Task`1" /> parameter contains the <see cref="T:TwinCAT.Ads.AdsErrorCode" /> as
+            <see cref="P:System.Threading.Tasks.Task`1.Result" />.</returns>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.WriteControlResponseAsync(TwinCAT.Ads.AmsAddress,System.UInt32,TwinCAT.Ads.AdsErrorCode,System.Threading.CancellationToken)">
+            <summary>
+            Sends an ADS Write Control response.
+            </summary>
+            <param name="target">The receiver's AMS address</param>
+            <param name="invokeId">The invoke ID provided by the receiver</param>
+            <param name="result">The ADS error code for the response</param>
+            <param name="cancel">The cancellation token.</param>
+            <returns>A task that represents the asynchronous <see cref="M:TwinCAT.Ads.Server.AdsServer.WriteControlResponseAsync(TwinCAT.Ads.AmsAddress,System.UInt32,TwinCAT.Ads.AdsErrorCode,System.Threading.CancellationToken)"/> operation. The <see cref="T:System.Threading.Tasks.Task`1"/> parameter contains the <see cref="T:TwinCAT.Ads.AdsErrorCode"/> as
+            <see cref="P:System.Threading.Tasks.Task`1.Result"/>.
+            </returns>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.AddDeviceNotificationResponseAsync(TwinCAT.Ads.AmsAddress,System.UInt32,TwinCAT.Ads.AdsErrorCode,System.UInt32,System.Threading.CancellationToken)">
+            <summary>
+            Sends an ADS Add Device Notification response.
+            </summary>
+            <param name="target">The receiver's AMS address</param>
+            <param name="invokeId">The invoke ID provided by the receiver</param>
+            <param name="result">The ADS error code for the response</param>
+            <param name="handle">The notification handle for the added notification</param>
+            <param name="cancel">The cancellation token.</param>
+            <returns>A task that represents the asynchronous <see cref="M:TwinCAT.Ads.Server.AdsServer.AddDeviceNotificationResponseAsync(TwinCAT.Ads.AmsAddress,System.UInt32,TwinCAT.Ads.AdsErrorCode,System.UInt32,System.Threading.CancellationToken)" /> operation. The <see cref="T:System.Threading.Tasks.Task`1" /> parameter contains the <see cref="T:TwinCAT.Ads.AdsErrorCode" /> as
+            <see cref="P:System.Threading.Tasks.Task`1.Result" />.</returns>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.DeleteDeviceNotificationResponseAsync(TwinCAT.Ads.AmsAddress,System.UInt32,TwinCAT.Ads.AdsErrorCode,System.Threading.CancellationToken)">
+            <summary>
+            Sends an ADS Delete Device Notification response.
+            </summary>
+            <param name="target">The receiver's AMS address</param>
+            <param name="invokeId">The invoke ID provided by the receiver</param>
+            <param name="result">The ADS error code for the response</param>
+            <param name="cancel">The cancellation token</param>
+            <returns>A task that represents the asynchronous <see cref="M:TwinCAT.Ads.Server.AdsServer.DeleteDeviceNotificationResponseAsync(TwinCAT.Ads.AmsAddress,System.UInt32,TwinCAT.Ads.AdsErrorCode,System.Threading.CancellationToken)"/> operation. The <see cref="T:System.Threading.Tasks.Task`1" /> parameter contains the <see cref="T:TwinCAT.Ads.AdsErrorCode" /> as
+            <see cref="P:System.Threading.Tasks.Task`1.Result" />.</returns>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.ReadWriteResponseAsync(TwinCAT.Ads.AmsAddress,System.UInt32,TwinCAT.Ads.AdsErrorCode,System.ReadOnlyMemory{System.Byte},System.Threading.CancellationToken)">
+            <summary>
+            Sends an ADS Read Write Response.
+            </summary>
+            <param name="target">The receiver's AMS address</param>
+            <param name="invokeId">The invoke ID provided by the receiver</param>
+            <param name="result">The ADS error code for the response</param>
+            <param name="data">The read data buffer</param>
+            <param name="cancel">The cancellation token.</param>
+            <returns>A task that represents the asynchronous <see cref="M:TwinCAT.Ads.Server.AdsServer.ReadWriteResponseAsync(TwinCAT.Ads.AmsAddress,System.UInt32,TwinCAT.Ads.AdsErrorCode,System.ReadOnlyMemory{System.Byte},System.Threading.CancellationToken)"/> operation. The <see cref="T:System.Threading.Tasks.Task`1" /> parameter contains the <see cref="T:TwinCAT.Ads.AdsErrorCode" /> as
+            <see cref="P:System.Threading.Tasks.Task`1.Result" />.</returns>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.SendResponseSync(TwinCAT.Ads.AmsAddress,System.UInt32,TwinCAT.Ads.AdsCommandId,TwinCAT.Ams.ITcAdsHeader,System.ReadOnlySpan{System.Byte})">
+            <summary>
+            Send respons as an synchronous operation.
+            </summary>
+            <param name="target">The target.</param>
+            <param name="invokeId">The invoke identifier.</param>
+            <param name="serviceId">The service identifier.</param>
+            <param name="adsHeader">The ads header.</param>
+            <param name="adsData">The ads data.</param>
+            <returns>AdsErrorCode.</returns>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.SendResponseAsync(TwinCAT.Ads.AmsAddress,System.UInt32,TwinCAT.Ads.AdsCommandId,TwinCAT.Ams.ITcAdsHeader,System.ReadOnlyMemory{System.Byte},System.Threading.CancellationToken)">
+            <summary>
+            Send response as an asynchronous operation.
+            </summary>
+            <param name="target">The r addr.</param>
+            <param name="invokeId">The invoke identifier.</param>
+            <param name="serviceId">The service identifier.</param>
+            <param name="adsHeader">The ads header.</param>
+            <param name="adsData">The ads data.</param>
+            <param name="cancel">The cancellation token.</param>
+            <returns>A task that represents the asynchronous 'SendResponse' operation. The <see cref="T:System.Threading.Tasks.Task`1"/> parameter contains the <see cref="T:TwinCAT.Ads.AdsErrorCode"/> as
+            <see cref="P:System.Threading.Tasks.Task`1.Result"/>.
+            </returns>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.onIndicationReadDeviceInfoAsync(TwinCAT.Ads.AmsAddress,System.UInt32,System.Threading.CancellationToken)">
+            <summary>
+            Internal handler function for a received ReadDeviceInfo request (Indication)
+            </summary>
+            <param name="target">The r addr.</param>
+            <param name="invokeId">The invoke identifier.</param>
+            <param name="cancel">The cancellation token.</param>
+            <returns>A task that represents the asynchronous <see cref="M:TwinCAT.Ads.Server.AdsServer.onIndicationReadDeviceInfoAsync(TwinCAT.Ads.AmsAddress,System.UInt32,System.Threading.CancellationToken)"/> operation. The <see cref="T:System.Threading.Tasks.Task`1"/> parameter contains the <see cref="T:TwinCAT.Ads.AdsErrorCode"/> as
+            <see cref="P:System.Threading.Tasks.Task`1.Result"/>.
+            </returns>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.ReadDeviceInfoIndicationAsync(TwinCAT.Ads.AmsAddress,System.UInt32,System.Threading.CancellationToken)">
+            <summary>
+            Called when an ADS Read Device Info indication is received.
+            </summary>
+            <remarks>
+            The default implementation of this handler responses with the internal <see cref="P:TwinCAT.Ads.Server.AdsServer.ServerName"/> and <see cref="P:TwinCAT.Ads.Server.AdsServer.ServerVersion"/> of this <see cref="T:TwinCAT.Ads.Server.AdsServer"/>.
+            Overwrite this method only if a customized implementation is necessary.
+            <para>An override of this <see cref="M:TwinCAT.Ads.Server.AdsServer.ReadDeviceInfoIndicationAsync(TwinCAT.Ads.AmsAddress,System.UInt32,System.Threading.CancellationToken)"/> is obsolete and needs to call <see cref="M:TwinCAT.Ads.Server.AdsServer.ReadDeviceInfoResponseAsync(TwinCAT.Ads.AmsAddress,System.UInt32,TwinCAT.Ads.AdsErrorCode,System.String,TwinCAT.Ads.AdsVersion,System.Threading.CancellationToken)"/> to send the response back to the caller.</para>
+            </remarks>
+            <param name="sender">The sender's / requester's AMS address</param>
+            <param name="invokeId">The invokeId provided by the sender</param>
+            <param name="cancel">The cancellation token.</param>
+            <returns>A task that represents the asynchronous <see cref="M:TwinCAT.Ads.Server.AdsServer.ReadDeviceInfoIndicationAsync(TwinCAT.Ads.AmsAddress,System.UInt32,System.Threading.CancellationToken)"/> operation. The <see cref="T:System.Threading.Tasks.Task`1"/> parameter contains the <see cref="T:TwinCAT.Ads.AdsErrorCode"/> as
+            <see cref="P:System.Threading.Tasks.Task`1.Result"/>.
+            </returns>
+            <exclude/>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.onIndicationReadAsync(TwinCAT.Ams.AmsCommand,System.Threading.CancellationToken)">
+            <summary>
+            Called when [read indication asynchronous].
+            </summary>
+            <param name="amsCmd">The ams command.</param>
+            <param name="cancel">The cancellation token.</param>
+            <returns>A task that represents the asynchronous 'OnReadIndication' operation. The <see cref="T:System.Threading.Tasks.Task`1"/> parameter contains the <see cref="T:TwinCAT.Ads.AdsErrorCode"/> as
+            <see cref="P:System.Threading.Tasks.Task`1.Result"/>.
+            </returns>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.ReadIndicationAsync(TwinCAT.Ads.AmsAddress,System.UInt32,System.UInt32,System.UInt32,System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Called when an ADS Read indication is received.
+            </summary>
+            <remarks>
+            Overwrite this method in derived classes to react on ADS Read indications.
+            The default implementation replies with an ADS ServiceNotSupported error code (0x701).
+            <para>To change the default implementation override the <see cref="M:TwinCAT.Ads.Server.AdsServer.OnReadAsync(TwinCAT.Ads.AmsAddress,System.UInt32,System.UInt32,System.UInt32,System.Int32,System.Threading.CancellationToken)"/> method.</para>
+            <para>An override of this <see cref="M:TwinCAT.Ads.Server.AdsServer.ReadIndicationAsync(TwinCAT.Ads.AmsAddress,System.UInt32,System.UInt32,System.UInt32,System.Int32,System.Threading.CancellationToken)"/> is obsolete and needs to call <see cref="M:TwinCAT.Ads.Server.AdsServer.ReadResponseAsync(TwinCAT.Ads.AmsAddress,System.UInt32,TwinCAT.Ads.AdsErrorCode,System.ReadOnlyMemory{System.Byte},System.Threading.CancellationToken)"/> to send the response back to the caller.</para>
+            </remarks>
+            <param name="sender">The sender address of the request.</param>
+            <param name="invokeId">The invoke identifier of the request.</param>
+            <param name="indexGroup">The index group of the requested ADS service</param>
+            <param name="indexOffset">The index offset of the requested ADS service</param>
+            <param name="readLength">The number of bytes to be read</param>
+            <param name="cancel">The cancellation token.</param>
+            <returns>A task that represents the asynchronous <see cref="M:TwinCAT.Ads.Server.AdsServer.ReadIndicationAsync(TwinCAT.Ads.AmsAddress,System.UInt32,System.UInt32,System.UInt32,System.Int32,System.Threading.CancellationToken)"/> operation. The <see cref="T:System.Threading.Tasks.Task`1" /> parameter contains the <see cref="T:TwinCAT.Ads.AdsErrorCode" /> as
+            <see cref="P:System.Threading.Tasks.Task`1.Result" />.</returns>
+            <exclude/>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.OnReadAsync(TwinCAT.Ads.AmsAddress,System.UInt32,System.UInt32,System.UInt32,System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Called when an ADS Read indication is received.
+            </summary>
+            <param name="sender">The sender address of the request.</param>
+            <param name="invokeId">The invoke identifier of the request.</param>
+            <param name="indexGroup">The index group of the requested ADS service</param>
+            <param name="indexOffset">The index offset of the requested ADS service</param>
+            <param name="readLength">The number of bytes to be read</param>
+            <param name="cancel">The cancellation token.</param>
+            <returns>A task that represents the asynchronous <see cref="M:TwinCAT.Ads.Server.AdsServer.ReadIndicationAsync(TwinCAT.Ads.AmsAddress,System.UInt32,System.UInt32,System.UInt32,System.Int32,System.Threading.CancellationToken)" /> operation. The <see cref="T:System.Threading.Tasks.Task`1" /> parameter contains the <see cref="T:TwinCAT.Ads.AdsErrorCode" /> as
+            <see cref="P:System.Threading.Tasks.Task`1.Result" />.</returns>
+            <remarks>Overwrite this method in derived classes to react on ADS Read indications.
+            The default implementation replies with an ADS ServiceNotSupported error code (0x701).</remarks>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.onIndicationWriteAsync(TwinCAT.Ams.AmsCommand,System.Threading.CancellationToken)">
+            <summary>
+            Called when [write indication asynchronous].
+            </summary>
+            <param name="amsCmd">The ams command.</param>
+            <param name="cancel">The cancellation token.</param>
+            <returns>A task that represents the asynchronous 'OnWriteIndication' operation. The <see cref="T:System.Threading.Tasks.Task`1"/> parameter contains the <see cref="T:TwinCAT.Ads.AdsErrorCode"/> as
+            <see cref="P:System.Threading.Tasks.Task`1.Result"/>.
+            </returns>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.WriteIndicationAsync(TwinCAT.Ads.AmsAddress,System.UInt32,System.UInt32,System.UInt32,System.ReadOnlyMemory{System.Byte},System.Threading.CancellationToken)">
+            <summary>
+            Called when an ADS Write indication is received.
+            </summary>
+            <remarks>
+            Overwrite this method in derived classes to react on ADS Write indications.
+            The default implementation replies with an ADS ServiceNotSupported error code (0x701).
+            <para>To change the default implementation override the <see cref="M:TwinCAT.Ads.Server.AdsServer.OnWriteAsync(TwinCAT.Ads.AmsAddress,System.UInt32,System.UInt32,System.UInt32,System.ReadOnlyMemory{System.Byte},System.Threading.CancellationToken)"/> method.</para>
+            <para>An override of this <see cref="M:TwinCAT.Ads.Server.AdsServer.WriteIndicationAsync(TwinCAT.Ads.AmsAddress,System.UInt32,System.UInt32,System.UInt32,System.ReadOnlyMemory{System.Byte},System.Threading.CancellationToken)"/> is obsolete and needs to call <see cref="M:TwinCAT.Ads.Server.AdsServer.WriteResponseAsync(TwinCAT.Ads.AmsAddress,System.UInt32,TwinCAT.Ads.AdsErrorCode,System.Threading.CancellationToken)"/> to send the response back to the caller.</para>
+            </remarks>
+            <param name="target">The sender address of the request.</param>
+            <param name="invokeId">The invoke identifier of the request.</param>
+            <param name="indexGroup">The index group of the requested ADS service</param>
+            <param name="indexOffset">The index offset of the requested ADS service</param>
+            <param name="writeData">The data to be written</param>
+            <param name="cancel">The cancellation token.</param>
+            <returns>A task that represents the asynchronous <see cref="M:TwinCAT.Ads.Server.AdsServer.WriteIndicationAsync(TwinCAT.Ads.AmsAddress,System.UInt32,System.UInt32,System.UInt32,System.ReadOnlyMemory{System.Byte},System.Threading.CancellationToken)" /> operation. The <see cref="T:System.Threading.Tasks.Task`1" /> parameter contains the <see cref="T:TwinCAT.Ads.AdsErrorCode" /> as
+            <see cref="P:System.Threading.Tasks.Task`1.Result" />.</returns>
+            <exclude/>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.OnWriteAsync(TwinCAT.Ads.AmsAddress,System.UInt32,System.UInt32,System.UInt32,System.ReadOnlyMemory{System.Byte},System.Threading.CancellationToken)">
+            <summary>
+            Called when an ADS Write indication is received.
+            </summary>
+            <param name="target">The sender address of the request.</param>
+            <param name="invokeId">The invoke identifier of the request.</param>
+            <param name="indexGroup">The index group of the requested ADS service</param>
+            <param name="indexOffset">The index offset of the requested ADS service</param>
+            <param name="writeData">The data to be written</param>
+            <param name="cancel">The cancellation token.</param>
+            <returns>A task that represents the asynchronous <see cref="M:TwinCAT.Ads.Server.AdsServer.WriteIndicationAsync(TwinCAT.Ads.AmsAddress,System.UInt32,System.UInt32,System.UInt32,System.ReadOnlyMemory{System.Byte},System.Threading.CancellationToken)" /> operation. The <see cref="T:System.Threading.Tasks.Task`1" /> parameter contains the <see cref="T:TwinCAT.Ads.AdsErrorCode" /> as
+            <see cref="P:System.Threading.Tasks.Task`1.Result" />.</returns>
+            <remarks>Overwrite this method in derived classes to react on ADS Write indications.
+            The default implementation replies with an ADS ServiceNotSupported error code (0x701).</remarks>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.onIndicationReadDeviceStateAsync(TwinCAT.Ads.AmsAddress,System.UInt32,System.Threading.CancellationToken)">
+            <summary>
+            Called when [read device state indication asynchronous].
+            </summary>
+            <param name="target">The r addr.</param>
+            <param name="invokeId">The invoke identifier.</param>
+            <param name="cancel">The cancellation token.</param>
+            <returns>A task that represents the asynchronous 'OnReadDeviceStateIndication' operation. The <see cref="T:System.Threading.Tasks.Task`1"/> parameter contains the <see cref="T:TwinCAT.Ads.AdsErrorCode"/> as
+            <see cref="P:System.Threading.Tasks.Task`1.Result"/>.
+            </returns>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.ReadDeviceStateIndicationAsync(TwinCAT.Ads.AmsAddress,System.UInt32,System.Threading.CancellationToken)">
+            <summary>
+            Called when an ADS Read State indication is received.
+            </summary>
+            <remarks>
+            Overwrite this method in derived classes to react on ADS Read State indications.
+            The default implementation replies with an ADS ServiceNotSupported error code (0x701).
+            <para>To change the default implementation override the <see cref="M:TwinCAT.Ads.Server.AdsServer.OnReadDeviceStateAsync(TwinCAT.Ads.AmsAddress,System.UInt32,System.Threading.CancellationToken)"/> method.</para>
+            <para>An override of this <see cref="M:TwinCAT.Ads.Server.AdsServer.ReadDeviceStateIndicationAsync(TwinCAT.Ads.AmsAddress,System.UInt32,System.Threading.CancellationToken)"/> is obsolete and needs to call <see cref="M:TwinCAT.Ads.Server.AdsServer.ReadDeviceStateResponseAsync(TwinCAT.Ads.AmsAddress,System.UInt32,TwinCAT.Ads.AdsErrorCode,TwinCAT.Ads.AdsState,System.UInt16,System.Threading.CancellationToken)"/> to send the response back to the caller.</para>
+            </remarks>
+            <param name="sender">The sender address of the request.</param>
+            <param name="invokeId">The invoke identifier of the request.</param>
+            <param name="cancel">The cancellation token.</param>
+            <returns>A task that represents the asynchronous <see cref="M:TwinCAT.Ads.Server.AdsServer.ReadDeviceStateIndicationAsync(TwinCAT.Ads.AmsAddress,System.UInt32,System.Threading.CancellationToken)" /> operation. The <see cref="T:System.Threading.Tasks.Task`1" /> parameter contains the <see cref="T:TwinCAT.Ads.AdsErrorCode" /> as
+            <see cref="P:System.Threading.Tasks.Task`1.Result" />.</returns>
+            <exclude/>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.OnReadDeviceStateAsync(TwinCAT.Ads.AmsAddress,System.UInt32,System.Threading.CancellationToken)">
+            <summary>
+            Called when an ADS Read State indication is received.
+            </summary>
+            <param name="sender">The sender address of the request.</param>
+            <param name="invokeId">The invoke identifier of the request.</param>
+            <param name="cancel">The cancellation token.</param>
+            <returns>A task that represents the asynchronous <see cref="M:TwinCAT.Ads.Server.AdsServer.ReadDeviceStateIndicationAsync(TwinCAT.Ads.AmsAddress,System.UInt32,System.Threading.CancellationToken)" /> operation. The <see cref="T:System.Threading.Tasks.Task`1" /> parameter contains the <see cref="T:TwinCAT.Ads.AdsErrorCode" /> as
+            <see cref="P:System.Threading.Tasks.Task`1.Result" />.</returns>
+            <remarks>Overwrite this method in derived classes to react on ADS Read State indications.
+            The default implementation replies with an ADS ServiceNotSupported error code (0x701).</remarks>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.onIndicationWriteControlAsync(TwinCAT.Ams.AmsCommand,System.Threading.CancellationToken)">
+            <summary>
+            Called when [write control indication asynchronous].
+            </summary>
+            <param name="amsCmd">The ams command.</param>
+            <param name="cancel">The cancellation token.</param>
+            <returns>A task that represents the asynchronous 'OnWriteControlIndication' operation. The <see cref="T:System.Threading.Tasks.Task`1"/> parameter contains the <see cref="T:TwinCAT.Ads.AdsErrorCode"/> as
+            <see cref="P:System.Threading.Tasks.Task`1.Result"/>.
+            </returns>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.WriteControlIndicationAsync(TwinCAT.Ads.AmsAddress,System.UInt32,TwinCAT.Ads.AdsState,System.UInt16,System.ReadOnlyMemory{System.Byte},System.Threading.CancellationToken)">
+            <summary>
+            Called when an ADS Write Control indication is received.
+            </summary>
+            <remarks>
+            Overwrite this method in derived classes to react on ADS Write Control indications.
+            The default implementation replies with an ADS ServiceNotSupported error code (0x701).
+            <para>To change the default implementation override the <see cref="M:TwinCAT.Ads.Server.AdsServer.OnWriteControlAsync(TwinCAT.Ads.AmsAddress,System.UInt32,TwinCAT.Ads.AdsState,System.UInt16,System.ReadOnlyMemory{System.Byte},System.Threading.CancellationToken)"/> method.</para>
+            <para>An override of this <see cref="M:TwinCAT.Ads.Server.AdsServer.WriteControlIndicationAsync(TwinCAT.Ads.AmsAddress,System.UInt32,TwinCAT.Ads.AdsState,System.UInt16,System.ReadOnlyMemory{System.Byte},System.Threading.CancellationToken)"/> is obsolete and needs to call <see cref="M:TwinCAT.Ads.Server.AdsServer.WriteControlResponseAsync(TwinCAT.Ads.AmsAddress,System.UInt32,TwinCAT.Ads.AdsErrorCode,System.Threading.CancellationToken)"/> to send the response back to the caller.</para>
+            </remarks>
+            <param name="sender">The sender address of the request.</param>
+            <param name="invokeId">The invoke identifier of the request.</param>
+            <param name="adsState">The requested new ADS state of this ADS device</param>
+            <param name="deviceState">The requested new device state of this ADS device</param>
+            <param name="data">Additional data to write.</param>
+            <param name="cancel">The cancellation token.</param>
+            <returns>A task that represents the asynchronous <see cref="M:TwinCAT.Ads.Server.AdsServer.WriteControlIndicationAsync(TwinCAT.Ads.AmsAddress,System.UInt32,TwinCAT.Ads.AdsState,System.UInt16,System.ReadOnlyMemory{System.Byte},System.Threading.CancellationToken)"/> operation. The <see cref="T:System.Threading.Tasks.Task`1" /> parameter contains the <see cref="T:TwinCAT.Ads.AdsErrorCode" /> as
+            <see cref="P:System.Threading.Tasks.Task`1.Result" />.</returns>
+            <exclude/>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.OnWriteControlAsync(TwinCAT.Ads.AmsAddress,System.UInt32,TwinCAT.Ads.AdsState,System.UInt16,System.ReadOnlyMemory{System.Byte},System.Threading.CancellationToken)">
+            <summary>
+            Called when an ADS Write Control indication is received.
+            </summary>
+            <param name="sender">The sender address of the request.</param>
+            <param name="invokeId">The invoke identifier of the request.</param>
+            <param name="adsState">The requested new ADS state of this ADS device</param>
+            <param name="deviceState">The requested new device state of this ADS device</param>
+            <param name="data">Additional data to write.</param>
+            <param name="cancel">The cancellation token.</param>
+            <returns>A task that represents the asynchronous <see cref="M:TwinCAT.Ads.Server.AdsServer.WriteControlIndicationAsync(TwinCAT.Ads.AmsAddress,System.UInt32,TwinCAT.Ads.AdsState,System.UInt16,System.ReadOnlyMemory{System.Byte},System.Threading.CancellationToken)" /> operation. The <see cref="T:System.Threading.Tasks.Task`1" /> parameter contains the <see cref="T:TwinCAT.Ads.AdsErrorCode" /> as
+            <see cref="P:System.Threading.Tasks.Task`1.Result" />.</returns>
+            <remarks>Overwrite this method in derived classes to react on ADS Write Control indications.
+            The default implementation replies with an ADS ServiceNotSupported error code (0x701).</remarks>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.onIndicationAddDeviceNotificationAsync(TwinCAT.Ams.AmsCommand,System.Threading.CancellationToken)">
+            <summary>
+            Called when [add device notification indication asynchronous].
+            </summary>
+            <param name="amsCmd">The ams command.</param>
+            <param name="cancel">The cancellation token.</param>
+            <returns>A task that represents the asynchronous 'OnAddDeviceNotificationIndication' operation. The <see cref="T:System.Threading.Tasks.Task`1"/> parameter contains the <see cref="T:TwinCAT.Ads.AdsErrorCode"/> as
+            <see cref="P:System.Threading.Tasks.Task`1.Result"/>.
+            </returns>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.AddDeviceNotificationIndicationAsync(TwinCAT.Ads.AmsAddress,System.UInt32,System.UInt32,System.UInt32,System.Int32,TwinCAT.Ads.NotificationSettings,System.Threading.CancellationToken)">
+            <summary>
+            Called when an ADS Add Device Notification indication is received.
+            </summary>
+            <remarks>
+            Overwrite this method in derived classes to react on ADS Add Device Notification indications.
+            The default implementation replies with an ADS ServiceNotSupported error code (0x701).
+            <para>To change the default implementation override the <see cref="M:TwinCAT.Ads.Server.AdsServer.OnAddDeviceNotificationAsync(TwinCAT.Ads.AmsAddress,System.UInt32,System.UInt32,System.UInt32,System.Int32,TwinCAT.Ads.AmsAddress,TwinCAT.Ads.NotificationSettings,System.Threading.CancellationToken)"/> method.</para>
+            <para>An override of this <see cref="M:TwinCAT.Ads.Server.AdsServer.AddDeviceNotificationIndicationAsync(TwinCAT.Ads.AmsAddress,System.UInt32,System.UInt32,System.UInt32,System.Int32,TwinCAT.Ads.NotificationSettings,System.Threading.CancellationToken)"/> is obsolete and needs to call <see cref="M:TwinCAT.Ads.Server.AdsServer.AddDeviceNotificationResponseAsync(TwinCAT.Ads.AmsAddress,System.UInt32,TwinCAT.Ads.AdsErrorCode,System.UInt32,System.Threading.CancellationToken)"/> to send the response back to the caller.</para>
+            </remarks>
+            <param name="sender">The sender address of the request.</param>
+            <param name="invokeId">The invoke identifier of the request.</param>
+            <param name="indexGroup">The index group of the requested ADS service</param>
+            <param name="indexOffset">The index offset of the requested ADS service</param>
+            <param name="dataLength">Number of bytes to be transmitted</param>
+            <param name="settings">The Notification settings.</param>
+            <param name="cancel">The cancellation token.</param>
+            <returns>A task that represents the asynchronous 'AddDeviceNotificationIndication' operation. The <see cref="T:System.Threading.Tasks.Task`1" /> parameter contains the <see cref="T:TwinCAT.Ads.AdsErrorCode" /> as
+            <see cref="P:System.Threading.Tasks.Task`1.Result" />.</returns>
+            <exclude/>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.OnAddDeviceNotificationAsync(TwinCAT.Ads.AmsAddress,System.UInt32,System.UInt32,System.UInt32,System.Int32,TwinCAT.Ads.AmsAddress,TwinCAT.Ads.NotificationSettings,System.Threading.CancellationToken)">
+            <summary>
+            Called when an ADS Add Device Notification indication is received.
+            </summary>
+            <param name="sender">The sender address of the request.</param>
+            <param name="invokeId">The invoke identifier of the request.</param>
+            <param name="indexGroup">The index group of the requested ADS service</param>
+            <param name="indexOffset">The index offset of the requested ADS service</param>
+            <param name="dataLength">Number of bytes to be transmitted</param>
+            <param name="receiver">The receiver of the notifications (the requester of this message)</param>
+            <param name="settings">The Notification settings.</param>
+            <param name="cancel">The cancellation token.</param>
+            <returns>A task that represents the asynchronous 'AddDeviceNotificationIndication' operation. The <see cref="T:System.Threading.Tasks.Task`1" /> parameter contains the <see cref="T:TwinCAT.Ads.AdsErrorCode" /> as
+            <see cref="P:System.Threading.Tasks.Task`1.Result" />.</returns>
+            <remarks>Overwrite this method in derived classes to react on ADS Add Device Notification indications.
+            The default implementation replies with an ADS ServiceNotSupported error code (0x701).</remarks>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.onIndicationDeleteDeviceNotificationAsync(TwinCAT.Ams.AmsCommand,System.Threading.CancellationToken)">
+            <summary>
+            Called when an ADS Delete Device Notification indication is received.
+            </summary>
+            <param name="amsCmd">The ams command.</param>
+            <param name="cancel">The cancellation token.</param>
+            <returns>A task that represents the asynchronous 'OnDeleteDeviceNotificationIndication' operation. The <see cref="T:System.Threading.Tasks.Task`1"/> parameter contains the <see cref="T:TwinCAT.Ads.AdsErrorCode"/> as
+            <see cref="P:System.Threading.Tasks.Task`1.Result"/>.
+            </returns>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.DeleteDeviceNotificationIndicationAsync(TwinCAT.Ads.AmsAddress,System.UInt32,System.UInt32,System.Threading.CancellationToken)">
+            <summary>
+            Called when an ADS Delete Device Notification indication is received.
+            </summary>
+            <remarks>
+            Overwrite this method in derived classes to react on ADS Delete Device Notification indications.
+            The default implementation replies with an ADS ServiceNotSupported error code (0x701).
+            <para>To change the default implementation override the <see cref="M:TwinCAT.Ads.Server.AdsServer.OnDeleteDeviceNotificationAsync(TwinCAT.Ads.AmsAddress,System.UInt32,System.UInt32,System.Threading.CancellationToken)"/> method.</para>
+            <para>An override of this <see cref="M:TwinCAT.Ads.Server.AdsServer.DeleteDeviceNotificationIndicationAsync(TwinCAT.Ads.AmsAddress,System.UInt32,System.UInt32,System.Threading.CancellationToken)"/> is obsolete and needs to call <see cref="M:TwinCAT.Ads.Server.AdsServer.DeleteDeviceNotificationResponseAsync(TwinCAT.Ads.AmsAddress,System.UInt32,TwinCAT.Ads.AdsErrorCode,System.Threading.CancellationToken)"/> to send the response back to the caller.</para>
+            </remarks>
+            <param name="sender">The sender address of the request.</param>
+            <param name="invokeId">The invoke identifier of the request.</param>
+            <param name="hNotification">The notification handle to be deleted</param>
+            <param name="cancel">The cancellation token.</param>
+            <returns>A task that represents the asynchronous <see cref="M:TwinCAT.Ads.Server.AdsServer.DeleteDeviceNotificationIndicationAsync(TwinCAT.Ads.AmsAddress,System.UInt32,System.UInt32,System.Threading.CancellationToken)"/> operation. The <see cref="T:System.Threading.Tasks.Task`1" /> parameter contains the <see cref="T:TwinCAT.Ads.AdsErrorCode" /> as
+            <see cref="P:System.Threading.Tasks.Task`1.Result" />.</returns>
+            <exclude/>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.OnDeleteDeviceNotificationAsync(TwinCAT.Ads.AmsAddress,System.UInt32,System.UInt32,System.Threading.CancellationToken)">
+            <summary>
+            Called when an ADS Delete Device Notification indication is received.
+            </summary>
+            <param name="sender">The sender address of the request.</param>
+            <param name="invokeId">The invoke identifier of the request.</param>
+            <param name="hNotification">The notification handle to be deleted</param>
+            <param name="cancel">The cancellation token.</param>
+            <returns>A task that represents the asynchronous <see cref="M:TwinCAT.Ads.Server.AdsServer.DeleteDeviceNotificationIndicationAsync(TwinCAT.Ads.AmsAddress,System.UInt32,System.UInt32,System.Threading.CancellationToken)" /> operation. The <see cref="T:System.Threading.Tasks.Task`1" /> parameter contains the <see cref="T:TwinCAT.Ads.AdsErrorCode" /> as
+            <see cref="P:System.Threading.Tasks.Task`1.Result" />.</returns>
+            <remarks>Overwrite this method in derived classes to react on ADS Delete Device Notification indications.
+            The default implementation replies with an ADS ServiceNotSupported error code (0x701).</remarks>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.onIndicationDeviceNotificationAsync(TwinCAT.Ams.AmsCommand,System.Threading.CancellationToken)">
+            <summary>
+            Called when [device notification indication asynchronous].
+            </summary>
+            <param name="amsCmd">The ams command.</param>
+            <param name="cancel">The cancellation token.</param>
+            <returns>A task that represents the asynchronous 'OnDeviceNotificationIndication' operation. The <see cref="T:System.Threading.Tasks.Task`1"/> parameter contains the <see cref="T:TwinCAT.Ads.AdsErrorCode"/> as
+            <see cref="P:System.Threading.Tasks.Task`1.Result"/>.
+            </returns>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.DeviceNotificationIndicationAsync(TwinCAT.Ads.AmsAddress,System.UInt32,System.UInt32,TwinCAT.Ads.Server.NotificationSamplesStamp[],System.Threading.CancellationToken)">
+            <summary>
+            Called when an ADS Device Notification indication is received.
+            </summary>
+            <remarks>
+            Overwrite this method in derived classes to react on ADS Device Notification indications.
+            The DeviceNotification Indication doesn't fire a response, just returns the AdsErrorCode!
+            </remarks>
+            <param name="sender">The sender's AMS address</param>
+            <param name="invokeId">The invokeId provided by the sender</param>
+            <param name="numStampHeaders">The number of ADS Stamp Headers contained in stampHeaders</param>
+            <param name="stampHeaders">The array of received ADS Stamp Headers.</param>
+            <param name="cancel">The cancellation token.</param>
+            <returns>A task that represents the asynchronous <see cref="M:TwinCAT.Ads.Server.AdsServer.DeviceNotificationIndicationAsync(TwinCAT.Ads.AmsAddress,System.UInt32,System.UInt32,TwinCAT.Ads.Server.NotificationSamplesStamp[],System.Threading.CancellationToken)"/> operation. The <see cref="T:System.Threading.Tasks.Task`1" /> parameter contains the <see cref="T:TwinCAT.Ads.AdsErrorCode" /> as
+            <see cref="P:System.Threading.Tasks.Task`1.Result" />.</returns>
+            <exclude/>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.OnDeviceNotificationAsync(TwinCAT.Ads.AmsAddress,TwinCAT.Ads.Server.NotificationSamplesStamp[],System.Threading.CancellationToken)">
+            <summary>
+            Handler for received DeviceNotification Indications
+            </summary>
+            <remarks>
+            Overwrite this method in derived classes to react on ADS Device Notification indications.
+            The Default implementation returns Success.
+            This method should return 
+            </remarks>
+            <param name="sender">The sender's AMS address</param>
+            <param name="stampHeaders">The array of received ADS Stamp Headers.</param>
+            <param name="cancel">The cancellation token.</param>
+            <returns>A task that represents the asynchronous <see cref="M:TwinCAT.Ads.Server.AdsServer.DeviceNotificationIndicationAsync(TwinCAT.Ads.AmsAddress,System.UInt32,System.UInt32,TwinCAT.Ads.Server.NotificationSamplesStamp[],System.Threading.CancellationToken)"/> operation. The <see cref="T:System.Threading.Tasks.Task`1" /> parameter contains the <see cref="T:TwinCAT.Ads.AdsErrorCode" /> as
+            <see cref="P:System.Threading.Tasks.Task`1.Result" />.</returns>
+            <exclude/>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.DeviceNotificationIndicationAsync(TwinCAT.Ads.AmsAddress,System.UInt32,System.UInt32,System.ReadOnlySpan{System.Byte},System.Threading.CancellationToken)">
+            <summary>
+            Called when an ADS Device Notification indication is received (only for internal use)
+            Overwrite this method in derived classes to react on ADS Device Notification indications.
+            </summary>
+            <param name="sender">The sender's AMS address</param>
+            <param name="invokeId">The invokeId provided by the sender</param>
+            <param name="numStampHeaders">The number of stamp headers.</param>
+            <param name="readData">Reader object for the stamps.</param>
+            <param name="cancel">The cancellation token.</param>
+            <returns>A task that represents the asynchronous <see cref="M:TwinCAT.Ads.Server.AdsServer.DeviceNotificationIndicationAsync(TwinCAT.Ads.AmsAddress,System.UInt32,System.UInt32,System.ReadOnlySpan{System.Byte},System.Threading.CancellationToken)"/> operation. The <see cref="T:System.Threading.Tasks.Task`1" /> parameter contains the <see cref="T:TwinCAT.Ads.AdsErrorCode" /> as
+            <see cref="P:System.Threading.Tasks.Task`1.Result" />.</returns>
+            <exclude/>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.OnDeviceNotificationAsync(TwinCAT.Ads.AmsAddress,System.ReadOnlySpan{System.Byte},System.Threading.CancellationToken)">
+            <summary>
+            Called when an ADS Device Notification indication is received (only for internal use)
+            Overwrite this method in derived classes to react on ADS Device Notification indications.
+            </summary>
+            <param name="sender">The sender's AMS address</param>
+            <param name="readData">Reader object for the stamps.</param>
+            <param name="cancel">The cancellation token.</param>
+            <returns>A task that represents the asynchronous <see cref="M:TwinCAT.Ads.Server.AdsServer.DeviceNotificationIndicationAsync(TwinCAT.Ads.AmsAddress,System.UInt32,System.UInt32,System.ReadOnlySpan{System.Byte},System.Threading.CancellationToken)"/> operation. The <see cref="T:System.Threading.Tasks.Task`1" /> parameter contains the <see cref="T:TwinCAT.Ads.AdsErrorCode" /> as
+            <see cref="P:System.Threading.Tasks.Task`1.Result" />.</returns>
+            <exclude/>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.onIndicationReadWriteAsync(TwinCAT.Ams.AmsCommand,System.Threading.CancellationToken)">
+            <summary>
+            Called when [read write indication asynchronous].
+            </summary>
+            <param name="amsCmd">The ams command.</param>
+            <param name="cancel">The cancellation token.</param>
+            <returns>A task that represents the asynchronous <see cref="M:TwinCAT.Ads.Server.AdsServer.OnReadWriteAsync(TwinCAT.Ads.AmsAddress,System.UInt32,System.UInt32,System.UInt32,System.Int32,System.ReadOnlyMemory{System.Byte},System.Threading.CancellationToken)"/> operation. The <see cref="T:System.Threading.Tasks.Task`1"/> parameter contains the <see cref="T:TwinCAT.Ads.AdsErrorCode"/> as
+            <see cref="P:System.Threading.Tasks.Task`1.Result"/>.
+            </returns>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.ReadWriteIndicationAsync(TwinCAT.Ads.AmsAddress,System.UInt32,System.UInt32,System.UInt32,System.Int32,System.ReadOnlyMemory{System.Byte},System.Threading.CancellationToken)">
+            <summary>
+            Called when an ADS Read Write indication is received.
+            </summary>
+            <remarks>
+            Overwrite this method in derived classes to react on ADS Read Write indications.
+            The default implementation replies with an ADS ServiceNotSupported error code (0x701).
+            <para>To change the default implementation override the <see cref="M:TwinCAT.Ads.Server.AdsServer.OnReadWriteAsync(TwinCAT.Ads.AmsAddress,System.UInt32,System.UInt32,System.UInt32,System.Int32,System.ReadOnlyMemory{System.Byte},System.Threading.CancellationToken)"/> method.</para>
+            <para>An override of this <see cref="M:TwinCAT.Ads.Server.AdsServer.ReadWriteIndicationAsync(TwinCAT.Ads.AmsAddress,System.UInt32,System.UInt32,System.UInt32,System.Int32,System.ReadOnlyMemory{System.Byte},System.Threading.CancellationToken)"/> is obsolete and needs to call <see cref="M:TwinCAT.Ads.Server.AdsServer.DeleteDeviceNotificationResponseAsync(TwinCAT.Ads.AmsAddress,System.UInt32,TwinCAT.Ads.AdsErrorCode,System.Threading.CancellationToken)"/> to send the response back to the caller.</para>
+            </remarks>
+            <param name="sender">The sender address of the request.</param>
+            <param name="invokeId">The invoke identifier of the request.</param>
+            <param name="indexGroup">The index group of the requested ADS service</param>
+            <param name="indexOffset">The index offset of the requested ADS service</param>
+            <param name="readLength">Number of bytes to be read</param>
+            <param name="writeData">The data to be written</param>
+            <param name="cancel">The cancellation token.</param>
+            <returns>A task that represents the asynchronous 'ReadWriteIndication' operation. The <see cref="T:System.Threading.Tasks.Task`1"/> parameter contains the <see cref="T:TwinCAT.Ads.AdsErrorCode"/> as
+            <see cref="P:System.Threading.Tasks.Task`1.Result"/>.
+            </returns>
+            <exclude/>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.OnReadWriteAsync(TwinCAT.Ads.AmsAddress,System.UInt32,System.UInt32,System.UInt32,System.Int32,System.ReadOnlyMemory{System.Byte},System.Threading.CancellationToken)">
+            <summary>
+            Called when an ADS Read Write indication is received.
+            </summary>
+            <param name="sender">The sender address of the request.</param>
+            <param name="invokeId">The invoke identifier of the request.</param>
+            <param name="indexGroup">The index group of the requested ADS service</param>
+            <param name="indexOffset">The index offset of the requested ADS service</param>
+            <param name="readLength">Number of bytes to be read</param>
+            <param name="writeData">The data to be written</param>
+            <param name="cancel">The cancellation token.</param>
+            <returns>A task that represents the asynchronous 'ReadWriteIndication' operation. The <see cref="T:System.Threading.Tasks.Task`1" /> parameter contains the <see cref="T:TwinCAT.Ads.AdsErrorCode" /> as
+            <see cref="P:System.Threading.Tasks.Task`1.Result" />.</returns>
+            <remarks>Overwrite this method in derived classes to react on ADS Read Write indications.
+            The default implementation replies with an ADS ServiceNotSupported error code (0x701).</remarks>
+        </member>
+        <member name="P:TwinCAT.Ads.Server.AdsServer.ServerAddress">
+            <summary>
+            The AMS address of this server.
+            </summary>
+            <remarks>The Address consists of  <see cref="T:TwinCAT.Ads.AmsNetId"/> and <see cref="T:TwinCAT.Ads.AmsPort"/>.
+            While the <see cref="T:TwinCAT.Ads.AmsNetId"/> is defined by the System, where the <strong>AmsTcpIpRouter</strong> is running, the
+            <see cref="T:TwinCAT.Ads.AmsPort"/> is specified by the <see cref="T:TwinCAT.Ads.Server.AdsServer"/> constructor.
+            By default, the router is running on the same system, but can be configured by <see cref="P:TwinCAT.Ams.AmsConfiguration.RouterEndPoint"/>.
+            </remarks>
+            <seealso cref="T:TwinCAT.Ads.AmsNetId"/>
+            <seealso cref="T:TwinCAT.Ads.AmsPort"/>
+            <seealso cref="P:TwinCAT.Ams.AmsConfiguration.RouterEndPoint"/>
+        </member>
+        <member name="P:TwinCAT.Ads.Server.AdsServer.QueueSize">
+            <summary>
+            Gets the Queue size.
+            </summary>
+            <value>The size of the queue.</value>
+        </member>
+        <member name="F:TwinCAT.Ads.Server.AdsServer._disposed">
+            <summary>
+            Indicates that this <see cref="T:TwinCAT.Ads.Server.AdsServer"/> is disposed.
+            </summary>
+        </member>
+        <member name="P:TwinCAT.Ads.Server.AdsServer.IsDisposed">
+            <summary>
+            Gets a value indicating whether this instance is disposed.
+            </summary>
+            <value><c>true</c> if this instance is disposed; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.Dispose(System.Boolean)">
+            <summary>
+            Releases unmanaged and - optionally - managed resources.
+            </summary>
+            <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.OnRouterNotification(TwinCAT.Ads.AmsRouterState)">
+            <summary>
+            Handler Function for a Router Notification.
+            </summary>
+            <param name="state">The route state.</param>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServer.Finalize">
+            <summary>
+            Finalizes an instance of the <see cref="T:TwinCAT.Ads.Server.AdsServer"/> class.
+            </summary>
+        </member>
+        <member name="T:TwinCAT.Ads.Server.AmsServer">
+            <summary>
+            Internal implementation of an AmsServer
+            </summary>
+            <remarks>
+            The Ams Server is implemented - dependent of the compile definitions - by the Native (PInvoke) or the IOT NETCore (.Net Standard)
+            implementation.
+            </remarks>
+            <exclude/>
+        </member>
+        <member name="F:TwinCAT.Ads.Server.AmsServer._port">
+            <summary>
+            The AmsPort
+            </summary>
+        </member>
+        <member name="F:TwinCAT.Ads.Server.AmsServer._portName">
+            <summary>
+            The name of the Port
+            </summary>
+        </member>
+        <member name="F:TwinCAT.Ads.Server.AmsServer._logger">
+            <summary>
+            The logger interface
+            </summary>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AmsServer.#ctor(System.UInt16,System.String,Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+            Initializes a new instance of the <see cref="T:TwinCAT.Ads.Server.AmsServer"/> class.
+            </summary>
+            <param name="port">The port.</param>
+            <param name="portName">Port name.</param>
+            <param name="logger">The logger.</param>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AmsServer.#ctor(System.String,Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+            Initializes a new instance of the <see cref="T:TwinCAT.Ads.Server.AmsServer"/> class.
+            </summary>
+            <param name="portName">Name of the port.</param>
+            <param name="logger">The logger.</param>
+        </member>
+        <member name="F:TwinCAT.Ads.Server.AmsServer._sync">
+            <summary>
+            Synchronization object
+            </summary>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AmsServer.OnServerConnectionChanged(TwinCAT.Ads.Server.ServerConnectionStateChangedEventArgs)">
+            <summary>
+            Handles the <see cref="E:Connected" /> event.
+            </summary>
+            <param name="args">The <see cref="T:TwinCAT.Ads.Server.ServerConnectionStateChangedEventArgs"/> instance containing the event data.</param>
+        </member>
+        <member name="E:TwinCAT.Ads.Server.AmsServer.ConnectionStateChanged">
+            <summary>
+            Connected event
+            </summary>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AmsServer.OnAmsServerException(TwinCAT.Ads.Server.ErrorEventArgs)">
+            <summary>
+            Handles the <see cref="E:AmsServerException" /> event.
+            </summary>
+            <param name="e">The <see cref="T:TwinCAT.Ads.Server.ErrorEventArgs"/> instance containing the event data.</param>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AmsServer.ConnectServer">
+            <summary>
+            Connects the server.
+            </summary>
+            <returns>The Ams Server Port.</returns>
+            <exception cref="T:TwinCAT.Ams.AmsServerException"></exception>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AmsServer.ConnectServerAndWaitAsync(System.Threading.CancellationToken)">
+            <summary>
+            Registers the Ads/Ams Server at the router asynchronously.
+            </summary>
+            <returns>Returns a task object that represents the <see cref="M:TwinCAT.Ads.Server.AmsServer.ConnectServerAndWaitAsync(System.Threading.CancellationToken)"/> operation which returns an <see cref="T:TwinCAT.Ads.AdsErrorCode"/>" as result..</returns>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AmsServer.Disconnect">
+            <summary>
+            Disconnects this <see cref="T:TwinCAT.Ads.Server.AmsServer"/>
+            </summary>
+            <exception cref="T:TwinCAT.Ams.AmsServerException">Disconnect failed for port " + _port + ", ADS error code : " + errCode</exception>
+        </member>
+        <member name="P:TwinCAT.Ads.Server.AmsServer.IsDynamicPort">
+            <summary>
+            Gets a value indicating this server has a dynamic/unfixed port.
+            </summary>
+            <remarks>In general all Clients have dynamic ports and inherit from AdsServer.</remarks>
+            <value><c>true</c> if dynamic/unfixed port; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:TwinCAT.Ads.Server.AmsServer.Port">
+            <summary>
+            Gets the port.
+            </summary>
+            <value>The port.</value>
+        </member>
+        <member name="P:TwinCAT.Ads.Server.AmsServer.PortName">
+            <summary>
+            Gets the name of the port.
+            </summary>
+            <value>The name of the port.</value>
+        </member>
+        <member name="P:TwinCAT.Ads.Server.AmsServer.ServerAddress">
+            <summary>
+            Gets the server address.
+            </summary>
+            <value>The server address.</value>
+        </member>
+        <member name="F:TwinCAT.Ads.Server.AmsServer._receiver">
+            <summary>
+            The AMS Frame receiver
+            </summary>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AmsServer.RegisterReceiver(TwinCAT.Ads.Server.IAmsFrameReceiver)">
+            <summary>
+            Register an <see cref="T:TwinCAT.Ads.Server.IAmsFrameReceiver" />
+            </summary>
+            <param name="receiver">The receiver.</param>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AmsServer.UnregisterReceiver(TwinCAT.Ads.Server.IAmsFrameReceiver)">
+            <summary>
+            Unregister an <see cref="T:TwinCAT.Ads.Server.IAmsFrameReceiver" />
+            </summary>
+            <param name="receiver">The receiver.</param>
+        </member>
+        <member name="F:TwinCAT.Ads.Server.AmsServer._routerState">
+            <summary>
+            The router state (Default state Start?)
+            </summary>
+        </member>
+        <member name="P:TwinCAT.Ads.Server.AmsServer.RouterState">
+            <summary>
+            Gets the state of the router.
+            </summary>
+            <value>The state of the router.</value>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AmsServer.OnRouterNotification(TwinCAT.Ads.AmsRouterState)">
+            <summary>
+            Handler Function for a Router Notification.
+            </summary>
+            <param name="state">The route state.</param>
+            <exclude/>
+        </member>
+        <member name="F:TwinCAT.Ads.Server.AmsServer._impl">
+            <summary>
+            The internal Server implemntation.
+            </summary>
+        </member>
+        <member name="P:TwinCAT.Ads.Server.AmsServer.InternalImplementation">
+            <summary>
+            Gets the internal implementation.
+            </summary>
+            <value>The internal implementation.</value>
+            <exclude/>
+        </member>
+        <member name="E:TwinCAT.Ads.Server.AmsServer.ErrorOccurred">
+            <summary>
+            Occurs when an <see cref="T:TwinCAT.Ams.AmsServerException"/> occurred.
+            </summary>
+        </member>
+        <member name="P:TwinCAT.Ads.Server.AmsServer.QueueSize">
+            <summary>
+            Gets the size of the queue.
+            </summary>
+            <value>The size of the queue.</value>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AmsServer.OnDisconnect">
+            <summary>
+            Called when Disconnected.
+            </summary>
+            <returns>AdsErrorCode.</returns>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AmsServer.OnReceivedAsync(TwinCAT.Ams.AmsCommand,System.Threading.CancellationToken)">
+            <summary>
+            Handler function for incoming <see cref="T:TwinCAT.Ams.AmsCommand"/> frames.
+            </summary>
+            <param name="frame">The incoming AmsCommand frame.</param>
+            <param name="cancel">Cancellation token.</param>
+            <returns>Task&lt;AdsErrorCode&gt;.</returns>
+            <exclude/>
+        </member>
+        <member name="P:TwinCAT.Ads.Server.AmsServer.IsServerConnected">
+            <summary>
+            Gets a value indicating whether this <see cref="T:TwinCAT.Ads.Server.IAmsServer"/> is connect to the router.
+            </summary>
+            <value><c>true</c> if this instance is server connected; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AmsServer.SendSync(TwinCAT.Ams.AmsCommand)">
+            <summary>
+            Sends the <see cref="T:TwinCAT.Ams.AmsCommand"/> synchronous.
+            </summary>
+            <param name="command">The AMS Command</param>
+            <returns>AdsErrorCode.</returns>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AmsServer.SendAsync(TwinCAT.Ams.AmsCommand,System.Threading.CancellationToken)">
+            <summary>
+            Sends the <see cref="T:TwinCAT.Ams.AmsCommand"/> asynchronously
+            </summary>
+            <param name="command">The AMS Command.</param>
+            <param name="cancel">The cancel token.</param>
+            <returns>Task&lt;AdsErrorCode&gt;.</returns>
+        </member>
+        <member name="T:TwinCAT.Ads.Server.ErrorEventArgs">
+            <summary>
+            This class implements the event arguments passed by the TcAdsServerExEvent.
+            </summary>
+        </member>
+        <member name="P:TwinCAT.Ads.Server.ErrorEventArgs.Exception">
+            <summary>
+            Returns the exception that caused the event.
+            </summary>
+            <returns>The Exception that caused the event.</returns>
+        </member>
+        <member name="P:TwinCAT.Ads.Server.ErrorEventArgs.Message">
+            <summary>
+            Returns the exception message.
+            </summary>
+            <returns>The Exception message.</returns>
+        </member>
+        <member name="T:TwinCAT.Ads.Server.IAmsServer">
+            <summary>
+            Interface IAmsServer
+            Implements the <see cref="T:TwinCAT.Ads.Server.IAmsFrameSender" />
+            Implements the <see cref="T:TwinCAT.Ams.IRouterNotificationReceiver" />
+            </summary>
+            <seealso cref="T:TwinCAT.Ads.Server.IAmsFrameSender" />
+            <seealso cref="T:TwinCAT.Ams.IRouterNotificationReceiver" />
+            <exclude/>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.IAmsServer.OnServerStartup">
+            <summary>
+            Handler Function when the Server is started up
+            </summary>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.IAmsServer.OnServerShutDown">
+            <summary>
+            Handler Function when the Server is going to shut down.
+            </summary>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.IAmsServer.AmsConnect(System.UInt16,System.String)">
+            <summary>
+            Connects the <see cref="T:TwinCAT.Ads.Server.IAmsServer"/> to the local router.
+            </summary>
+            <param name="port">The port.</param>
+            <param name="portName">Name of the port.</param>
+            <returns>The port used by the <see cref="T:TwinCAT.Ads.Server.IAmsServer"/></returns>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.IAmsServer.AmsDisconnect(System.UInt16)">
+            <summary>
+            Disconnects the <see cref="T:TwinCAT.Ads.Server.IAmsServer"/> to the router.
+            </summary>
+            <param name="port">The port.</param>
+            <returns>AdsErrorCode.</returns>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.IAmsServer.AmsConnectAndWaitAsync(System.UInt16,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Registers the Ads/Ams Server at the router asynchronously and waits until the connection is disconnected.
+            </summary>
+            <param name="port">The AmsPort.</param>
+            <param name="portName">Name of the port.</param>
+            <param name="cancel">Cancellation Token.</param>
+            <returns>Returns a task object that represents the <see cref="M:TwinCAT.Ads.Server.IAmsServer.AmsConnectAndWaitAsync(System.UInt16,System.String,System.Threading.CancellationToken)"/> operation which returns an <see cref="T:TwinCAT.Ads.AdsErrorCode"/>" as result.</returns>
+            <remarks>This method is used for scenarios, where the <see cref="T:TwinCAT.Ads.Server.IAmsServer"/> disconnects internally or from other code asynchronously.
+            When this method returns, the connection is already terminated and only additional cleanup code should be processed.
+            </remarks>
+        </member>
+        <member name="P:TwinCAT.Ads.Server.IAmsServer.IsServerConnected">
+            <summary>
+            Gets a value indicating whether this <see cref="T:TwinCAT.Ads.Server.IAmsServer"/> is connected to the router.
+            </summary>
+            <value><c>true</c> if this instance is connected; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:TwinCAT.Ads.Server.IAmsServer.IsLoopbackConnected">
+            <summary>
+            Gets a value indicating whether the Loopback Socket is available
+            </summary>
+            <value><c>true</c> if this instance is loopback connected; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:TwinCAT.Ads.Server.IAmsServer.ServerAddress">
+            <summary>
+            Gets the server address.
+            </summary>
+            <value>The server address.</value>
+        </member>
+        <member name="E:TwinCAT.Ads.Server.IAmsServer.ServerConnectionChanged">
+            <summary>
+            Occurs when the <see cref="T:TwinCAT.Ads.Server.IAmsServer"/> is connected to the router.
+            </summary>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.IAmsServer.AmsSendSync(TwinCAT.Ams.AmsCommand)">
+            <summary>
+            Sends an <see cref="T:TwinCAT.Ams.AmsCommand"/> synchronously to the router.
+            </summary>
+            <param name="command">The command.</param>
+            <returns>The ADS ErrorCode.</returns>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.IAmsServer.AmsSendAsync(TwinCAT.Ams.AmsCommand,System.Threading.CancellationToken)">
+            <summary>
+            Sends the <see cref="T:TwinCAT.Ams.AmsCommand" /> asynchronously to the router.
+            </summary>
+            <param name="command">The command.</param>
+            <param name="cancel">The cancellation token.</param>
+            <returns>An asynchronous <see cref="T:System.Threading.Tasks.Task`1"/> object that contains the <see cref="T:TwinCAT.Ads.AdsErrorCode"/> as result.</returns>
+        </member>
+        <member name="P:TwinCAT.Ads.Server.IAmsServer.FrameReceiverThreadId">
+            <summary>
+            Gets the Managed thread id of the receiver loop
+            </summary>
+            <value>The frame receiver thread identifier.</value>
+        </member>
+        <member name="T:TwinCAT.Ads.Server.IAmsFrameSender">
+            <summary>
+            Interface IAmsFrameSender
+            </summary>
+            <exclude/>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.IAmsFrameSender.RegisterReceiver(TwinCAT.Ads.Server.IAmsFrameReceiver)">
+            <summary>
+            Register an <see cref="T:TwinCAT.Ads.Server.IAmsFrameReceiver"/>
+            </summary>
+            <param name="receiver">The receiver.</param>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.IAmsFrameSender.UnregisterReceiver(TwinCAT.Ads.Server.IAmsFrameReceiver)">
+            <summary>
+            Unregister an <see cref="T:TwinCAT.Ads.Server.IAmsFrameReceiver"/>
+            </summary>
+            <param name="receiver">The receiver.</param>
+        </member>
+        <member name="T:TwinCAT.Ads.Server.IAmsFrameReceiver">
+            <summary>
+            Interface IAmsFrameReceiver
+            </summary>
+            <exclude/>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.IAmsFrameReceiver.OnReceivedAsync(TwinCAT.Ams.AmsCommand,System.Threading.CancellationToken)">
+            <summary>
+            Handler function receiving incoming <see cref="T:TwinCAT.Ams.AmsCommand"/> frames.
+            </summary>
+            <param name="frame">The AmsCommand frame.</param>
+            <param name="cancel">The cancellation token</param>
+            <returns>Task&lt;AdsErrorCode&gt;.</returns>
+        </member>
+        <member name="T:TwinCAT.Ads.Server.ServerConnectionState">
+            <summary>
+            The Server Connection State
+            </summary>
+        </member>
+        <member name="F:TwinCAT.Ads.Server.ServerConnectionState.None">
+            <summary>
+            None / Uninitialized / Disconnect
+            </summary>
+        </member>
+        <member name="F:TwinCAT.Ads.Server.ServerConnectionState.Disconnected">
+            <summary>
+            Disconnected State.
+            </summary>
+        </member>
+        <member name="F:TwinCAT.Ads.Server.ServerConnectionState.Connected">
+            <summary>
+            Connected state.
+            </summary>
+        </member>
+        <member name="T:TwinCAT.Ads.Server.ServerConnectionStateChangedEventArgs">
+            <summary>
+            Class ConnectionStateChangedEventArgs (Server Connections)
+            </summary>
+            <seealso cref="T:System.EventArgs" />
+        </member>
+        <member name="P:TwinCAT.Ads.Server.ServerConnectionStateChangedEventArgs.Address">
+            <summary>
+            The Server address
+            </summary>
+        </member>
+        <member name="P:TwinCAT.Ads.Server.ServerConnectionStateChangedEventArgs.State">
+            <summary>
+            The Connection state
+            </summary>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.ServerConnectionStateChangedEventArgs.#ctor(TwinCAT.Ads.AmsAddress,TwinCAT.Ads.Server.ServerConnectionState)">
+            <summary>
+            Initializes a new instance of the <see cref="T:TwinCAT.Ads.Server.ServerConnectionStateChangedEventArgs"/> class.
+            </summary>
+            <param name="address">The address.</param>
+            <param name="state">The state.</param>
+        </member>
+        <member name="T:TwinCAT.Ads.Server.AdsServerException">
+            <summary>
+            An <see cref="T:TwinCAT.Ads.Server.AdsServerException"/> is thrown on communication errors in the <see cref="T:TwinCAT.Ads.Server.AdsServer"/> class.
+            </summary>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServerException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:TwinCAT.Ads.Server.AdsServerException"/> class.
+            </summary>
+            <param name="message">The message that describes the error.</param>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServerException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:TwinCAT.Ads.Server.AdsServerException" /> class.
+            </summary>
+            <param name="message">The message that describes the error.</param>
+            <param name="inner">The inner Exception</param>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServerException.#ctor(System.String,TwinCAT.Ams.AmsServerErrorCode,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:TwinCAT.Ads.Server.AdsServerException" /> class.
+            </summary>
+            <param name="message">The message.</param>
+            <param name="errorCode">The error code.</param>
+            <param name="inner">The inner Exception</param>
+        </member>
+        <member name="P:TwinCAT.Ads.Server.AdsServerException.ErrorCode">
+            <summary>
+            Gets or sets the error code.
+            </summary>
+            <value>
+            The error code.
+            </value>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServerException.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            When overridden in a derived class, sets the <see cref="T:System.Runtime.Serialization.SerializationInfo" /> with information about the exception.
+            </summary>
+            <param name="info">The <see cref="T:System.Runtime.Serialization.SerializationInfo" /> that holds the serialized object data about the exception being thrown.</param>
+            <param name="context">The <see cref="T:System.Runtime.Serialization.StreamingContext" /> that contains contextual information about the source or destination.</param>
+            <exception cref="T:System.ArgumentNullException">info</exception>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AdsServerException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Initializes a new instance of the <see cref="T:TwinCAT.Ads.Server.AdsServerException"/> class.
+            </summary>
+            <param name="serializationInfo">The serialization information.</param>
+            <param name="streamingContext">The streaming context.</param>
+        </member>
+        <member name="T:TwinCAT.Ads.Server.LoopbackNotRegisteredException">
+            <summary>
+            The Tcp Loopback client is not registered.
+            Implements the <see cref="T:TwinCAT.Ads.Server.AdsServerException" />
+            </summary>
+            <seealso cref="T:TwinCAT.Ads.Server.AdsServerException" />
+        </member>
+        <member name="M:TwinCAT.Ads.Server.LoopbackNotRegisteredException.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:TwinCAT.Ads.Server.LoopbackNotRegisteredException"/> class.
+            </summary>
+        </member>
+        <member name="T:TwinCAT.Ads.Server.LoopbackNotConnectedException">
+            <summary>
+            The Tcp Loopback client is not connected.
+            Implements the <see cref="T:TwinCAT.Ads.Server.AdsServerException" />
+            </summary>
+            <seealso cref="T:TwinCAT.Ads.Server.AdsServerException" />
+        </member>
+        <member name="M:TwinCAT.Ads.Server.LoopbackNotConnectedException.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:TwinCAT.Ads.Server.LoopbackNotConnectedException"/> class.
+            </summary>
+        </member>
+        <member name="T:TwinCAT.Ads.Server.ServerNotConnectedException">
+            <summary>
+            The AdsServer is not connected.
+            Implements the <see cref="T:TwinCAT.Ads.Server.AdsServerException" />
+            </summary>
+            <seealso cref="T:TwinCAT.Ads.Server.AdsServerException" />
+        </member>
+        <member name="M:TwinCAT.Ads.Server.ServerNotConnectedException.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:TwinCAT.Ads.Server.ServerNotConnectedException"/> class.
+            </summary>
+        </member>
+        <member name="T:TwinCAT.Ads.Server.AmsServerNet">
+            <summary>
+            Ams Server that is implemented Natively in .NET
+            </summary>
+            <seealso cref="T:TwinCAT.Ads.Server.IAmsServer" />
+            <seealso cref="T:System.IDisposable" />
+            <exclude/>
+        </member>
+        <member name="P:TwinCAT.Ads.Server.AmsServerNet.Logger">
+            <summary>
+            Gets the logger interface
+            </summary>
+            <value>The logger.</value>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AmsServerNet.Finalize">
+            <summary>
+            Finalizes an instance of the <see cref="T:TwinCAT.Ads.Server.AmsServerNet"/> class.
+            </summary>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AmsServerNet.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AmsServerNet.Dispose(System.Boolean)">
+            <summary>
+            Releases unmanaged and - optionally - managed resources.
+            </summary>
+            <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AmsServerNet.OnServerStartup">
+            <summary>
+            Handler Function when the Server is started up
+            </summary>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AmsServerNet.OnServerShutDown">
+            <summary>
+            Handler Function when the Server is going to shut down.
+            </summary>
+        </member>
+        <member name="F:TwinCAT.Ads.Server.AmsServerNet._loopbackClient">
+            <summary>
+            The loopback client
+            </summary>
+        </member>
+        <member name="P:TwinCAT.Ads.Server.AmsServerNet.FrameReceiverThreadId">
+            <summary>
+            Gets the Managed thread id of the receiver loop
+            </summary>
+            <value>The frame receiver thread identifier.</value>
+        </member>
+        <member name="F:TwinCAT.Ads.Server.AmsServerNet._sync">
+            <summary>
+            Synchronization object
+            </summary>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AmsServerNet.AmsConnect(System.UInt16,System.String)">
+            <summary>
+            Handler Function when the Server is connected.
+            </summary>
+            <param name="port">The port.</param>
+            <param name="portName">Name of the port.</param>
+            <returns>System.UInt16.</returns>
+            <exception cref="T:TwinCAT.AdsException"></exception>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AmsServerNet.startReceiverTask(System.String)">
+            <summary>
+            Runs the TcpFrame Receiver Socket on the Loopback port in the Background (as async task in parallel)
+            </summary>
+            <param name="debugHint">The debug hint.</param>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AmsServerNet.AmsConnectAndWaitAsync(System.UInt16,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Connects the <see cref="T:TwinCAT.Ads.Server.AmsServerNet"/> to the local router.
+            </summary>
+            <param name="port">The AmsPort.</param>
+            <param name="portName">Name of the port.</param>
+            <param name="cancel">Cancellation Token.</param>
+            <returns>Task&lt;AdsErrorCode&gt;.</returns>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AmsServerNet.AmsDisconnect(System.UInt16)">
+            <summary>
+            Disconnects the <see cref="T:TwinCAT.Ads.Server.AmsServerNet"/> from the router.
+            </summary>
+            <param name="port">The port.</param>
+            <returns>AdsErrorCode.</returns>
+        </member>
+        <member name="F:TwinCAT.Ads.Server.AmsServerNet.s_localNetId">
+            <summary>
+            Local NetId
+            </summary>
+        </member>
+        <member name="P:TwinCAT.Ads.Server.AmsServerNet.LocalNetId">
+            <summary>
+            Gets the local <see cref="T:TwinCAT.Ads.AmsNetId"/>
+            </summary>
+            <value>The local net identifier.</value>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AmsServerNet.receiveAmsCommandsAsync(System.String,System.Threading.CancellationToken,System.Threading.CancellationToken)">
+            <summary>
+            Receives data asynchronously from the ADS Frame Pipe.
+            </summary>
+            <param name="debugHint">The debug hint.</param>
+            <param name="softCancel">Soft cancellation cancels after a fully received frame.</param>
+            <param name="hardCancel">Hard cancellation cancels immediately (forced cancel).</param>
+            <returns>Task&lt;System.Int32&gt;.</returns>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AmsServerNet.createReceiverObservable(System.String,System.Threading.CancellationToken,System.Threading.CancellationToken)">
+            <summary>
+            Creates the receiver observable (synchronous observable)
+            </summary>
+            <param name="debugHint">The debug hint.</param>
+            <param name="softCancel">The cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+            <param name="hardCancel">The cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+            <returns>IObservable&lt;System.Nullable&lt;AmsCommand&gt;&gt;.</returns>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AmsServerNet.TwinCAT#Ams#IRouterNotificationReceiver#OnRouterNotification(TwinCAT.Ads.AmsRouterState)">
+            <summary>
+            Called when [router notification].
+            </summary>
+            <param name="amsRouterState">State of the ams router.</param>
+            <exclude/>
+        </member>
+        <member name="P:TwinCAT.Ads.Server.AmsServerNet.IsLoopbackConnected">
+            <summary>
+            Gets a value indicating whether the Loopback Socket is available
+            </summary>
+            <value><c>true</c> if this instance is loopback connected; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AmsServerNet.AmsSendAsync(TwinCAT.Ams.AmsCommand,System.Threading.CancellationToken)">
+            <summary>
+            Sends an <see cref="T:TwinCAT.Ams.AmsCommand"/> asynchronously to the router.
+            </summary>
+            <param name="command">The command.</param>
+            <param name="cancel">The cancellation token.</param>
+            <returns>An asynchronous <see cref="T:System.Threading.Tasks.Task`1" /> object that contains the <see cref="T:TwinCAT.Ads.AdsErrorCode" /> as result.</returns>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AmsServerNet.AmsSendSync(TwinCAT.Ams.AmsCommand)">
+            <summary>
+            Sending an <see cref="T:TwinCAT.Ams.AmsCommand"/> synchronously.
+            </summary>
+            <param name="command">The command.</param>
+            <returns>AdsErrorCode.</returns>
+        </member>
+        <member name="E:TwinCAT.Ads.Server.AmsServerNet.ServerConnectionChanged">
+            <summary>
+            Occurs when the <see cref="T:TwinCAT.Ads.Server.IAmsServer" /> is connected to the router.
+            </summary>
+        </member>
+        <member name="F:TwinCAT.Ads.Server.AmsServerNet._isConnected">
+            <summary>
+            Indicates, that the <see cref="T:TwinCAT.Ads.Server.AmsServerNet"/> is connected.
+            </summary>
+        </member>
+        <member name="P:TwinCAT.Ads.Server.AmsServerNet.IsServerConnected">
+            <summary>
+            Gets a value indicating whether this <see cref="T:TwinCAT.Ads.Server.IAmsServer" /> is connected to the router.
+            </summary>
+            <value><c>true</c> if this instance is connected; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:TwinCAT.Ads.Server.AmsServerNet.ServerAddress">
+            <summary>
+            Gets the server address.
+            </summary>
+            <value>The server address.</value>
+        </member>
+        <member name="F:TwinCAT.Ads.Server.AmsServerNet._isDynamicPort">
+            <summary>
+            Indicates, that this server has a dynamic port (non-fixed port)
+            </summary>
+        </member>
+        <member name="P:TwinCAT.Ads.Server.AmsServerNet.IsDynamicPort">
+            <summary>
+            Gets a value indicating whether this Server has an dynamic port (non-fixed port)
+            </summary>
+            <value><c>true</c> if this instance is dynamic port; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="F:TwinCAT.Ads.Server.AmsServerNet._portName">
+            <summary>
+            The port name
+            </summary>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AmsServerNet.OnConnectionStatusChanged(System.Object,TwinCAT.Ads.Server.ServerConnectionStateChangedEventArgs)">
+            <summary>
+            Handles the <see cref="E:ConnectionStatusChanged" /> event.
+            </summary>
+            <param name="sender">The sender.</param>
+            <param name="args">The <see cref="T:TwinCAT.Ads.Server.ServerConnectionStateChangedEventArgs"/> instance containing the event data.</param>
+        </member>
+        <member name="F:TwinCAT.Ads.Server.AmsServerNet._receiver">
+            <summary>
+            The frame receiver.
+            </summary>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AmsServerNet.RegisterReceiver(TwinCAT.Ads.Server.IAmsFrameReceiver)">
+            <summary>
+            Register an <see cref="T:TwinCAT.Ads.Server.IAmsFrameReceiver" />
+            </summary>
+            <param name="receiver">The receiver.</param>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.AmsServerNet.UnregisterReceiver(TwinCAT.Ads.Server.IAmsFrameReceiver)">
+            <summary>
+            Unregister an <see cref="T:TwinCAT.Ads.Server.IAmsFrameReceiver" />
+            </summary>
+            <param name="receiver">The receiver.</param>
+        </member>
+        <member name="T:TwinCAT.Ads.Server.NamespaceDoc">
+            <summary>
+            This framework can be used to build custom ADS server application.<br/>
+            <span style='color:red'><b>Important note: Please contact Beckhoff to receive a reserved ADS port number.</b></span>
+            </summary>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.NotificationSamplesMarshaller.GetMarshalSize(TwinCAT.Ads.Server.NotificationSamplesStamp)">
+            <summary>
+            Gets the marshalling size of this <see cref="T:TwinCAT.Ads.Server.NotificationSamplesStamp"/>
+            </summary>
+            <value>The size of the marshal.</value>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.NotificationSamplesMarshaller.Marshal(TwinCAT.Ads.Server.NotificationSamplesStamp,System.Span{System.Byte})">
+            <summary>
+            Marshals this <see cref="T:TwinCAT.Ads.Server.NotificationSamplesStamp" /> to the specified byte buffer.
+            </summary>
+            <param name="stamp">The stamp.</param>
+            <param name="buffer">The buffer.</param>
+            <returns>System.Int32.</returns>
+        </member>
+        <member name="T:TwinCAT.Ads.Server.NotificationSamplesStamp">
+            <summary>
+            This class implements an ADS Stamp Header containing multiple ADS Notification Samples (TcAdsStampHeader)
+            </summary>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.NotificationSamplesStamp.#ctor(System.DateTimeOffset,TwinCAT.Ads.Server.NotificationDataSample[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:TwinCAT.Ads.Server.NotificationSamplesStamp"/> class.
+            </summary>
+            <param name="timestamp">The timestamp.</param>
+            <param name="samples">The notification samples.</param>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.NotificationSamplesStamp.#ctor(TwinCAT.Ads.Server.NotificationDataSample[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:TwinCAT.Ads.Server.NotificationSamplesStamp"/> class.
+            </summary>
+            <param name="samples">The samples.</param>
+        </member>
+        <member name="P:TwinCAT.Ads.Server.NotificationSamplesStamp.TimeStamp">
+            <summary>
+            Gets the time stamp of the <see cref="T:TwinCAT.Ads.Server.NotificationSamplesStamp"/>.
+            </summary>
+            <value>The time stamp.</value>
+        </member>
+        <member name="P:TwinCAT.Ads.Server.NotificationSamplesStamp.NumSamples">
+            <summary>
+            Get the number of notification samples contained in this header.
+            </summary>
+            <exclude/>
+        </member>
+        <member name="P:TwinCAT.Ads.Server.NotificationSamplesStamp.SamplesCount">
+            <summary>
+            Get the number of notification samples contained in this header.
+            </summary>
+        </member>
+        <member name="P:TwinCAT.Ads.Server.NotificationSamplesStamp.NotificationSamples">
+            <summary>
+            Get the array of notification samples contained in this header.
+            </summary>
+        </member>
+        <member name="T:TwinCAT.Ads.Server.NotificationDataSample">
+            <summary>
+            This class implements an ADS Notification Sample. It contains the notification handle and
+            the variable data.
+            </summary>
+        </member>
+        <member name="F:TwinCAT.Ads.Server.NotificationDataSample._notificationHandle">
+            <summary>
+            The notification handle
+            </summary>
+        </member>
+        <member name="F:TwinCAT.Ads.Server.NotificationDataSample._sampleData">
+            <summary>
+            The sample data
+            </summary>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.NotificationDataSample.#ctor(System.UInt32,System.ReadOnlyMemory{System.Byte})">
+            <summary>
+            Initializes a new instance of the <see cref="T:TwinCAT.Ads.Server.NotificationDataSample"/> class.
+            </summary>
+            <param name="handle">The notification handle.</param>
+            <param name="data">The Data content.</param>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.NotificationDataSample.Unmarshal(System.ReadOnlyMemory{System.Byte},TwinCAT.Ads.Server.NotificationDataSample@)">
+            <summary>
+            Unmarshals the specified data to <see cref="T:TwinCAT.Ads.Server.NotificationDataSample"/>
+            </summary>
+            <param name="data">The data.</param>
+            <param name="sample">The sample.</param>
+            <returns>System.Int32.</returns>
+        </member>
+        <member name="P:TwinCAT.Ads.Server.NotificationDataSample.MarshalSize">
+            <summary>
+            Get the Marshalling size of the <see cref="T:TwinCAT.Ads.Server.NotificationDataSample"/>
+            </summary>
+            <value>The Marshalling size.</value>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.NotificationDataSample.Marshal(System.Span{System.Byte})">
+            <summary>
+            Marshals the <see cref="T:TwinCAT.Ads.Server.NotificationDataSample"/> to the specified buffer.
+            </summary>
+            <param name="data">The data.</param>
+            <returns>The number of marshalled bytes.</returns>
+        </member>
+        <member name="P:TwinCAT.Ads.Server.NotificationDataSample.NotificationHandle">
+            <summary>
+            Gets the notification handle.
+            </summary>
+        </member>
+        <member name="P:TwinCAT.Ads.Server.NotificationDataSample.SampleSize">
+            <summary>
+            Gets the Sample Size.
+            </summary>
+        </member>
+        <member name="P:TwinCAT.Ads.Server.NotificationDataSample.SampleData">
+            <summary>
+            Gets the Sample Data.
+            </summary>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.StampHeaderMarshaller.Marshal(TwinCAT.Ads.Server.NotificationSamplesStamp[])">
+            <summary>
+            Marshals the specified stamp headers.
+            </summary>
+            <param name="stampHeaders">The stamp headers.</param>
+            <returns>System.Byte[].</returns>
+        </member>
+        <member name="M:TwinCAT.Ads.Server.StampHeaderMarshaller.Unmarshal(System.ReadOnlyMemory{System.Byte},System.UInt32)">
+            <summary>
+            Unmarshals the buffer data to the array of <see cref="T:TwinCAT.Ads.Server.NotificationSamplesStamp"/>
+            </summary>
+            <param name="buffer">The ams data.</param>
+            <param name="numStampHeaders">The number stamp headers.</param>
+            <returns>NotificationSamplesStamp[].</returns>
+        </member>
+        <member name="T:TwinCAT.Ads.ServerNetIdResearcher">
+            <summary>
+            Researcher class that tries to resolve the Local <see cref="T:TwinCAT.Ads.AmsNetId"/> of the Local system.
+            Implements the <see cref="T:TwinCAT.Ads.LocalNetIdResearcher" />
+            </summary>
+            <seealso cref="T:TwinCAT.Ads.LocalNetIdResearcher" />
+            <exclude/>
+        </member>
+        <member name="M:TwinCAT.Ads.ServerNetIdResearcher.TryGetLocalNetId(TwinCAT.Ads.AmsNetId@)">
+            <summary>
+            Tre
+            </summary>
+            <param name="local">The local <see cref="T:TwinCAT.Ads.AmsNetId" /></param>
+            <returns><c>true</c> if found, <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:TwinCAT.Ads.ServerNetIdResearcher.TryGetFromRouter(TwinCAT.Ads.AmsNetId@)">
+            <summary>
+            Tries to get the local <see cref="T:TwinCAT.Ads.AmsNetId"/> from the router.
+            </summary>
+            <param name="local">The local.</param>
+            <returns><c>true</c> if found, <c>false</c> otherwise.</returns>
+        </member>
+        <member name="T:TwinCAT.Ams.AmsServerErrorCode">
+            <summary>
+            Ams Server Error Codes.
+            </summary>
+        </member>
+        <member name="F:TwinCAT.Ams.AmsServerErrorCode.None">
+            <summary>
+            None / Uninitialized
+            </summary>
+        </member>
+        <member name="F:TwinCAT.Ams.AmsServerErrorCode.ConnectPortFailed">
+            <summary>
+            Connecting port failed.
+            </summary>
+        </member>
+        <member name="F:TwinCAT.Ams.AmsServerErrorCode.DisconnectPortFailed">
+            <summary>
+            Disconnecting port failed.
+            </summary>
+        </member>
+        <member name="F:TwinCAT.Ams.AmsServerErrorCode.ReceiveQueueOverflow">
+            <summary>
+            ReceiveQueue overflow
+            </summary>
+        </member>
+        <member name="F:TwinCAT.Ams.AmsServerErrorCode.ReceiveNotificationQueueOverflow">
+            <summary>
+            Receive Notification Queue overflow.
+            </summary>
+        </member>
+        <member name="T:TwinCAT.Ams.AmsServerException">
+            <summary>
+            Ams Server Exception class
+            Implements the <see cref="T:System.Exception" />
+            </summary>
+            <seealso cref="T:System.Exception" />
+        </member>
+        <member name="M:TwinCAT.Ams.AmsServerException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:TwinCAT.Ams.AmsServerException"/> class.
+            </summary>
+            <param name="message">The message that describes the error.</param>
+        </member>
+        <member name="M:TwinCAT.Ams.AmsServerException.#ctor(System.String,TwinCAT.Ams.AmsServerErrorCode)">
+            <summary>
+            Initializes a new instance of the <see cref="T:TwinCAT.Ams.AmsServerException"/> class.
+            </summary>
+            <param name="message">The message.</param>
+            <param name="errorCode">The error code.</param>
+        </member>
+        <member name="F:TwinCAT.Ams.AmsServerException.errorCode">
+            <summary>
+            The error code
+            </summary>
+        </member>
+        <member name="P:TwinCAT.Ams.AmsServerException.ErrorCode">
+            <summary>
+            Gets or sets the error code.
+            </summary>
+            <value>The error code.</value>
+        </member>
+        <member name="M:TwinCAT.Ams.AmsServerException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Initializes a new instance of the <see cref="T:TwinCAT.Ams.AmsServerException"/> class.
+            </summary>
+            <param name="serializationInfo">The serialization information.</param>
+            <param name="streamingContext">The streaming context.</param>
+            <exception cref="T:System.ArgumentNullException">serializationInfo</exception>
+        </member>
+    </members>
+</doc>
