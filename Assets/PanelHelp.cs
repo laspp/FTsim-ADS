@@ -23,11 +23,6 @@ public class PanelHelp : MonoBehaviour
         helpWindow.SetActive(showHelpOnStart == 1);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     public void ToggleVisibility()
     {
         if (helpWindow.activeInHierarchy)

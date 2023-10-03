@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PanelToggleActive : MonoBehaviour
 {
-    
+
     public void ToggleVisibility()
     {
         if (gameObject.activeInHierarchy)

@@ -12,14 +12,13 @@ public class Communication : MonoBehaviour
 {
 
     public TextAsset configFile;
+    
     public AppConfig appConfig;  // Parsed JSON configuration from configFile
-
-
     private AdsClient adsClient;
     private bool isConnectedToPlc = false;
     private bool areSymbolsMapped = false;
-    private int tagCycleTime = 200; // On how many miliseconds should PLC check for data change.
-    private int tagMaxDelay = 0;  // The maximum Delay time for ADS Notifications.
+    private int tagCycleTime; // On how many miliseconds should PLC check for data change.
+    private int tagMaxDelay;  // The maximum Delay time for ADS Notifications.
 
 
     // A mapping from PLC tag names (values in appConfig.OutputVariableMap) to Symbol
@@ -32,8 +31,8 @@ public class Communication : MonoBehaviour
     // Error set for storing messages about symbol mapping
     private HashSet<string> errorSetSymbols = new();
     // How many error messages are stored in the set. Set this to 0 to turn limit off.
-    private int errorSetSymbolsLimit = 0; 
-        
+    private int errorSetSymbolsLimit = 0;
+
 
     void Awake()
     {
@@ -43,11 +42,13 @@ public class Communication : MonoBehaviour
 
         try
         {
-            appConfig = ConfigLoader.LoadConfig(configFile.text);
+            //appConfig = ConfigLoader.LoadConfig(configFile.text);
+            appConfig = ConfigLoader2.LoadConfig("config.json");
+            tagCycleTime = appConfig.NotificationCycleTime;
+            tagMaxDelay = appConfig.NotificationMaxDelay;
 
             PlcConnect();
-            PlcFetchSymbols();
-            // TODO: write all inputs to false (buttons) on Awake and on Quit?
+            PlcFetchSymbols();           
 
         }
         catch (Exception ex)
@@ -55,14 +56,12 @@ public class Communication : MonoBehaviour
             Debug.LogError($"Communication: error during initialization: {ex.Message}");
         }
     }
-
-
     void Start()
-    {        
+    {
         InvokeRepeating(nameof(ErrorsDisplayConnection), 1f, 1f);  //function name, init delay, repeat frequency
         InvokeRepeating(nameof(ErrorsDisplaySymbols), 1f, 1f);  //function name, init delay, repeat frequency
     }
-
+    
     private void PlcConnect()
     {
         try
@@ -76,7 +75,7 @@ public class Communication : MonoBehaviour
                 isConnectedToPlc = true;
             }
             else
-            {                
+            {
                 throw new Exception($"Cannot connect to PLC with address {appConfig.PlcAmsNetId}, {appConfig.PlcAdsPort}.");
             }
         }
@@ -86,7 +85,7 @@ public class Communication : MonoBehaviour
             //ErrorsAdd(ex.Message);
             isConnectedToPlc = false;
         }
-        
+
     }
 
     private void PlcFetchSymbols()
@@ -101,11 +100,11 @@ public class Communication : MonoBehaviour
             {
                 IValueSymbol symbol = null;
                 try
-                {                    
-                    symbol = (IValueSymbol)symbolLoader.Symbols[plcTag];                    
+                {
+                    symbol = (IValueSymbol)symbolLoader.Symbols[plcTag];
                 }
                 catch (Exception e)
-                {   
+                {
                     Debug.LogError($"PlcFetchSymbols: Cannot map tag '{plcTag}'; does it exists on PLC? {e.Message}");
                     ErrorsAdd(plcTag);
                     symbolsFetchedOK = false;
@@ -119,7 +118,7 @@ public class Communication : MonoBehaviour
             {
                 IValueSymbol symbol = null;
                 try
-                {                    
+                {
                     symbol = (IValueSymbol)symbolLoader.Symbols[plcTag];
                     SubscribeToSymbol(symbol);
                 }
@@ -129,7 +128,7 @@ public class Communication : MonoBehaviour
                     ErrorsAdd(plcTag);
                     symbolsFetchedOK = false;
                 }
-                
+
                 outputPlcTagToSymbol[plcTag] = symbol;
                 outputPlcTagToValue[plcTag] = false;
             }
@@ -141,7 +140,7 @@ public class Communication : MonoBehaviour
             Debug.LogError($"PlcFetchSymbols: {ex.Message}");
             areSymbolsMapped = false;
         }
-        
+
     }
     private void ErrorsAdd(string message)
     {
@@ -164,11 +163,11 @@ public class Communication : MonoBehaviour
                     text += "  - " + errorMessage + "\n";
                 }
                 DialogWithScroll.MessageBox(
-                    "Dialog_error_list", 
+                    "Dialog_error_list",
                     "Tags mapping error",
-                    text, 
-                    "Retry", () => { ErrorsClear(); PlcFetchSymbols(); }, 
-                    widthMax:300, heightMax:300,
+                    text,
+                    "Retry", () => { ErrorsClear(); PlcFetchSymbols(); },
+                    widthMax: 300, heightMax: 300,
                     scrollHeight: 300,
                     preScrollText: "There were errors when mapping IO variables. Do the following variables exist on PLC?\n"
                     );
@@ -184,13 +183,13 @@ public class Communication : MonoBehaviour
             if (GameObject.FindWithTag("Dialog_error_PLC_connection") == null)
             {
                 Dialog.MessageBox(
-                    "Dialog_error_PLC_connection", 
-                    "Connection error", 
+                    "Dialog_error_PLC_connection",
+                    "Connection error",
                     $"The connection with the Beckhoff PLC cannot be established. Address in the config file is:\n{appConfig.PlcAmsNetId}, {appConfig.PlcAdsPort}",
                     "Retry", () => { PlcConnect(); }, widthMax: 300, heightMax: 120
                     );
             }
-        }        
+        }
     }
 
     private void ErrorsClear()
@@ -233,13 +232,14 @@ public class Communication : MonoBehaviour
                 ErrorsAdd($"Cannot write tag '{tag}' on PLC.");
             }
         }
-        else {
+        else
+        {
             Debug.LogError($"WriteToPlc: cannot write tag {tag} to PLC, either there is no connection or mapping errors exist.");
         }
-        
+
     }
 
-    
+
 
     public void WriteToPlc(string tag, int valueToWrite)
     {
@@ -268,7 +268,7 @@ public class Communication : MonoBehaviour
             //Debug.LogError($"Communication: error getting value from dictionary: {ex.Message}");
             ErrorsAdd(ex.Message);
             return false;
-        }        
+        }
     }
 
     private void SymbolOnValueChanged(object sender, ValueChangedEventArgs e)

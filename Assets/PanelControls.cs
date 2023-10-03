@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class PanelControls : MonoBehaviour
 {
-    
+
     public Transform newWorkpiece;
     public Transform lightRed;
     public Transform lightGreen;
@@ -17,6 +17,15 @@ public class PanelControls : MonoBehaviour
     void Awake()
     {
         com = GameObject.Find("Communication").GetComponent<Communication>();
+
+        // Initialize all panel inputs to false (buttons, toggle switch)
+        com.WriteToPlc("ToggleSwitch", false);
+        com.WriteToPlc("ButtonRed", false);
+        com.WriteToPlc("ButtonGreen", false);
+        com.WriteToPlc("ButtonBlackTopLeft", false);
+        com.WriteToPlc("ButtonBlackTopRight", false);
+        com.WriteToPlc("ButtonBlackBottomLeft", false);
+        com.WriteToPlc("ButtonBlackBottomRight", false);
     }
 
     void Update()
