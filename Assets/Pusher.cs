@@ -97,7 +97,7 @@ public class Pusher : MonoBehaviour
     {
         if (position < (positionEnd + dangerOffset))
         {
-            transform.Translate(Time.deltaTime * speed * moveVector);
+            transform.Translate(Time.fixedDeltaTime * speed * moveVector);
             position = GetPosition();
         }
     }
@@ -106,13 +106,13 @@ public class Pusher : MonoBehaviour
     {
         if (position > (positionStart - dangerOffset))
         {
-            transform.Translate(Time.deltaTime * speed * -moveVector);
+            transform.Translate(Time.fixedDeltaTime * speed * -moveVector);
             position = GetPosition();
         }
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
 
         isOnStart = position <= positionStart;
