@@ -1273,6 +1273,7 @@ Transform:
   - {fileID: 1977904386}
   - {fileID: 1746007450}
   - {fileID: 701505616}
+  - {fileID: 1227689654}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &144880644
@@ -2237,7 +2238,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b7fd1d30b9e19c42a410c8daf062d2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  configFile: {fileID: 4900000, guid: ffeb52893b8c65e469cd1458d2f1a140, type: 3}
+  configFile: config-L2N.json
   appConfig:
     PlcAmsNetId: 
     PlcAdsPort: 0
@@ -5742,7 +5743,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tagDirection: Belt1Direction
   tagMovement: Belt1Movement
-  speed: 2
+  speed: 1
   direction: {x: 0, y: 0, z: 1}
 --- !u!1 &605801727
 GameObject:
@@ -5932,7 +5933,7 @@ GameObject:
   - component: {fileID: 625226665}
   - component: {fileID: 625226666}
   m_Layer: 0
-  m_Name: Workpiece_template
+  m_Name: WorkpieceTemplate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5985,7 +5986,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 1
-  m_Constraints: 0
+  m_Constraints: 32
   m_CollisionDetection: 2
 --- !u!23 &625226662
 MeshRenderer:
@@ -11957,12 +11958,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1227689650}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.98, y: -0.243, z: 0.47}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -1.1399999, y: -2.753, z: -0.68999994}
   m_LocalScale: {x: 13.028313, y: 1.3028347, z: 13.028304}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 130438856}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1230166916
 GameObject:
@@ -13697,7 +13698,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tagDirection: Belt2Direction
   tagMovement: Belt2Movement
-  speed: 2
+  speed: 1
   direction: {x: 1, y: 0, z: 0}
 --- !u!1 &1414547113
 GameObject:
@@ -15356,7 +15357,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tagDirection: Belt4Direction
   tagMovement: Belt4Movement
-  speed: 2
+  speed: 1
   direction: {x: 0, y: 0, z: -1}
 --- !u!1 &1583270274
 GameObject:
@@ -16137,7 +16138,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tagDirection: Belt3Direction
   tagMovement: Belt3Movement
-  speed: 2
+  speed: 1
   direction: {x: 1, y: 0, z: 0}
 --- !u!1 &1640357807
 GameObject:
@@ -18694,8 +18695,8 @@ RectTransform:
   - {fileID: 644604825}
   - {fileID: 708954810}
   - {fileID: 270066612}
-  - {fileID: 232287812}
   - {fileID: 1792930889}
+  - {fileID: 232287812}
   m_Father: {fileID: 444290319}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
@@ -22714,5 +22715,4 @@ SceneRoots:
   - {fileID: 1344442636}
   - {fileID: 1514656023}
   - {fileID: 130438856}
-  - {fileID: 1227689654}
   - {fileID: 625226664}

@@ -11,15 +11,16 @@ using TwinCAT.ValueAccess;
 public class Communication : MonoBehaviour
 {
 
-    public TextAsset configFile;
+    public string configFile;
     
     public AppConfig appConfig;  // Parsed JSON configuration from configFile
     private AdsClient adsClient;
+    private string configFilePath;
+    private bool isConfigFileRead = false;
     private bool isConnectedToPlc = false;
     private bool areSymbolsMapped = false;
     private int tagCycleTime; // On how many miliseconds should PLC check for data change.
     private int tagMaxDelay;  // The maximum Delay time for ADS Notifications.
-
 
     // A mapping from PLC tag names (values in appConfig.OutputVariableMap) to Symbol
     private Dictionary<string, IValueSymbol> outputPlcTagToSymbol = new();
@@ -42,8 +43,9 @@ public class Communication : MonoBehaviour
 
         try
         {
-            //appConfig = ConfigLoader.LoadConfig(configFile.text);
-            appConfig = ConfigLoader2.LoadConfig("config.json");
+            
+            ConfigFileLoad();
+            
             tagCycleTime = appConfig.NotificationCycleTime;
             tagMaxDelay = appConfig.NotificationMaxDelay;
 
@@ -56,10 +58,27 @@ public class Communication : MonoBehaviour
             Debug.LogError($"Communication: error during initialization: {ex.Message}");
         }
     }
+
+    private void ConfigFileLoad()
+    {
+        try
+        {
+            configFilePath = System.IO.Path.Combine(Application.streamingAssetsPath, configFile);
+            appConfig = ConfigLoader.LoadConfig(configFilePath);
+            isConfigFileRead = true;
+        }
+        catch (Exception)
+        {
+            isConfigFileRead = false;
+            throw;
+        }
+    }
+
     void Start()
     {
+        InvokeRepeating(nameof(ErrorsDisplayConfig), 1f, 1f);
         InvokeRepeating(nameof(ErrorsDisplayConnection), 1f, 1f);  //function name, init delay, repeat frequency
-        InvokeRepeating(nameof(ErrorsDisplaySymbols), 1f, 1f);  //function name, init delay, repeat frequency
+        InvokeRepeating(nameof(ErrorsDisplaySymbols), 1f, 1f);
     }
     
     private void PlcConnect()
@@ -149,10 +168,45 @@ public class Communication : MonoBehaviour
             errorSetSymbols.Add(message);
         }
     }
+
+    private void ErrorsDisplayConfig()
+    {
+        // Check for errors and show a dialog with list
+        if (!isConfigFileRead)
+        {
+            if (GameObject.FindWithTag("Dialog_error_config") == null)
+            {
+                Dialog.MessageBox(
+                    "Dialog_error_config",
+                    "Config file error",
+                    $"The config file cannot be read. Attempting to read file:\n'{configFilePath}'",
+                    "Retry", () => { Awake(); }, widthMax: 300, heightMax: 120
+                    );
+            }
+        }
+    }
+
+    private void ErrorsDisplayConnection()
+    {
+        // Check for errors and show a dialog with list
+        if (isConfigFileRead && !isConnectedToPlc)
+        {
+            if (GameObject.FindWithTag("Dialog_error_PLC_connection") == null)
+            {
+                Dialog.MessageBox(
+                    "Dialog_error_PLC_connection",
+                    "Connection error",
+                    $"The connection with the Beckhoff PLC cannot be established. Address in the config file is:\n{appConfig.PlcAmsNetId}, {appConfig.PlcAdsPort}",
+                    "Retry", () => { Awake(); }, widthMax: 300, heightMax: 120
+                    );
+            }
+        }
+    }
+
     private void ErrorsDisplaySymbols()
     {
         // Check for errors and show a dialog with list
-        if (isConnectedToPlc && errorSetSymbols.Count != 0)
+        if (isConfigFileRead && isConnectedToPlc && errorSetSymbols.Count != 0)
         {
             //Debug.Log($"There are {errorSet.Count} errors in a set");
             if (GameObject.FindWithTag("Dialog_error_list") == null)
@@ -166,27 +220,10 @@ public class Communication : MonoBehaviour
                     "Dialog_error_list",
                     "Tags mapping error",
                     text,
-                    "Retry", () => { ErrorsClear(); PlcFetchSymbols(); },
+                    "Retry", () => { ErrorsClear(); ConfigFileLoad(); PlcFetchSymbols(); },
                     widthMax: 300, heightMax: 300,
                     scrollHeight: 300,
                     preScrollText: "There were errors when mapping IO variables. Do the following variables exist on PLC?\n"
-                    );
-            }
-        }
-    }
-
-    private void ErrorsDisplayConnection()
-    {
-        // Check for errors and show a dialog with list
-        if (!isConnectedToPlc)
-        {
-            if (GameObject.FindWithTag("Dialog_error_PLC_connection") == null)
-            {
-                Dialog.MessageBox(
-                    "Dialog_error_PLC_connection",
-                    "Connection error",
-                    $"The connection with the Beckhoff PLC cannot be established. Address in the config file is:\n{appConfig.PlcAmsNetId}, {appConfig.PlcAdsPort}",
-                    "Retry", () => { PlcConnect(); }, widthMax: 300, heightMax: 120
                     );
             }
         }

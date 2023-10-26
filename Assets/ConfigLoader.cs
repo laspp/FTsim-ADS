@@ -1,26 +1,22 @@
 using System;
+using System.IO;
 using UnityEngine;
 using Newtonsoft.Json;
 
 public class ConfigLoader
 {
-    public static AppConfig LoadConfig(string jsonText)
+    public static AppConfig LoadConfig(string filePath)
     {
-        if (string.IsNullOrEmpty(jsonText))
+        if (string.IsNullOrEmpty(filePath))
         {
             throw new ArgumentException($"Invalid or missing config file.");
         }
 
         try
         {
-
-            // Deserialize the JSON data into an AppConfig object using JsonUtility
-            //AppConfig appConfig = JsonUtility.FromJson<AppConfig>(jsonText);
-
+            string jsonText = File.ReadAllText(filePath);
+            
             AppConfig appConfig = JsonConvert.DeserializeObject<AppConfig>(jsonText);
-
-            // Assign the settings from the loaded AppConfig object
-            Debug.Log($"AppConfig: {appConfig.InputVariableMap["ToggleSwitch"]}");
 
             return appConfig;
         }

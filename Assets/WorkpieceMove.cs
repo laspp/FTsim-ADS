@@ -8,7 +8,7 @@ public class WorkpieceMove : MonoBehaviour
     public string tagDirection = "Belt#Direction";
     [Tooltip("A name of tag (defined in config.json)")]
     public string tagMovement = "Belt#Movement";
-    public float speed = 2.0f;
+    public float speed = 1.0f;
     public Vector3 direction = new Vector3(0, 0, 1);
 
     private Communication com;
@@ -26,7 +26,7 @@ public class WorkpieceMove : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         workpieces = GameObject.FindGameObjectsWithTag("Workpiece");
 
@@ -40,16 +40,14 @@ public class WorkpieceMove : MonoBehaviour
                 {
                     if (com.GetTagValue(tagDirection))
                     {
-                        workpiece.transform.Translate(Time.deltaTime * speed * (-direction));
+                        workpiece.transform.Translate(Time.fixedDeltaTime * speed * (-direction));
                     }
                     else
                     {
-                        workpiece.transform.Translate(Time.deltaTime * speed * (direction));
+                        workpiece.transform.Translate(Time.fixedDeltaTime * speed * (direction));
                     }
                 }                
             }
-
-            // TODO: check pusher platform field (create it first) and freeze rotations there
         }
     }
 }

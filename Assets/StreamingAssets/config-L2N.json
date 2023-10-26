@@ -1,21 +1,21 @@
 {
   "PlcAmsNetId": "local", // "local" = "0.0.0.0.0.0"
   "PlcAdsPort": 851, // 851 = first PLC in a project, 852 = second ...
-  "NotificationCycleTime": 200, // How frequently should PLC check for data change. In miliseconds.
+  "NotificationCycleTime": 20, // How frequently should PLC check for data change. In miliseconds.
   "NotificationMaxDelay": 0, // The maximum Delay time for ADS Notifications. In miliseconds.
   "InputVariableMap": {
-    "ToggleSwitch": "IO.Key",
+    "ToggleSwitch": "IO.ToggleSwitch",
     "ButtonRed": "IO.ButtonRed",
     "ButtonGreen": "IO.ButtonGreen",
     "ButtonBlackTopLeft": "IO.ButtonBlackLeftUp",
     "ButtonBlackTopRight": "IO.ButtonBlackRightUp",
     "ButtonBlackBottomLeft": "IO.ButtonBlackLeftDown",
     "ButtonBlackBottomRight": "IO.ButtonBlackRightDown",
-    "PhotocellEntry": "IO.FotoEntry",
-    "PhotocellBelt1": "IO.FotoBelt1",
-    "PhotocellBelt2": "IO.FotoMachine1",
-    "PhotocellBelt3": "IO.FotoMachine2",
-    "PhotocellExit": "IO.FotoExit",
+    "PhotocellEntry": "IO.PhotocellEntry",
+    "PhotocellBelt1": "IO.PhotocellBelt1",
+    "PhotocellBelt2": "IO.PhotocellBelt2",
+    "PhotocellBelt3": "IO.PhotocellBelt3",
+    "PhotocellExit": "IO.PhotocellBelt4",
     "SwitchPusher1Start": "IO.Pusher1Start",
     "SwitchPusher1End": "IO.Pusher1End",
     "SwitchPusher2Start": "IO.Pusher2Start",
@@ -43,5 +43,5 @@
     "Pusher2Direction": "IO.Pusher2Direction",
     "Pusher2Movement": "IO.Pusher2Movement"
   },
-  "ShowFPS": false
+  "ShowFPS": true
 }
