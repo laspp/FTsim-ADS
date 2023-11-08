@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 public class PanelControls : MonoBehaviour
 {
 
-    public Transform newWorkpiece;
+    public GameObject workpiece;
     public Transform lightRed;
     public Transform lightGreen;
     public Transform lightBlueTop;
@@ -38,10 +38,10 @@ public class PanelControls : MonoBehaviour
     }
 
     public void CreateNewWorkpiece()
-    {
-        newWorkpiece.tag = "Workpiece";
-        Instantiate(newWorkpiece, new Vector3(-2.05f, 8, -0.3f), Quaternion.identity);
-        newWorkpiece.tag = "Untagged";
+    {        
+        GameObject clone = Instantiate(workpiece, new Vector3(-2.05f, 8, -0.3f), Quaternion.identity);
+        clone.tag = "Workpiece";
+        clone.SetActive(true);
     }
     public void RemoveWorkpiece()
     {
