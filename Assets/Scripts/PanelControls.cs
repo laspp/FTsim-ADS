@@ -58,6 +58,11 @@ public class PanelControls : MonoBehaviour
         SceneManager.LoadScene(scene.name);
     }
 
+    public void LoadStartMenuScene()
+    {        
+        SceneManager.LoadScene("StartMenu");
+    }
+
     public void ToggleSwitchOnChange(Toggle change)
     {
         Debug.Log("ToggleSwitch change: " + change.isOn);
