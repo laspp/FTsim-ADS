@@ -12,7 +12,7 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: UL FRI - LASPP
+  companyName: UL FRI, LASPP
   productName: FTsim-ADS
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
