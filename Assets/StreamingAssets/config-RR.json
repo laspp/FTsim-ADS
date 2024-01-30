@@ -1,0 +1,43 @@
+{
+  "PlcAmsNetId": "local",
+  "PlcAdsPort": 851,
+  "NotificationCycleTime": 20,
+  "NotificationMaxDelay": 0,
+  "ShowFPS": true,  
+  "RotateImpulses": 180,
+  "ExtendImpulses": 80,
+  "LiftImpulses": 120,
+  "GrabImpulses":18,
+  "PLCCycle" : 0.02,
+  "InputVariableMap": {
+    "ToggleSwitch": "IO.ToggleSwitch",
+    "ButtonRed": "IO.ButtonRed",
+    "ButtonGreen": "IO.ButtonGreen",
+    "ButtonBlackTopLeft": "IO.ButtonBlackLeftUp",
+    "ButtonBlackTopRight": "IO.ButtonBlackRightUp",
+    "ButtonBlackBottomLeft": "IO.ButtonBlackLeftDown",
+    "ButtonBlackBottomRight": "IO.ButtonBlackRightDown",
+    "SwitchReferenceRotate": "IO.SwitchReferenceRotate",
+    "SwitchStepRotate": "IO.SwitchStepRotate",
+    "SwitchReferenceLift": "IO.SwitchReferenceLift",
+    "SwitchStepLift": "IO.SwitchStepLift",
+    "SwitchReferenceExtend": "IO.SwitchReferenceExtend",
+    "SwitchStepExtend": "IO.SwitchStepExtend",
+    "SwitchReferenceGrab": "IO.SwitchReferenceGrab",
+    "SwitchStepGrab": "IO.SwitchStepGrab"
+  },
+  "OutputVariableMap": {
+    "LightRed": "IO.LEDRed",
+    "LightGreen": "IO.LEDGreen",
+    "LightBlueTop": "IO.LEDBlueUp",
+    "LightBlueBottom": "IO.LEDBlueDown",
+    "MotorRotateDirection": "IO.MotorRotateDirection",
+    "MotorRotateMovement": "IO.MotorRotateMovement",
+    "MotorLiftDirection": "IO.MotorLiftDirection",
+    "MotorLiftMovement": "IO.MotorLiftMovement",
+    "MotorExtendDirection": "IO.MotorExtendDirection",
+    "MotorExtendMovement": "IO.MotorExtendMovement",
+    "MotorGrabDirection": "IO.MotorGrabDirection",
+    "MotorGrabMovement": "IO.MotorGrabMovement"
+  }
+}
