@@ -23,8 +23,8 @@
     "SwitchStepLift": "IO.SwitchStepLift",
     "SwitchReferenceExtend": "IO.SwitchReferenceExtend",
     "SwitchStepExtend": "IO.SwitchStepExtend",
-    "SwitchReferenceGrab": "IO.SwitchReferenceGrab",
-    "SwitchStepGrab": "IO.SwitchStepGrab"
+    "SwitchReferenceGrip": "IO.SwitchReferenceGrip",
+    "SwitchStepGrip": "IO.SwitchStepGrip"
   },
   "OutputVariableMap": {
     "LightRed": "IO.LEDRed",
@@ -37,7 +37,7 @@
     "MotorLiftMovement": "IO.MotorLiftMovement",
     "MotorExtendDirection": "IO.MotorExtendDirection",
     "MotorExtendMovement": "IO.MotorExtendMovement",
-    "MotorGrabDirection": "IO.MotorGrabDirection",
-    "MotorGrabMovement": "IO.MotorGrabMovement"
+    "MotorGripDirection": "IO.MotorGripDirection",
+    "MotorGripMovement": "IO.MotorGripMovement"
   }
 }
