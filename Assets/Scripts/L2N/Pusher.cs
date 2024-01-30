@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEngine.UI;
 
 public enum PositionAxis
@@ -11,13 +10,13 @@ public enum PositionAxis
 
 public class Pusher : MonoBehaviour
 {
-    [Tooltip("A name of tag (defined in config.json)")]
+    [Tooltip("A name of tag (defined in config-L2N.json)")]
     public string tagSwitchStart = "SwitchPusher#Start";
-    [Tooltip("A name of tag (defined in config.json)")]
+    [Tooltip("A name of tag (defined in config-L2N.json)")]
     public string tagSwitchEnd = "SwitchPusher#End";
-    [Tooltip("A name of tag (defined in config.json)")]
+    [Tooltip("A name of tag (defined in config-L2N.json)")]
     public string tagDirection = "Pusher#Direction";
-    [Tooltip("A name of tag (defined in config.json)")]
+    [Tooltip("A name of tag (defined in config-L2N.json)")]
     public string tagMovement = "Pusher#Movement";
     [Tooltip("How should direction be treated. If false, pusher moves forward when direction is 1.")]
     public bool reversePolarity = false;
@@ -29,7 +28,7 @@ public class Pusher : MonoBehaviour
     [Tooltip("Stop movement if that far from end switch. Should be larger than danger margin.")]
     public float dangerOffset = 0.5f;
     [Tooltip("Object with danger sign. If None, child 'DangerSign' will be searched for.")]
-    public GameObject dangerSign;
+    public GameObject warningSign;
 
     public PositionAxis selectPositionAxis = new PositionAxis();
     public bool inverseDirection = false;
@@ -38,27 +37,27 @@ public class Pusher : MonoBehaviour
 
     Communication com;
 
-    private float position;
-    private float positionStart;
-    private float positionEnd;
+    float position;
+    float positionStart;
+    float positionEnd;
     
-    private bool isOnStart = false;
-    private bool isOnEnd = false;
-    private bool dangerousPosition = false;
+    bool isOnStart = false;
+    bool isOnEnd = false;
+    bool dangerousPosition = false;
 
-    private int switchStartValue, switchStartNewValue;
-    private int switchEndValue, switchEndNewValue;
-    private bool switchStartForceTrue, switchStartForceFalse;
-    private bool switchEndForceTrue, switchEndForceFalse;
+    int switchStartValue, switchStartNewValue;
+    int switchEndValue, switchEndNewValue;
+    bool switchStartForceTrue, switchStartForceFalse;
+    bool switchEndForceTrue, switchEndForceFalse;
 
     // Use this for initialization
     void Awake()
     {
         com = GameObject.Find("Communication").GetComponent<Communication>();
-        if (dangerSign == null)
+        if (warningSign == null)
         {
-            dangerSign = this.transform.Find("DangerSign").gameObject;
-            if (dangerSign == null)
+            warningSign = this.transform.Find("DangerSign").gameObject;
+            if (warningSign == null)
             {
                 Debug.LogError($"Pusher: error - parameter 'Danger Sign' is empty but cannot find child with name 'DangerSign'.");
             }
@@ -129,11 +128,11 @@ public class Pusher : MonoBehaviour
 
         if (dangerousPosition)
         {
-            dangerSign.SetActive(true);
+            warningSign.SetActive(true);
         }
         else
         {
-            dangerSign.SetActive(false);
+            warningSign.SetActive(false);
         }
 
         // Movement control
@@ -150,7 +149,7 @@ public class Pusher : MonoBehaviour
         }
     }
 
-    private void WriteOnChange(string tag, int sensorValue, int newValue, bool forceTrue, bool forceFalse)
+    void WriteOnChange(string tag, int sensorValue, int newValue, bool forceTrue, bool forceFalse)
     {
         if (sensorValue != newValue)
         {

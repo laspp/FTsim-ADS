@@ -3,12 +3,7 @@
   "PlcAdsPort": 851,
   "NotificationCycleTime": 20,
   "NotificationMaxDelay": 0,
-  "ShowFPS": true,  
-  "RotateImpulses": 180,
-  "ExtendImpulses": 80,
-  "LiftImpulses": 120,
-  "GrabImpulses":18,
-  "PLCCycle" : 0.02,
+  "ShowFPS": true,
   "InputVariableMap": {
     "ToggleSwitch": "IO.ToggleSwitch",
     "ButtonRed": "IO.ButtonRed",
@@ -39,5 +34,12 @@
     "MotorExtendMovement": "IO.MotorExtendMovement",
     "MotorGripDirection": "IO.MotorGripDirection",
     "MotorGripMovement": "IO.MotorGripMovement"
+  },
+  "TrainingModelSpecific": {
+    "RotateStepsLimit": 180,
+    "LiftStepsLimit": 120,
+    "ExtendStepsLimit": 80,
+    "GripStepsLimit": 18,
+    "PLCCycle": 0.02
   }
 }

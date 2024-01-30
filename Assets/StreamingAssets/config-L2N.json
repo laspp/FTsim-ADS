@@ -3,6 +3,7 @@
   "PlcAdsPort": 851, // 851 = first PLC in a project, 852 = second ...
   "NotificationCycleTime": 20, // How frequently should PLC check for data change. In miliseconds.
   "NotificationMaxDelay": 0, // The maximum Delay time for ADS Notifications. In miliseconds.
+  "ShowFPS": true,
   "InputVariableMap": {
     "ToggleSwitch": "IO.ToggleSwitch",
     "ButtonRed": "IO.ButtonRed",
@@ -43,5 +44,6 @@
     "Pusher2Direction": "IO.Pusher2Direction",
     "Pusher2Movement": "IO.Pusher2Movement"
   },
-  "ShowFPS": true
+  "TrainingModelSpecific": {}
+
 }

@@ -8,7 +8,8 @@ public class AppConfig
     public int PlcAdsPort;
     public int NotificationCycleTime;
     public int NotificationMaxDelay;
+    public bool ShowFPS;
     public Dictionary<string, string> InputVariableMap;
     public Dictionary<string, string> OutputVariableMap;
-    public bool ShowFPS;
+    public Dictionary<string, string> TrainingModelSpecific;
 }

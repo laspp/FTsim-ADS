@@ -13,7 +13,7 @@ public class PanelControls : MonoBehaviour
     public Transform lightBlueBottom;
 
 
-    private Communication com;
+    Communication com;
 
     void Awake()
     {
