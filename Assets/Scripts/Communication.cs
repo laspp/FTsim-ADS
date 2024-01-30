@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using UnityEngine.SceneManagement;
 using TwinCAT.Ads;
 using TwinCAT.Ads.TypeSystem;
 using TwinCAT.TypeSystem;
@@ -11,8 +12,6 @@ using TwinCAT.ValueAccess;
 public class Communication : MonoBehaviour
 {
 
-    public string configFile;
-    
     public AppConfig appConfig;  // Parsed JSON configuration from configFile
     private AdsClient adsClient;
     private string configFilePath;
@@ -61,8 +60,10 @@ public class Communication : MonoBehaviour
 
     private void ConfigFileLoad()
     {
+        string sceneName = SceneManager.GetActiveScene().name;
+        string configFile = "config-" + sceneName + ".json";
         try
-        {
+        {            
             configFilePath = System.IO.Path.Combine(Application.streamingAssetsPath, configFile);
             appConfig = ConfigLoader.LoadConfig(configFilePath);
             isConfigFileRead = true;

@@ -13,7 +13,17 @@ public class MoveCamera : MonoBehaviour
 	public float turnSpeed = 4.0f;      // Speed of camera turning when mouse moves in along an axis
 	public float panSpeed = 4.0f;       // Speed of the camera when being panned
 	public float zoomSpeed = 4.0f;      // Speed of the camera going back and forth
-
+	// RR: 1, 10, 0
+	// L2N: 0.5f, 10, 1
+	public Vector3 cameraPositionTop = new Vector3(0.5f, 10, 1);
+	public float cameraOrtographicSizeTop = 4f;
+	// RR: 15, 3, 0
+	// L2N: 15, 2, 0.9f
+	public Vector3 cameraPositionSide = new Vector3(15, 2, 0.9f);
+	// RR: 3.5f
+	// L2N: 2.7f
+	public float cameraOrtographicSizeSide = 2.7f;
+	
 	private Vector3 mouseOrigin;    // Position of cursor when mouse dragging starts
 	private bool isPanning;     // Is the camera being panned?
 	private bool isRotating;    // Is the camera being rotated?
@@ -24,12 +34,9 @@ public class MoveCamera : MonoBehaviour
 	Vector3 cameraStartPoint = Vector3.zero;
 	Quaternion cameraStartRotation;
 
-	Vector3 cameraPositionTop = new Vector3(0.5f, 10, 1);
 	Quaternion cameraRotationTop = Quaternion.Euler(new Vector3(90, 0, 0));
-	float cameraOrtographicSizeTop = 4f;
-	Vector3 cameraPositionSide = new Vector3(15, 2, 0.9f);
 	Quaternion cameraRotationSide = Quaternion.Euler(new Vector3(0, 270, 0));
-	float cameraOrtographicSizeSide = 2.7f;
+
 
 	void Start()
 	{
