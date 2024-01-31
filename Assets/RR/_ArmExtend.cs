@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 
-public class ArmExtend : MonoBehaviour
+public class _ArmExtend : MonoBehaviour
 {
 
 	public Transform arm;

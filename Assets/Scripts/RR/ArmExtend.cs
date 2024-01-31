@@ -1,19 +1,19 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class ArmLift : MonoBehaviour
+public class ArmExtend : MonoBehaviour
 {
 
     [Tooltip("A name of tag (defined in config-RR.json)")]
-    public string tagSwitchReference = "SwitchReferenceLift";
+    public string tagSwitchReference = "SwitchReferenceExtend";
     [Tooltip("A name of tag (defined in config-RR.json)")]
-    public string tagSwitchStep = "SwitchStepLift";
+    public string tagSwitchStep = "SwitchStepExtend";
     [Tooltip("A name of tag (defined in config-RR.json)")]
-    public string tagDirection = "MotorLiftDirection";
+    public string tagDirection = "MotorExtendDirection";
     [Tooltip("A name of tag (defined in config-RR.json)")]
-    public string tagMovement = "MotorLiftMovement";
+    public string tagMovement = "MotorExtendMovement";
     [Tooltip("Key of steps limit (defined in config-RR.json)")]
-    public string strStepsLimit = "LiftStepsLimit";
+    public string strStepsLimit = "ExtendStepsLimit";
 
     public Transform switchReference;
     public Transform objWarningLimitSwitch;
@@ -76,16 +76,16 @@ public class ArmLift : MonoBehaviour
         switchStepForceFalse = false;
 
         // Distance between the limit and starting position of the arm
-        safeLimit = Vector3.Distance(objWarningLimitOpenEnd.position, objWarningLimitSwitch.position);
+        safeLimit = Vector3.Distance(objPosition.position, objWarningLimitOpenEnd.position);
         pulseCellUnit = safeLimit / (stepsLimit + 1); // length of one pulse cell
         currentMoveProgress = safeLimit; // we are at full distance from limit
         pulseCellCurrent = stepsLimit + 1;
         pulseCellOld = pulseCellCurrent;
 
-        // Vector for moving in z axis
+        // Vector for moving in y axis
         movementVector = new Vector3
         {
-            z = speedFactor * pulseCellUnit / framesPerUnitAngle
+            y = -speedFactor * pulseCellUnit / framesPerUnitAngle
         };
     }
 
