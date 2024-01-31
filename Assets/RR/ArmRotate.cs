@@ -1,29 +1,32 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class ArmLift : MonoBehaviour
+public class ArmRotate : MonoBehaviour
 {
 
     [Tooltip("A name of tag (defined in config-RR.json)")]
-    public string tagSwitchReference = "SwitchReferenceLift";
+    public string tagSwitchReference = "SwitchReferenceRotate";
     [Tooltip("A name of tag (defined in config-RR.json)")]
-    public string tagSwitchStep = "SwitchStepLift";
+    public string tagSwitchStep = "SwitchStepRotate";
     [Tooltip("A name of tag (defined in config-RR.json)")]
-    public string tagDirection = "MotorLiftDirection";
+    public string tagDirection = "MotorRotateDirection";
     [Tooltip("A name of tag (defined in config-RR.json)")]
-    public string tagMovement = "MotorLiftMovement";
+    public string tagMovement = "MotorRotateMovement";
     [Tooltip("Key of steps limit (defined in config-RR.json)")]
-    public string strStepsLimit = "LiftStepsLimit";
+    public string strStepsLimit = "RotateStepsLimit";
 
+    public Transform arm;
     public Transform switchReference;
     public Transform objWarningLimitSwitch;
     public Transform objWarningLimitOpenEnd;
     public Transform objPosition; // object that defines position and is used to trigger pulses
+    public Transform objRotationRef;
+    public Transform objPositionEnd;
     public GameObject warningSign;
 
     Communication com;
     float PLCCycle; // target cycle of the PLC in seconds
-    readonly float speedFactor = 1.0f; // Horizontal speed between 1 (i.e. max speed) and 0.1 (min. speed)
+    readonly float speed_factor = 1.0f; // Horizontal speed between 1 (i.e. max speed) and 0.1 (min. speed)
     readonly int framesPerUnitAngle = 2; // each frame, move by unit/framesPerUnitDist
 
     bool referenceSwitchActive;
@@ -41,6 +44,8 @@ public class ArmLift : MonoBehaviour
 
     int stepsLimit;
     Vector3 movementVector;
+    Vector3 currentPositionVector;
+    Vector3 endPositionVector;
 
     float dt;
     float safeLimit;
@@ -75,18 +80,18 @@ public class ArmLift : MonoBehaviour
         switchStepForceTrue = false;
         switchStepForceFalse = false;
 
-        // Distance between the limit and starting position of the arm
-        safeLimit = Vector3.Distance(objWarningLimitOpenEnd.position, objWarningLimitSwitch.position);
+        // Angle between the limit and starting position of the table (the smaller angle - ie 90 degrees)
+        currentPositionVector = objPosition.position - objRotationRef.position;
+        endPositionVector = objPositionEnd.position - objRotationRef.position;
+
+        safeLimit = Vector3.Angle(currentPositionVector, endPositionVector) + 180;
         pulseCellUnit = safeLimit / (stepsLimit + 1); // length of one pulse cell
         currentMoveProgress = safeLimit; // we are at full distance from limit
         pulseCellCurrent = stepsLimit + 1;
         pulseCellOld = pulseCellCurrent;
 
-        // Vector for moving in z axis
-        movementVector = new Vector3
-        {
-            z = speedFactor * pulseCellUnit / framesPerUnitAngle
-        };
+        // Vector for rotation in y axis
+        movementVector = new Vector3(0, speed_factor * pulseCellUnit / framesPerUnitAngle, 0);
     }
 
     void OnTriggerEnter(Collider other)
@@ -134,7 +139,17 @@ public class ArmLift : MonoBehaviour
         UpdateTimeCounters(dt);
 
         // Check for pulse triggering
-        currentMoveProgress = Vector3.Distance(objPosition.position, objWarningLimitOpenEnd.position);
+        currentPositionVector = objPosition.position - objRotationRef.position;
+        currentMoveProgress = Vector3.Angle(currentPositionVector, endPositionVector);
+
+        if (currentPositionVector.x > 0)
+            currentMoveProgress = 360 - currentMoveProgress;
+        // Legal angles lie between 0 and 270. If table turns slightly too much, there is jump 
+        // to ~360 degrees. Consider some safe margins
+        if (currentMoveProgress > 300)
+            currentMoveProgress = 0;
+        if (currentMoveProgress > 270 && currentMoveProgress < 280)
+            currentMoveProgress = 270;
 
         // Check if pulse cell needs to be changed (high <-> low).
         // This method alters allowedToMove and pulseState.
@@ -169,7 +184,7 @@ public class ArmLift : MonoBehaviour
     {
         if (!warningOpenEndActive)
         {
-            transform.Translate(movementVector);
+            arm.Rotate(movementVector);
         }
     }
 
@@ -177,7 +192,7 @@ public class ArmLift : MonoBehaviour
     {
         if (!warningSwitchActive)
         {
-            transform.Translate(-movementVector);
+            arm.Rotate(-movementVector);
         }
     }
     void UpdateWarningSignVisibility()

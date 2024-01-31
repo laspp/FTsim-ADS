@@ -7471,12 +7471,12 @@ GameObject:
   - component: {fileID: 860769133}
   - component: {fileID: 860769132}
   m_Layer: 0
-  m_Name: LiftWarningSign
+  m_Name: _delete_LiftWarningSign
   m_TagString: Danger_lift
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!23 &860769132
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -8005,6 +8005,7 @@ Transform:
   m_Children:
   - {fileID: 2002685483}
   - {fileID: 860769135}
+  - {fileID: 1100967459}
   - {fileID: 575076444}
   - {fileID: 1996903778}
   - {fileID: 1470602428}
@@ -8461,6 +8462,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1057728794}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1100967455 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9163812256401380130, guid: c86b93da807fc0e4fadb24853237697d,
+    type: 3}
+  m_PrefabInstance: {fileID: 1750126020}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1100967459 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4028408503726968123, guid: c86b93da807fc0e4fadb24853237697d,
+    type: 3}
+  m_PrefabInstance: {fileID: 1750126020}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1106130347
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9301,7 +9314,7 @@ PrefabInstance:
         type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1119878743}
+      objectReference: {fileID: 0}
     - target: {fileID: 4127412226365525536, guid: 7c6c7f9f81ae74046a567cc8940108a1,
         type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -9336,7 +9349,7 @@ PrefabInstance:
         type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1119878743}
+      objectReference: {fileID: 0}
     - target: {fileID: 4604552016084258346, guid: 7c6c7f9f81ae74046a567cc8940108a1,
         type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -9721,7 +9734,7 @@ PrefabInstance:
         type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1119878743}
+      objectReference: {fileID: 0}
     - target: {fileID: 6736704344784559579, guid: 7c6c7f9f81ae74046a567cc8940108a1,
         type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -9846,7 +9859,7 @@ PrefabInstance:
         type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1119878743}
+      objectReference: {fileID: 0}
     - target: {fileID: 7623167843208475742, guid: 7c6c7f9f81ae74046a567cc8940108a1,
         type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -10277,8 +10290,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1119878741}
   - component: {fileID: 1119878746}
-  - component: {fileID: 1119878743}
   - component: {fileID: 1119878745}
+  - component: {fileID: 1119878747}
   - component: {fileID: 1119878744}
   - component: {fileID: 1119878742}
   m_Layer: 0
@@ -10330,31 +10343,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &1119878743
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1119878740}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7eb025911cc3e03419cc91f835a004f4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tagSwitchReference: SwitchReferenceRotate
-  tagSwitchStep: SwitchStepRotate
-  tagDirection: MotorRotateDirection
-  tagMovement: MotorRotateMovement
-  strStepsLimit: RotateStepsLimit
-  arm: {fileID: 1722165238}
-  switchReference: {fileID: 325781757}
-  objWarningCCW: {fileID: 575076444}
-  objWarningCW: {fileID: 1996903778}
-  objPosition: {fileID: 2084115541}
-  objRotationRef: {fileID: 1470602428}
-  objPositionEnd: {fileID: 169118999}
-  warningSign: {fileID: 2002685479}
 --- !u!23 &1119878744
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -10426,6 +10414,31 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1119878740}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1119878747
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1119878740}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7eb025911cc3e03419cc91f835a004f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tagSwitchReference: SwitchReferenceRotate
+  tagSwitchStep: SwitchStepRotate
+  tagDirection: MotorRotateDirection
+  tagMovement: MotorRotateMovement
+  strStepsLimit: RotateStepsLimit
+  arm: {fileID: 1722165238}
+  switchReference: {fileID: 325781757}
+  objWarningLimitSwitch: {fileID: 575076444}
+  objWarningLimitOpenEnd: {fileID: 1996903778}
+  objPosition: {fileID: 2084115541}
+  objRotationRef: {fileID: 1470602428}
+  objPositionEnd: {fileID: 169118999}
+  warningSign: {fileID: 2002685479}
 --- !u!1 &1138456344
 GameObject:
   m_ObjectHideFlags: 0
@@ -11702,7 +11715,7 @@ GameObject:
   - component: {fileID: 1379762986}
   - component: {fileID: 1379762985}
   m_Layer: 0
-  m_Name: Limit_arm_lift_up_switch
+  m_Name: LiftSwitchCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11879,10 +11892,11 @@ GameObject:
   m_Component:
   - component: {fileID: 1384490178}
   - component: {fileID: 1384490177}
+  - component: {fileID: 1384490173}
+  - component: {fileID: 1384490179}
   - component: {fileID: 1384490176}
   - component: {fileID: 1384490175}
   - component: {fileID: 1384490172}
-  - component: {fileID: 1384490173}
   m_Layer: 0
   m_Name: Arm_lift
   m_TagString: Untagged
@@ -12028,6 +12042,28 @@ Transform:
   - {fileID: 480436832}
   m_Father: {fileID: 1722165238}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1384490179
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1384490171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c282b84b2b06864bbb1f533b4df0759, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tagSwitchReference: SwitchReferenceLift
+  tagSwitchStep: SwitchStepLift
+  tagDirection: MotorLiftDirection
+  tagMovement: MotorLiftMovement
+  strStepsLimit: LiftStepsLimit
+  switchReference: {fileID: 1379762984}
+  objWarningLimitSwitch: {fileID: 1654491226}
+  objWarningLimitOpenEnd: {fileID: 1956772062}
+  objPosition: {fileID: 1458931014}
+  warningSign: {fileID: 1100967455}
 --- !u!1 &1415872648
 GameObject:
   m_ObjectHideFlags: 0
@@ -12562,7 +12598,7 @@ GameObject:
   - component: {fileID: 1458931017}
   - component: {fileID: 1458931016}
   m_Layer: 0
-  m_Name: Arm_lift_position_current
+  m_Name: LiftPositionCurrent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14306,7 +14342,7 @@ GameObject:
   - component: {fileID: 1654491224}
   - component: {fileID: 1654491223}
   m_Layer: 0
-  m_Name: Limit_arm_lift_up
+  m_Name: LiftSwitchReference
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14866,7 +14902,7 @@ GameObject:
   - component: {fileID: 1722165235}
   - component: {fileID: 1722165239}
   m_Layer: 0
-  m_Name: _Robot
+  m_Name: ArmRotate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14958,9 +14994,9 @@ Transform:
   m_Children:
   - {fileID: 1119878741}
   - {fileID: 2084115541}
-  - {fileID: 1384490178}
   - {fileID: 1654491226}
   - {fileID: 1956772062}
+  - {fileID: 1384490178}
   m_Father: {fileID: 982286554}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &1722165239
@@ -14990,6 +15026,74 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!1001 &1750126020
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 982286554}
+    m_Modifications:
+    - target: {fileID: 4028408503726968123, guid: c86b93da807fc0e4fadb24853237697d,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 4028408503726968123, guid: c86b93da807fc0e4fadb24853237697d,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 5.801
+      objectReference: {fileID: 0}
+    - target: {fileID: 4028408503726968123, guid: c86b93da807fc0e4fadb24853237697d,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 4028408503726968123, guid: c86b93da807fc0e4fadb24853237697d,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.70710677
+      objectReference: {fileID: 0}
+    - target: {fileID: 4028408503726968123, guid: c86b93da807fc0e4fadb24853237697d,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4028408503726968123, guid: c86b93da807fc0e4fadb24853237697d,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7071069
+      objectReference: {fileID: 0}
+    - target: {fileID: 4028408503726968123, guid: c86b93da807fc0e4fadb24853237697d,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4028408503726968123, guid: c86b93da807fc0e4fadb24853237697d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4028408503726968123, guid: c86b93da807fc0e4fadb24853237697d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4028408503726968123, guid: c86b93da807fc0e4fadb24853237697d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9163812256401380130, guid: c86b93da807fc0e4fadb24853237697d,
+        type: 3}
+      propertyPath: m_Name
+      value: LiftWarningSign
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c86b93da807fc0e4fadb24853237697d, type: 3}
 --- !u!1 &1761781565
 GameObject:
   m_ObjectHideFlags: 0
@@ -15681,7 +15785,7 @@ Transform:
   m_GameObject: {fileID: 1890962711}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 7.27, z: 0}
+  m_LocalPosition: {x: 0, y: 8, z: 0}
   m_LocalScale: {x: 1.6666665, y: 2.8571427, z: 1.6666665}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -16211,7 +16315,7 @@ GameObject:
   - component: {fileID: 1956772065}
   - component: {fileID: 1956772063}
   m_Layer: 0
-  m_Name: Limit_arm_lift_down
+  m_Name: LiftLimitOpenEnd
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16714,7 +16818,7 @@ GameObject:
   - component: {fileID: 1996903776}
   - component: {fileID: 1996903775}
   m_Layer: 0
-  m_Name: RotateLimitCollider
+  m_Name: RotateLimitOpenEnd
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
