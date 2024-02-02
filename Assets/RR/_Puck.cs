@@ -38,12 +38,12 @@ public class _Puck : MonoBehaviour {
     	
 	void imGrabbed(){
 		GameObject a = GameObject.FindWithTag ("hnd");
-		a.GetComponent<ArmHand>().puckGrabbed();
+		a.GetComponent<ArmGrip>().UpdateGripState(true);
 	}
 	
 	void imFree(){
 		GameObject a = GameObject.FindWithTag ("hnd");
-		a.GetComponent<ArmHand>().puckFree();
+		a.GetComponent<ArmGrip>().UpdateGripState(false);
 	}
 
     // Use this for initialization
@@ -58,12 +58,12 @@ public class _Puck : MonoBehaviour {
         {
             transform.GetComponent<Rigidbody>().isKinematic = true;
             transform.GetComponent<Rigidbody>().useGravity = false;
-            handLeft.GetComponent<ArmHand>().grabbed = transform;
+            handLeft.GetComponent<ArmGrip>().objGripped = transform;
 			imGrabbed();
         }
 
 
-        if (handLeft.GetComponent<ArmHand>().grabbed == transform)
+        if (handLeft.GetComponent<ArmGrip>().objGripped == transform)
         {
             transform.position = holder.position;
         }

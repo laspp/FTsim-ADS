@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 
-public class ArmHand : MonoBehaviour
+public class _ArmHand : MonoBehaviour
 {
 
 	public Transform[] cylinders;
