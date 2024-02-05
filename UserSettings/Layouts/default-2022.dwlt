@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1702.4
     height: 943.2
   m_ShowMode: 4
-  m_Title: Scene
+  m_Title: Git for Unity
   m_RootView: {fileID: 4}
   m_MinSize: {x: 875, y: 542}
   m_MaxSize: {x: 10000, y: 10000}
@@ -75,7 +75,7 @@ MonoBehaviour:
   m_MinSize: {x: 100, y: 100}
   m_MaxSize: {x: 8096, y: 16192}
   vertical: 1
-  controlID: 48
+  controlID: 17
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -151,7 +151,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 159
+  controlID: 134
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -219,12 +219,12 @@ MonoBehaviour:
     serializedVersion: 2
     x: 873.6
     y: 0
-    width: 332.80005
+    width: 332
     height: 893.2
   m_MinSize: {x: 100, y: 100}
   m_MaxSize: {x: 8096, y: 16192}
   vertical: 1
-  controlID: 111
+  controlID: 61
 --- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -240,9 +240,9 @@ MonoBehaviour:
   m_Children: []
   m_Position:
     serializedVersion: 2
-    x: 1206.4
+    x: 1205.6
     y: 0
-    width: 496
+    width: 496.80005
     height: 893.2
   m_MinSize: {x: 101, y: 121}
   m_MaxSize: {x: 4001, y: 4021}
@@ -270,7 +270,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 332.80005
+    width: 332
     height: 467.2
   m_MinSize: {x: 202, y: 221}
   m_MaxSize: {x: 4002, y: 4021}
@@ -296,7 +296,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 467.2
-    width: 332.80005
+    width: 332
     height: 426
   m_MinSize: {x: 232, y: 271}
   m_MaxSize: {x: 10002, y: 10021}
@@ -342,7 +342,7 @@ MonoBehaviour:
     m_OverlaysVisible: 1
   m_LockTracker:
     m_IsLocked: 0
-  m_LastSelectedObjectID: 148560
+  m_LastSelectedObjectID: 20490
 --- !u!114 &14
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -419,9 +419,9 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 1213.6
+    x: 1212.8
     y: 80.8
-    width: 495
+    width: 495.80005
     height: 872.2
   m_SerializedDataModeController:
     m_DataMode: 0
@@ -534,163 +534,11 @@ MonoBehaviour:
     treeScroll: {x: 0, y: 0}
     treeChanges:
       assets:
-        keys:
-        - 00000000000000001000000000000000
-        - b2f6f61ea6f590b418b39b73f66b5638
-        - 7eb025911cc3e03419cc91f835a004f4
-        - c33a4b934cfb60f408d0c42b4efeb769
-        - a84ca795a914ffa47aa1bff3ce24dd80
-        values:
-        - path: Assets
-          label: Assets
-          level: 0
-          isFolder: 1
-          isContainer: 0
-          isCollapsed: 0
-          isHidden: 0
-          isActive: 0
-          treeIsCheckable: 1
-          checkState: 0
-          isLocked: 0
-          gitStatusEntry:
-            path: 
-            fullPath: 
-            projectPath: 
-            originalPath: 
-            indexStatus: 0
-            workTreeStatus: 0
-        - path: Assets\RR
-          label: RR
-          level: 1
-          isFolder: 1
-          isContainer: 0
-          isCollapsed: 0
-          isHidden: 0
-          isActive: 0
-          treeIsCheckable: 1
-          checkState: 0
-          isLocked: 0
-          gitStatusEntry:
-            path: 
-            fullPath: 
-            projectPath: 
-            originalPath: 
-            indexStatus: 0
-            workTreeStatus: 0
-        - path: Assets\RR\ArmTable.cs
-          label: ArmTable.cs
-          level: 2
-          isFolder: 0
-          isContainer: 0
-          isCollapsed: 0
-          isHidden: 0
-          isActive: 0
-          treeIsCheckable: 1
-          checkState: 0
-          isLocked: 0
-          gitStatusEntry:
-            path: Assets\RR\ArmTable.cs
-            fullPath: C:\Users\User\Desktop\FTsim\FTsim-ADS\Assets\RR\ArmTable.cs
-            projectPath: Assets\RR\ArmTable.cs
-            originalPath: 
-            indexStatus: 0
-            workTreeStatus: 3
-        - path: Assets\Scenes
-          label: Scenes
-          level: 1
-          isFolder: 1
-          isContainer: 0
-          isCollapsed: 0
-          isHidden: 0
-          isActive: 0
-          treeIsCheckable: 1
-          checkState: 0
-          isLocked: 0
-          gitStatusEntry:
-            path: 
-            fullPath: 
-            projectPath: 
-            originalPath: 
-            indexStatus: 0
-            workTreeStatus: 0
-        - path: Assets\Scenes\RR.unity
-          label: RR.unity
-          level: 2
-          isFolder: 0
-          isContainer: 0
-          isCollapsed: 0
-          isHidden: 0
-          isActive: 0
-          treeIsCheckable: 1
-          checkState: 0
-          isLocked: 0
-          gitStatusEntry:
-            path: Assets\Scenes\RR.unity
-            fullPath: C:\Users\User\Desktop\FTsim\FTsim-ADS\Assets\Scenes\RR.unity
-            projectPath: Assets\Scenes\RR.unity
-            originalPath: 
-            indexStatus: 0
-            workTreeStatus: 3
+        keys: []
+        values: []
       folders:
-        keys:
-        - Assets
-        - Assets\RR
-        - Assets\Scenes
-        values:
-        - path: Assets
-          label: Assets
-          level: 0
-          isFolder: 1
-          isContainer: 0
-          isCollapsed: 0
-          isHidden: 0
-          isActive: 0
-          treeIsCheckable: 1
-          checkState: 0
-          isLocked: 0
-          gitStatusEntry:
-            path: 
-            fullPath: 
-            projectPath: 
-            originalPath: 
-            indexStatus: 0
-            workTreeStatus: 0
-        - path: Assets\RR
-          label: RR
-          level: 1
-          isFolder: 1
-          isContainer: 0
-          isCollapsed: 0
-          isHidden: 0
-          isActive: 0
-          treeIsCheckable: 1
-          checkState: 0
-          isLocked: 0
-          gitStatusEntry:
-            path: 
-            fullPath: 
-            projectPath: 
-            originalPath: 
-            indexStatus: 0
-            workTreeStatus: 0
-        - path: Assets\Scenes
-          label: Scenes
-          level: 1
-          isFolder: 1
-          isContainer: 0
-          isCollapsed: 0
-          isHidden: 0
-          isActive: 0
-          treeIsCheckable: 1
-          checkState: 0
-          isLocked: 0
-          gitStatusEntry:
-            path: 
-            fullPath: 
-            projectPath: 
-            originalPath: 
-            indexStatus: 0
-            workTreeStatus: 0
+        keys: []
+        values: []
       checkedFileNodes:
         keys: []
         values: []
@@ -719,96 +567,6 @@ MonoBehaviour:
           originalPath: 
           indexStatus: 0
           workTreeStatus: 0
-      - path: Assets
-        label: Assets
-        level: 0
-        isFolder: 1
-        isContainer: 0
-        isCollapsed: 0
-        isHidden: 0
-        isActive: 0
-        treeIsCheckable: 1
-        checkState: 0
-        isLocked: 0
-        gitStatusEntry:
-          path: 
-          fullPath: 
-          projectPath: 
-          originalPath: 
-          indexStatus: 0
-          workTreeStatus: 0
-      - path: Assets\RR
-        label: RR
-        level: 1
-        isFolder: 1
-        isContainer: 0
-        isCollapsed: 0
-        isHidden: 0
-        isActive: 0
-        treeIsCheckable: 1
-        checkState: 0
-        isLocked: 0
-        gitStatusEntry:
-          path: 
-          fullPath: 
-          projectPath: 
-          originalPath: 
-          indexStatus: 0
-          workTreeStatus: 0
-      - path: Assets\RR\ArmTable.cs
-        label: ArmTable.cs
-        level: 2
-        isFolder: 0
-        isContainer: 0
-        isCollapsed: 0
-        isHidden: 0
-        isActive: 0
-        treeIsCheckable: 1
-        checkState: 0
-        isLocked: 0
-        gitStatusEntry:
-          path: Assets\RR\ArmTable.cs
-          fullPath: C:\Users\User\Desktop\FTsim\FTsim-ADS\Assets\RR\ArmTable.cs
-          projectPath: Assets\RR\ArmTable.cs
-          originalPath: 
-          indexStatus: 0
-          workTreeStatus: 3
-      - path: Assets\Scenes
-        label: Scenes
-        level: 1
-        isFolder: 1
-        isContainer: 0
-        isCollapsed: 0
-        isHidden: 0
-        isActive: 0
-        treeIsCheckable: 1
-        checkState: 0
-        isLocked: 0
-        gitStatusEntry:
-          path: 
-          fullPath: 
-          projectPath: 
-          originalPath: 
-          indexStatus: 0
-          workTreeStatus: 0
-      - path: Assets\Scenes\RR.unity
-        label: RR.unity
-        level: 2
-        isFolder: 0
-        isContainer: 0
-        isCollapsed: 0
-        isHidden: 0
-        isActive: 0
-        treeIsCheckable: 1
-        checkState: 0
-        isLocked: 0
-        gitStatusEntry:
-          path: Assets\Scenes\RR.unity
-          fullPath: C:\Users\User\Desktop\FTsim\FTsim-ADS\Assets\Scenes\RR.unity
-          projectPath: Assets\Scenes\RR.unity
-          originalPath: 
-          indexStatus: 0
-          workTreeStatus: 3
       selectedNode:
         path: 
         label: 
@@ -828,28 +586,16 @@ MonoBehaviour:
           originalPath: 
           indexStatus: 0
           workTreeStatus: 0
-    gitStatusEntries:
-    - path: Assets\RR\ArmTable.cs
-      fullPath: C:\Users\User\Desktop\FTsim\FTsim-ADS\Assets\RR\ArmTable.cs
-      projectPath: Assets\RR\ArmTable.cs
-      originalPath: 
-      indexStatus: 0
-      workTreeStatus: 3
-    - path: Assets\Scenes\RR.unity
-      fullPath: C:\Users\User\Desktop\FTsim\FTsim-ADS\Assets\Scenes\RR.unity
-      projectPath: Assets\Scenes\RR.unity
-      originalPath: 
-      indexStatus: 0
-      workTreeStatus: 3
-    changedFilesText: 2 changed files
+    gitStatusEntries: []
+    changedFilesText: No changed files
     lastCurrentBranchChangedEvent:
-      updatedTimeString: 2024-01-31T08:07:21.336+01:00
+      updatedTimeString: 2024-02-02T14:48:50.865+01:00
       cacheType: 1
     lastStatusEntriesChangedEvent:
-      updatedTimeString: 2024-01-31T08:09:55.561+01:00
+      updatedTimeString: 2024-02-02T14:47:42.117+01:00
       cacheType: 6
     lastLocksChangedEvent:
-      updatedTimeString: 2024-01-31T08:08:30.453+01:00
+      updatedTimeString: 0001-01-01T00:00:00.000+00:00
       cacheType: 7
   historyView:
     currentLogHasUpdate: 0
@@ -12896,7 +12642,7 @@ MonoBehaviour:
   currentRemoteUrl: https://github.com/laspp/FTsim-ADS.git
   statusAhead: 0
   statusBehind: 0
-  hasItemsToCommit: 1
+  hasItemsToCommit: 0
   isTrackingRemoteBranch: 1
   currentBranchContent:
     m_Text: main
@@ -12907,13 +12653,13 @@ MonoBehaviour:
     m_Image: {fileID: 0}
     m_Tooltip: Url of the origin remote
   lastCurrentBranchAndRemoteChangedEvent:
-    updatedTimeString: 2024-01-31T08:07:21.336+01:00
+    updatedTimeString: 2024-02-02T14:48:50.865+01:00
     cacheType: 1
   lastTrackingStatusChangedEvent:
-    updatedTimeString: 2024-01-31T08:08:30.385+01:00
+    updatedTimeString: 2024-02-02T14:48:53.391+01:00
     cacheType: 5
   lastStatusEntriesChangedEvent:
-    updatedTimeString: 2024-01-31T08:09:55.561+01:00
+    updatedTimeString: 2024-02-02T14:47:42.117+01:00
     cacheType: 6
   pullButtonContent:
     m_Text: Pull
@@ -12992,9 +12738,9 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 1213.6
+    x: 1212.8
     y: 80.8
-    width: 495
+    width: 495.80005
     height: 872.2
   m_SerializedDataModeController:
     m_DataMode: 0
@@ -13013,7 +12759,7 @@ MonoBehaviour:
     m_ControlHash: -371814159
     m_PrefName: Preview_InspectorPreview
   m_LastInspectedObjectInstanceID: -1
-  m_LastVerticalScrollValue: 0
+  m_LastVerticalScrollValue: 324.00012
   m_GlobalObjectId: 
   m_InspectorMode: 0
   m_LockTracker:
@@ -13042,7 +12788,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 880.8
     y: 548
-    width: 330.80005
+    width: 330
     height: 405
   m_SerializedDataModeController:
     m_DataMode: 0
@@ -13065,7 +12811,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scenes
+    - Assets/Materials
     m_Globs: []
     m_OriginalText: 
     m_ImportLogFlags: 0
@@ -13073,16 +12819,16 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/Scenes
+  - Assets/Materials
   m_LastFoldersGridSize: 16
   m_LastProjectPath: C:\Users\User\Desktop\FTsim\FTsim-ADS
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 19}
-    m_SelectedIDs: d4500000
-    m_LastClickedID: 20692
-    m_ExpandedIDs: 00000000ac500000ae500000b0500000b2500000b4500000b650000000ca9a3b
+    scrollPos: {x: 0, y: 0}
+    m_SelectedIDs: ce550000
+    m_LastClickedID: 21966
+    m_ExpandedIDs: 00000000ac550000ae550000b0550000b2550000b4550000b655000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -13110,7 +12856,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000ac500000ae500000b0500000b2500000b4500000b6500000
+    m_ExpandedIDs: 00000000ac550000ae550000b0550000b2550000b4550000b6550000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -13591,14 +13337,14 @@ MonoBehaviour:
   m_OverrideSceneCullingMask: 6917529027641081856
   m_SceneIsLit: 1
   m_SceneLighting: 1
-  m_2DMode: 0
+  m_2DMode: 1
   m_isRotationLocked: 0
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 0.85123146, y: 1.6995409, z: -3.3472638}
+    m_Target: {x: 960, y: 540, z: 0}
     speed: 2
-    m_Value: {x: 0.85123146, y: 1.6995409, z: -3.3472638}
+    m_Value: {x: 960, y: 540, z: 0}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -13626,17 +13372,17 @@ MonoBehaviour:
       m_Size: {x: 0, y: 0}
     yGrid:
       m_Fade:
-        m_Target: 1
+        m_Target: 0
         speed: 2
-        m_Value: 1
+        m_Value: 0
       m_Color: {r: 0.5, g: 0.5, b: 0.5, a: 0.4}
       m_Pivot: {x: 0, y: 0, z: 0}
       m_Size: {x: 1, y: 1}
     zGrid:
       m_Fade:
-        m_Target: 0
+        m_Target: 1
         speed: 2
-        m_Value: 0
+        m_Value: 1
       m_Color: {r: 0.5, g: 0.5, b: 0.5, a: 0.4}
       m_Pivot: {x: 0, y: 0, z: 0}
       m_Size: {x: 1, y: 1}
@@ -13644,13 +13390,13 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: 0.113090806, y: -0.22595161, z: 0.026419368, w: 0.9671919}
+    m_Target: {x: 0, y: 0, z: 0, w: 1}
     speed: 2
-    m_Value: {x: 0.11309071, y: -0.22595142, z: 0.026419345, w: 0.96719104}
+    m_Value: {x: 0, y: 0, z: 0, w: 0.99999994}
   m_Size:
-    m_Target: 2.3382854
+    m_Target: 1101.4536
     speed: 2
-    m_Value: 2.3382854
+    m_Value: 1101.4536
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -13668,7 +13414,7 @@ MonoBehaviour:
     m_FarClip: 10000
     m_DynamicClip: 1
     m_OcclusionCulling: 0
-  m_LastSceneViewRotation: {x: -0.180062, y: 0.3293013, z: -0.06412442, w: -0.9246764}
+  m_LastSceneViewRotation: {x: 0.1358993, y: -0.42265597, z: 0.06426646, w: 0.89374685}
   m_LastSceneViewOrtho: 1
   m_ReplacementShader: {fileID: 0}
   m_ReplacementString: 
@@ -13698,7 +13444,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 880.8
     y: 80.8
-    width: 330.80005
+    width: 330
     height: 446.2
   m_SerializedDataModeController:
     m_DataMode: 0
@@ -13713,9 +13459,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 
+      m_SelectedIDs: 424a0000
       m_LastClickedID: 0
-      m_ExpandedIDs: 7ac5fdff86c5fdffd4c5fdff3ec6fdff44c6fdff68c8fdff5ecbfdffc8cbfdffcecbfdffe4cdfdffaed9fdff18dafdff1edafdff32dcfdff34dcfdffa4e4fdff80e5fdff86e5fdff3ee6fdff44e6fdff58e8fdff68e8fdffc027feff182cfeff2c2efeff3e2efeff1667feff3876feff4876feffe698feffe898feff3a9ffeff1ca5feff1ea5feff3aacfeff3cacfeffbac1feff80c3feff54c7fefff4f5feffe25cffff34a5ffff6caaffff32fbffff524c0000428000005e80000090810000f881000060830000a6830000c8ec00004eee000006f2000066f20000044301004e44010034a4010064a4010084a701006ad5010002d7010056d701006ad80100fe3e02009a4002004e430200
+      m_ExpandedIDs: 369cffffd29fffffe8b6ffff26fbffff7c4b0000144c0000304c0000424d0000544d0000c24d0000164e0000264f0000e2dc000016dd00001add000024dd0000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 

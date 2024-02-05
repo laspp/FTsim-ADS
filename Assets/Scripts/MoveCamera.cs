@@ -13,11 +13,13 @@ public class MoveCamera : MonoBehaviour
 	public float turnSpeed = 4.0f;      // Speed of camera turning when mouse moves in along an axis
 	public float panSpeed = 4.0f;       // Speed of the camera when being panned
 	public float zoomSpeed = 4.0f;      // Speed of the camera going back and forth
-	// RR: 1, 10, 0
+	// RR: -1, 10, 0
 	// L2N: 0.5f, 10, 1
 	public Vector3 cameraPositionTop = new Vector3(0.5f, 10, 1);
+	// RR: 6
+	// L2N: 4
 	public float cameraOrtographicSizeTop = 4f;
-	// RR: 15, 3, 0
+	// RR: 15, 3.3, -0.1
 	// L2N: 15, 2, 0.9f
 	public Vector3 cameraPositionSide = new Vector3(15, 2, 0.9f);
 	// RR: 3.5f
