@@ -14,22 +14,21 @@ public class SmartBar : MonoBehaviour, IPointerClickHandler
 
     MeshRenderer objMeshRederer;
     Color origColor;
-    Vector3 growVector;
     float origScale;
     float currentScale;
     float targetScale;
-    float scaleEps = 0.01f;
+    readonly float scaleEps = 0.01f;
     Builder builderScript;
-
+    bool isScaling;
 
     void Awake()
     {
         origScale = transform.parent.localScale.y;
         currentScale = origScale;
         targetScale = currentScale;
+        isScaling = false;
         objMeshRederer = GetComponent<MeshRenderer>();
         origColor = objMeshRederer.material.color;
-        growVector = new Vector3(0, scaleStep, 0);
         builderScript = panelBuilder.GetComponent<Builder>();
     }
 
@@ -42,11 +41,16 @@ public class SmartBar : MonoBehaviour, IPointerClickHandler
         // Check if the current scale is not approximately equal to the target scale
         if (Mathf.Abs(diff) > scaleEps)
         {
+            isScaling = true;
             // Determine whether to increase or decrease the scale based on the difference between current and target scales
             float scaleChange = Mathf.Sign(diff) * scaleSpeed * Time.fixedDeltaTime;
 
             // Apply the scale change
             transform.parent.localScale += new Vector3(0f, scaleChange, 0f);
+        }
+        else
+        {
+            isScaling = false;
         }
     }
 
@@ -68,10 +72,8 @@ public class SmartBar : MonoBehaviour, IPointerClickHandler
     }
     void OnMouseExit()
     {
-        //if (builderScript.BuilderMode)
-        //{
         objMeshRederer.material.color = origColor;
-        //}
+        
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -89,9 +91,8 @@ public class SmartBar : MonoBehaviour, IPointerClickHandler
                 {
                     // Let's scale the cube up by growBy
                     // To scale in only one direction, we actually scale its parent (empty gameObject placed at the base of a bar)
-                    if (transform.parent.localScale.y < maxScale)
-                    {
-                        //transform.parent.localScale += growVector;
+                    if (!isScaling && transform.parent.localScale.y < maxScale)
+                    {                        
                         targetScale += scaleStep;
                     }
                 }
@@ -100,9 +101,8 @@ public class SmartBar : MonoBehaviour, IPointerClickHandler
             if (eventData.button == PointerEventData.InputButton.Right)
             {
                 // Let's scale the cube down by growBy
-                if (transform.parent.localScale.y > origScale)
-                {
-                    //transform.parent.localScale -= growVector;
+                if (!isScaling && transform.parent.localScale.y > origScale)
+                {                    
                     targetScale -= scaleStep;
                 }
             }
