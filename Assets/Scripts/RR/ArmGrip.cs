@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class ArmGrip : MonoBehaviour
 {
-
+    public GameObject communication;
     [Tooltip("A name of tag (defined in config-RR.json)")]
     public string tagSwitchReference = "SwitchReferenceGrip";
     [Tooltip("A name of tag (defined in config-RR.json)")]
@@ -23,7 +23,7 @@ public class ArmGrip : MonoBehaviour
     public Transform objPosition; // object that defines position and is used to trigger pulses
     public Transform objGripped = null;
     public GameObject warningSign;
-
+    
     bool isGripped;
     Collider workpieceCollider;
 
@@ -67,7 +67,7 @@ public class ArmGrip : MonoBehaviour
     // Initialization
     void Awake()
     {
-        com = GameObject.Find("Communication").GetComponent<Communication>();
+        com = communication.GetComponent<Communication>();
 
         PLCCycle = float.Parse(com.appConfig.TrainingModelSpecific["PLCCycle"]);
         stepsLimit = int.Parse(com.appConfig.TrainingModelSpecific[strStepsLimit]); // number of pulses on the distance between arm and the limit

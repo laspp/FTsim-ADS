@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class ArmExtend : MonoBehaviour
 {
-
+    public GameObject communication;
     [Tooltip("A name of tag (defined in config-RR.json)")]
     public string tagSwitchReference = "SwitchReferenceExtend";
     [Tooltip("A name of tag (defined in config-RR.json)")]
@@ -20,7 +20,7 @@ public class ArmExtend : MonoBehaviour
     public Transform objWarningLimitOpenEnd;
     public Transform objPosition; // object that defines position and is used to trigger pulses
     public GameObject warningSign;
-
+    
     Communication com;
     float PLCCycle; // target cycle of the PLC in seconds
     readonly float speedFactor = 1.0f; // Horizontal speed between 1 (i.e. max speed) and 0.1 (min. speed)
@@ -57,7 +57,7 @@ public class ArmExtend : MonoBehaviour
     // Initialization
     void Awake()
     {
-        com = GameObject.Find("Communication").GetComponent<Communication>();
+        com = communication.GetComponent<Communication>();
 
         PLCCycle = float.Parse(com.appConfig.TrainingModelSpecific["PLCCycle"]);
         stepsLimit = int.Parse(com.appConfig.TrainingModelSpecific[strStepsLimit]); // number of pulses on the distance between arm and the limit

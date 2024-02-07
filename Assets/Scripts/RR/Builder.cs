@@ -10,12 +10,14 @@ public class Builder : MonoBehaviour
     public GameObject buttonSave;
     public GameObject toggleSpawn;
     public GameObject prefabSmartBar;
-
+    public GameObject communication;
     public int gridX = 10;
     public int gridZ = 16;
     public float spacing = 0.65f;
     public int offsetX = -8;
     public int offsetZ = -3;
+
+    Communication com;
     float startX;
     float startZ;
     Button btnSave, btnReset;
@@ -30,6 +32,8 @@ public class Builder : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        com = communication.GetComponent<Communication>();
+
         BuilderMode = false;
         SpawnMode = false;
         btnSave = buttonSave.GetComponent<Button>();

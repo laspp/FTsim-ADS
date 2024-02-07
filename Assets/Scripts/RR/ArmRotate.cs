@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class ArmRotate : MonoBehaviour
 {
-
+    public GameObject communication;
     [Tooltip("A name of tag (defined in config-RR.json)")]
     public string tagSwitchReference = "SwitchReferenceRotate";
     [Tooltip("A name of tag (defined in config-RR.json)")]
@@ -23,6 +23,7 @@ public class ArmRotate : MonoBehaviour
     public Transform objRotationRef;
     public Transform objPositionEnd;
     public GameObject warningSign;
+    
 
     Communication com;
     float PLCCycle; // target cycle of the PLC in seconds
@@ -62,7 +63,7 @@ public class ArmRotate : MonoBehaviour
     // Initialization
     void Awake()
     {
-        com = GameObject.Find("Communication").GetComponent<Communication>();
+        com = communication.GetComponent<Communication>();
 
         PLCCycle = float.Parse(com.appConfig.TrainingModelSpecific["PLCCycle"]);
         stepsLimit = int.Parse(com.appConfig.TrainingModelSpecific[strStepsLimit]); // number of pulses on the distance between arm and the limit
