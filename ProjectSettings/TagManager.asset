@@ -12,6 +12,7 @@ TagManager:
   - Holder
   - hnd
   - SmartBarBase
+  - SmartBarRespawn
   layers:
   - Default
   - TransparentFX
