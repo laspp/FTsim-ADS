@@ -18,8 +18,6 @@ public class Builder : MonoBehaviour
     public int offsetZ = -3;
     float startX;
     float startZ;
-
-    Vector3 initScale = new Vector3(1, 1, 1);
     Button btnSave, btnReset;
     Toggle tglSpawn;
 

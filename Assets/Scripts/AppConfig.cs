@@ -12,4 +12,5 @@ public class AppConfig
     public Dictionary<string, string> InputVariableMap;
     public Dictionary<string, string> OutputVariableMap;
     public Dictionary<string, string> TrainingModelSpecific;
+    public List<List<int>> SmartBarGrid;
 }

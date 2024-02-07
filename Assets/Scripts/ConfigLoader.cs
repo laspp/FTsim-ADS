@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using UnityEngine;
 using Newtonsoft.Json;
 
 public class ConfigLoader

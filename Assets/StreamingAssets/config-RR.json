@@ -41,5 +41,9 @@
     "ExtendStepsLimit": 80,
     "GripStepsLimit": 18,
     "PLCCycle": 0.02
-  }
+  },
+  "SmartBarGrid": [
+    [ 0, 0, 2 ],
+    [ 3, 3, 4 ]
+  ]
 }
