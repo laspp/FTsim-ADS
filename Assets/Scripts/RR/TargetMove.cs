@@ -15,8 +15,9 @@ public class TargetMove : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		posHolder = holder.transform.position;
-		pos.x = posHolder.x;
-		pos.z = posHolder.z;
-		transform.position = pos;
+		//pos.x = posHolder.x;
+		//pos.z = posHolder.z;
+		//transform.position = pos;
+		transform.position = posHolder;
 	}
 }

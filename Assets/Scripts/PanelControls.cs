@@ -27,6 +27,8 @@ public class PanelControls : MonoBehaviour
         com.WriteToPlc("ButtonBlackTopRight", false);
         com.WriteToPlc("ButtonBlackBottomLeft", false);
         com.WriteToPlc("ButtonBlackBottomRight", false);
+
+        workpiece.SetActive(false);
     }
 
     void Update()
