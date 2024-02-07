@@ -54,6 +54,8 @@ public class Builder : MonoBehaviour
             {
                 Vector3 pos = new Vector3(startX, 0, startZ) + new Vector3(x, 0, z) * spacing;
                 GameObject clone = Instantiate(prefabSmartBar, pos, Quaternion.identity);
+                // Put clone in the same group as prefab's
+                clone.transform.parent = prefabSmartBar.transform.parent;
                 clone.SetActive(true);
             }
         }
@@ -67,7 +69,8 @@ public class Builder : MonoBehaviour
             GameObject[] smartBarBases = GameObject.FindGameObjectsWithTag("SmartBarBase");
             foreach (GameObject sbb in smartBarBases)
             {
-                sbb.transform.localScale = initScale;
+                //sbb.transform.localScale = initScale;
+                sbb.GetComponent<SmartBarBase>().ResetTargetScale();
             }
         }
     }
