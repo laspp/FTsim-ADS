@@ -6,16 +6,16 @@ using UnityEngine.EventSystems;
 public class SmartBar : MonoBehaviour, IPointerClickHandler
 {
     public GameObject panelBuilder;
-    public Transform workpieceSpawnPoint;
+    public Transform workpieceRespawnPoint;
     public Material materialBase;
     public Material materialHover;
-    public Material materialSpawn;
+    public Material materialRespawn;
 
     GameObject smartBarBase;
     MeshRenderer objMeshRederer;
     Builder builderScript;
     SmartBarBase smartBarBaseScript;
-
+    readonly string tagRespawn = "SmartBarRespawn";
 
     void Awake()
     {
@@ -32,7 +32,7 @@ public class SmartBar : MonoBehaviour, IPointerClickHandler
         {
             if (builderScript.SpawnMode)
             {
-                objMeshRederer.material = materialSpawn;
+                objMeshRederer.material = materialRespawn;
             }
             else
             {
@@ -42,7 +42,14 @@ public class SmartBar : MonoBehaviour, IPointerClickHandler
     }
     void OnMouseExit()
     {
-        objMeshRederer.material = materialBase;
+        if (gameObject.CompareTag("SmartBarRespawn"))
+        {
+            objMeshRederer.material = materialRespawn;
+        }
+        else
+        {
+            objMeshRederer.material = materialBase;
+        }
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -55,7 +62,19 @@ public class SmartBar : MonoBehaviour, IPointerClickHandler
                 {
                     float maxScale = smartBarBaseScript.maxScale;
                     // Set spawn point above this bar
-                    workpieceSpawnPoint.position = new Vector3(transform.position.x, maxScale, transform.position.z);
+                    workpieceRespawnPoint.position = new Vector3(transform.position.x, maxScale, transform.position.z);
+                    
+                    // Remove tag from old position
+                    GameObject go = GameObject.FindGameObjectWithTag(tagRespawn);
+                    if (go != null)
+                    {
+                        go.tag = "Untagged";
+                        go.GetComponent<MeshRenderer>().material = materialBase;
+                    }
+                    
+                    // Apply unique tag to mark this smartbar
+                    gameObject.tag = tagRespawn;
+                    objMeshRederer.material = materialRespawn;
                 }
                 else
                 {

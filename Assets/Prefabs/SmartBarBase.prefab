@@ -124,7 +124,7 @@ MonoBehaviour:
   workpieceSpawnPoint: {fileID: 0}
   materialBase: {fileID: 2100000, guid: 1d29a14fbe71b6a4493287cd64bdc4ce, type: 2}
   materialHover: {fileID: 2100000, guid: 83020ddace30b4246a6d9cb16b5e1f2e, type: 2}
-  materialSpawn: {fileID: 2100000, guid: 9c345f46c05c265449e8d7e56a46b163, type: 2}
+  materialRespawn: {fileID: 2100000, guid: 9c345f46c05c265449e8d7e56a46b163, type: 2}
 --- !u!64 &7112773352707552607
 MeshCollider:
   m_ObjectHideFlags: 0
