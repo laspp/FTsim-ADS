@@ -7,10 +7,12 @@ public class SmartBar : MonoBehaviour, IPointerClickHandler
 {
     public GameObject panelBuilder;
     public Transform workpieceSpawnPoint;
+    public Material materialBase;
+    public Material materialHover;
+    public Material materialSpawn;
 
     GameObject smartBarBase;
     MeshRenderer objMeshRederer;
-    Color origColor;
     Builder builderScript;
     SmartBarBase smartBarBaseScript;
 
@@ -21,7 +23,7 @@ public class SmartBar : MonoBehaviour, IPointerClickHandler
         smartBarBase = transform.parent.gameObject;
         smartBarBaseScript = smartBarBase.GetComponent<SmartBarBase>();
         objMeshRederer = GetComponent<MeshRenderer>();
-        origColor = objMeshRederer.material.color;
+        materialBase = objMeshRederer.material;
     }
 
     void OnMouseEnter()
@@ -30,17 +32,17 @@ public class SmartBar : MonoBehaviour, IPointerClickHandler
         {
             if (builderScript.SpawnMode)
             {
-                objMeshRederer.material.color = Color.yellow;
+                objMeshRederer.material = materialSpawn;
             }
             else
             {
-                objMeshRederer.material.color = Color.green;
+                objMeshRederer.material = materialHover;
             }
         }
     }
     void OnMouseExit()
     {
-        objMeshRederer.material.color = origColor;
+        objMeshRederer.material = materialBase;
     }
 
     public void OnPointerClick(PointerEventData eventData)
