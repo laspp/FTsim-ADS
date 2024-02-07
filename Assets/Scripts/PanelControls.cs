@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class PanelControls : MonoBehaviour
 {
-
+    public GameObject communication;
     public GameObject workpiece;
     public Transform spawnPoint;
     public Transform lightRed;
@@ -12,21 +12,20 @@ public class PanelControls : MonoBehaviour
     public Transform lightBlueTop;
     public Transform lightBlueBottom;
 
-
-    Communication com;
+    Communication comScript;
 
     void Awake()
     {
-        com = GameObject.Find("Communication").GetComponent<Communication>();
+        comScript = communication.GetComponent<Communication>();
 
         // Initialize all panel inputs to false (buttons, toggle switch)
-        com.WriteToPlc("ToggleSwitch", false);
-        com.WriteToPlc("ButtonRed", false);
-        com.WriteToPlc("ButtonGreen", false);
-        com.WriteToPlc("ButtonBlackTopLeft", false);
-        com.WriteToPlc("ButtonBlackTopRight", false);
-        com.WriteToPlc("ButtonBlackBottomLeft", false);
-        com.WriteToPlc("ButtonBlackBottomRight", false);
+        comScript.WriteToPlc("ToggleSwitch", false);
+        comScript.WriteToPlc("ButtonRed", false);
+        comScript.WriteToPlc("ButtonGreen", false);
+        comScript.WriteToPlc("ButtonBlackTopLeft", false);
+        comScript.WriteToPlc("ButtonBlackTopRight", false);
+        comScript.WriteToPlc("ButtonBlackBottomLeft", false);
+        comScript.WriteToPlc("ButtonBlackBottomRight", false);
 
         workpiece.SetActive(false);
     }
@@ -34,10 +33,10 @@ public class PanelControls : MonoBehaviour
     void Update()
     {
         // Control lights
-        lightRed.GetComponent<Toggle>().isOn = com.GetTagValue("LightRed");
-        lightGreen.GetComponent<Toggle>().isOn = com.GetTagValue("LightGreen");
-        lightBlueTop.GetComponent<Toggle>().isOn = com.GetTagValue("LightBlueTop");
-        lightBlueBottom.GetComponent<Toggle>().isOn = com.GetTagValue("LightBlueBottom");
+        lightRed.GetComponent<Toggle>().isOn = comScript.GetTagValue("LightRed");
+        lightGreen.GetComponent<Toggle>().isOn = comScript.GetTagValue("LightGreen");
+        lightBlueTop.GetComponent<Toggle>().isOn = comScript.GetTagValue("LightBlueTop");
+        lightBlueBottom.GetComponent<Toggle>().isOn = comScript.GetTagValue("LightBlueBottom");
     }
 
     public void CreateNewWorkpiece()
@@ -63,38 +62,38 @@ public class PanelControls : MonoBehaviour
     }
 
     public void LoadStartMenuScene()
-    {        
+    {
         SceneManager.LoadScene("StartMenu");
     }
 
     public void ToggleSwitchOnChange(Toggle change)
     {
         Debug.Log("ToggleSwitch change: " + change.isOn);
-        com.WriteToPlc("ToggleSwitch", change.isOn);
+        comScript.WriteToPlc("ToggleSwitch", change.isOn);
     }
     public void ButtonRedOnChange(Toggle change)
     {
-        com.WriteToPlc("ButtonRed", change.isOn);
+        comScript.WriteToPlc("ButtonRed", change.isOn);
     }
     public void ButtonGreenOnChange(Toggle change)
     {
-        com.WriteToPlc("ButtonGreen", change.isOn);
+        comScript.WriteToPlc("ButtonGreen", change.isOn);
     }
     public void ButtonBlackTopLeftOnChange(Toggle change)
     {
-        com.WriteToPlc("ButtonBlackTopLeft", change.isOn);
+        comScript.WriteToPlc("ButtonBlackTopLeft", change.isOn);
     }
     public void ButtonBlackTopRightOnChange(Toggle change)
     {
-        com.WriteToPlc("ButtonBlackTopRight", change.isOn);
+        comScript.WriteToPlc("ButtonBlackTopRight", change.isOn);
     }
     public void ButtonBlackBottomLeftOnChange(Toggle change)
     {
-        com.WriteToPlc("ButtonBlackBottomLeft", change.isOn);
+        comScript.WriteToPlc("ButtonBlackBottomLeft", change.isOn);
     }
     public void ButtonBlackBottomRightOnChange(Toggle change)
     {
-        com.WriteToPlc("ButtonBlackBottomRight", change.isOn);
+        comScript.WriteToPlc("ButtonBlackBottomRight", change.isOn);
     }
 
 }

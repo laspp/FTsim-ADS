@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 6391911534915568540}
   - component: {fileID: 1061365903202314483}
   m_Layer: 0
-  m_Name: WorkpieceTemplate
+  m_Name: Workpiece
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
