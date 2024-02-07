@@ -22,6 +22,9 @@ public class Builder : MonoBehaviour
     float startZ;
     Button btnSave, btnReset;
     Toggle tglSpawn;
+    List<int[]> smartBarGrid;
+    bool isSaved = false;
+    int sX, sZ, sScale = 1;
 
     bool builderMode;
     public bool BuilderMode { get => builderMode; set => builderMode = value; }
@@ -33,6 +36,7 @@ public class Builder : MonoBehaviour
     void Awake()
     {
         com = communication.GetComponent<Communication>();
+        smartBarGrid = com.appConfig.SmartBarGrid;
 
         BuilderMode = false;
         SpawnMode = false;
@@ -54,11 +58,40 @@ public class Builder : MonoBehaviour
         {
             for (int x = 0; x < gridX; x++)
             {
+                if (smartBarGrid != null)
+                {
+                    // Check if index exists in smartBarGrid and use its props
+                    isSaved = false;
+                    foreach (var savedItem in smartBarGrid)
+                    {
+                        sX = savedItem[0];
+                        sZ = savedItem[1];
+                        sScale = savedItem[2];
+                        if (x == sX && z == sZ)
+                        {
+                            // Remove item from the list
+                            smartBarGrid.Remove(savedItem);
+                            isSaved = true;
+                            break;
+                        }
+                    }
+                }
+                // Instantiate a clone
                 Vector3 pos = new Vector3(startX, 0, startZ) + new Vector3(x, 0, z) * spacing;
                 GameObject clone = Instantiate(prefabSmartBar, pos, Quaternion.identity);
                 // Put clone in the same group as prefab's
                 clone.transform.parent = prefabSmartBar.transform.parent;
                 clone.SetActive(true);
+
+                // Set x and z to object for further reference
+                clone.GetComponent<SmartBarBase>().GridIndexX = x;
+                clone.GetComponent<SmartBarBase>().GridIndexZ = z;
+
+                // Apply saved scale if it exists
+                if (isSaved)
+                {
+                    clone.GetComponent<SmartBarBase>().TargetScale = sScale;
+                }
             }
         }
     }
@@ -75,6 +108,38 @@ public class Builder : MonoBehaviour
                 sbb.GetComponent<SmartBarBase>().ResetTargetScale();
             }
         }
+    }
+
+    public void SaveSmartBarGrid()
+    {
+        if (smartBarGrid == null)
+        {
+            smartBarGrid = new List<int[]>();
+        }
+        
+        GameObject[] smartBarBases = GameObject.FindGameObjectsWithTag("SmartBarBase");
+        foreach (GameObject sbb in smartBarBases)
+        {
+
+            float targetScale = sbb.GetComponent<SmartBarBase>().TargetScale;
+            float origScale = sbb.GetComponent<SmartBarBase>().OrigScale;
+            
+            if (targetScale > origScale)
+            {
+                int x = sbb.GetComponent<SmartBarBase>().GridIndexX;
+                int z = sbb.GetComponent<SmartBarBase>().GridIndexZ;
+                int[] coord = new int[] { x, z, (int)targetScale };
+                if (!smartBarGrid.Contains(coord))
+                {
+                    smartBarGrid.Add(coord);
+                }
+            }
+        }
+
+
+        // TODO: write list to JSON
+
+
     }
 
     public void ToggleModeOnChange()

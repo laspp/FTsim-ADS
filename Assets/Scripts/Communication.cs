@@ -58,23 +58,6 @@ public class Communication : MonoBehaviour
         }
     }
 
-    private void ConfigFileLoad()
-    {
-        string sceneName = SceneManager.GetActiveScene().name;
-        string configFile = "config-" + sceneName + ".json";
-        try
-        {            
-            configFilePath = System.IO.Path.Combine(Application.streamingAssetsPath, configFile);
-            appConfig = ConfigLoader.LoadConfig(configFilePath);
-            isConfigFileRead = true;
-        }
-        catch (Exception)
-        {
-            isConfigFileRead = false;
-            throw;
-        }
-    }
-
     void Start()
     {
         InvokeRepeating(nameof(ErrorsDisplayConfig), 1f, 1f);
@@ -250,6 +233,22 @@ public class Communication : MonoBehaviour
     {
         symbol.NotificationSettings = new NotificationSettings(AdsTransMode.OnChange, tagCycleTime, tagMaxDelay);
         symbol.ValueChanged += SymbolOnValueChanged;
+    }
+    private void ConfigFileLoad()
+    {
+        string sceneName = SceneManager.GetActiveScene().name;
+        string configFile = "config-" + sceneName + ".json";
+        try
+        {
+            configFilePath = System.IO.Path.Combine(Application.streamingAssetsPath, configFile);
+            appConfig = ConfigLoader.LoadConfig(configFilePath);
+            isConfigFileRead = true;
+        }
+        catch (Exception)
+        {
+            isConfigFileRead = false;
+            throw;
+        }
     }
 
     public async void WriteToPlc(string tag, bool valueToWrite)

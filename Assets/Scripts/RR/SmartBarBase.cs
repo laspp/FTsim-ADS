@@ -12,13 +12,19 @@ public class SmartBarBase : MonoBehaviour
     float targetScale;
     readonly float scaleEps = 0.01f;
     bool isScaling;
-    
+    int gridIndexX;
+    int gridIndexZ;
+
+    public float TargetScale { get => targetScale; set => targetScale = value; }
+    public float OrigScale { get => origScale; set => origScale = value; }
+    public int GridIndexX { get => gridIndexX; set => gridIndexX = value; }
+    public int GridIndexZ { get => gridIndexZ; set => gridIndexZ = value; }
 
     void Awake()
     {
-        origScale = transform.localScale.y;
-        currentScale = origScale;
-        targetScale = currentScale;
+        OrigScale = transform.localScale.y;
+        currentScale = OrigScale;
+        TargetScale = currentScale;
         isScaling = false;
     }
 
@@ -26,7 +32,7 @@ public class SmartBarBase : MonoBehaviour
     {
         // Get the current scale in the Y direction
         currentScale = transform.localScale.y;
-        float diff = targetScale - currentScale;
+        float diff = TargetScale - currentScale;
 
         // Check if the current scale is not approximately equal to the target scale
         if (Mathf.Abs(diff) > scaleEps)
@@ -48,20 +54,25 @@ public class SmartBarBase : MonoBehaviour
     {
         if (!isScaling && transform.localScale.y < maxScale)
         {
-            targetScale += scaleStep;
+            TargetScale += scaleStep;
         }
     }
 
     public void ScaleDown()
     {
-        if (!isScaling && transform.localScale.y > origScale)
+        if (!isScaling && transform.localScale.y > OrigScale)
         {
-            targetScale -= scaleStep;
+            TargetScale -= scaleStep;
         }
+    }
+
+    public void SetTargetScale (float newTarget)
+    {
+        TargetScale = newTarget;
     }
 
     public void ResetTargetScale()
     {
-        targetScale = origScale;
+        TargetScale = OrigScale;
     }
 }
