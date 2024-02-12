@@ -241,12 +241,27 @@ public class Communication : MonoBehaviour
         try
         {
             configFilePath = System.IO.Path.Combine(Application.streamingAssetsPath, configFile);
-            appConfig = ConfigLoader.LoadConfig(configFilePath);
+            appConfig = ConfigFileManager.LoadConfig(configFilePath);
             isConfigFileRead = true;
         }
         catch (Exception)
         {
             isConfigFileRead = false;
+            throw;
+        }
+    }
+
+    public void ConfigFileSave()
+    {
+        string sceneName = SceneManager.GetActiveScene().name;
+        string configFile = "config-" + sceneName + ".json";
+        try
+        {
+            configFilePath = System.IO.Path.Combine(Application.streamingAssetsPath, configFile);
+            ConfigFileManager.SaveConfig(configFilePath, appConfig);            
+        }
+        catch (Exception)
+        {            
             throw;
         }
     }

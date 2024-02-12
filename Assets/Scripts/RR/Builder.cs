@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -54,15 +55,18 @@ public class Builder : MonoBehaviour
     void Start()
     {
         prefabSmartBar.SetActive(false);
+        // Create a copy of smartBarGrid (we will remove items from it)
+        List<int[]> smartBarGridCopy = DeepCopy(smartBarGrid);
+
         for (int z = 0; z < gridZ; z++)
         {
             for (int x = 0; x < gridX; x++)
             {
-                if (smartBarGrid != null)
+                if (smartBarGridCopy != null)
                 {
                     // Check if index exists in smartBarGrid and use its props
                     isSaved = false;
-                    foreach (var savedItem in smartBarGrid)
+                    foreach (var savedItem in smartBarGridCopy)
                     {
                         sX = savedItem[0];
                         sZ = savedItem[1];
@@ -70,7 +74,7 @@ public class Builder : MonoBehaviour
                         if (x == sX && z == sZ)
                         {
                             // Remove item from the list
-                            smartBarGrid.Remove(savedItem);
+                            smartBarGridCopy.Remove(savedItem);
                             isSaved = true;
                             break;
                         }
@@ -95,7 +99,18 @@ public class Builder : MonoBehaviour
             }
         }
     }
-        
+    static List<int[]> DeepCopy(List<int[]> original)
+    {
+        List<int[]> copy = new List<int[]>(original.Count);
+        foreach (var array in original)
+        {
+            int[] newArray = new int[array.Length];
+            System.Array.Copy(array, newArray, array.Length);
+            copy.Add(newArray);
+        }
+        return copy;
+    }
+
     public void ResetSmartBarsHeight()
     {
         if (BuilderMode)
@@ -112,11 +127,13 @@ public class Builder : MonoBehaviour
 
     public void SaveSmartBarGrid()
     {
-        if (smartBarGrid == null)
-        {
-            smartBarGrid = new List<int[]>();
-        }
-        
+        //if (smartBarGrid == null)
+        //{
+        //    smartBarGrid = new List<int[]>();
+        //}
+        // Clear the list and  populate it based on current state of smartBars.
+        smartBarGrid.Clear();
+
         GameObject[] smartBarBases = GameObject.FindGameObjectsWithTag("SmartBarBase");
         foreach (GameObject sbb in smartBarBases)
         {
@@ -129,17 +146,23 @@ public class Builder : MonoBehaviour
                 int x = sbb.GetComponent<SmartBarBase>().GridIndexX;
                 int z = sbb.GetComponent<SmartBarBase>().GridIndexZ;
                 int[] coord = new int[] { x, z, (int)targetScale };
-                if (!smartBarGrid.Contains(coord))
-                {
-                    smartBarGrid.Add(coord);
-                }
+
+                AddIfNotExists(smartBarGrid, coord);
             }
         }
 
+        // Write the list to JSON config file
+        com.ConfigFileSave();
 
-        // TODO: write list to JSON
-
-
+    }
+    // Method to add a new item to the list only if it doesn't already exist
+    static void AddIfNotExists(List<int[]> list, int[] newItem)
+    {
+        // Check if the new item already exists in the list
+        if (!list.Any(item => item.SequenceEqual(newItem)))
+        {
+            list.Add(newItem);
+        }
     }
 
     public void ToggleModeOnChange()

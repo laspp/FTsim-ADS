@@ -36,15 +36,11 @@
     "MotorGripMovement": "IO.MotorGripMovement"
   },
   "TrainingModelSpecific": {
-    "RotateStepsLimit": 180,
-    "LiftStepsLimit": 120,
-    "ExtendStepsLimit": 80,
-    "GripStepsLimit": 18,
-    "PLCCycle": 0.02
+    "RotateStepsLimit": "180",
+    "LiftStepsLimit": "120",
+    "ExtendStepsLimit": "80",
+    "GripStepsLimit": "18",
+    "PLCCycle": "0.02"
   },
-  "SmartBarGrid": [
-    [ 0, 0, 3 ],
-    [ 3, 3, 5 ],
-    [ 7, 3, 3]
-  ]
+  "SmartBarGrid": []
 }
