@@ -38,7 +38,7 @@ public class Communication : MonoBehaviour
     {
         Application.runInBackground = true;
 
-        Debug.Log("Communication: connecting to Beckhoff PLC over ADS ...\n");
+        //Debug.Log("Communication: connecting to Beckhoff PLC over ADS ...\n");
 
         try
         {
@@ -74,7 +74,7 @@ public class Communication : MonoBehaviour
 
             if (adsClient.IsConnected)
             {
-                Debug.Log($"PlcConnect: connected to PLC ({adsClient.Address}).");
+                //Debug.Log($"PlcConnect: connected to PLC ({adsClient.Address}).");
                 isConnectedToPlc = true;
             }
             else
@@ -84,8 +84,8 @@ public class Communication : MonoBehaviour
         }
         catch (Exception ex)
         {
-            Debug.LogError($"PlcConnect: {ex.Message}");
-            //ErrorsAdd(ex.Message);
+            //Debug.LogError($"PlcConnect: {ex.Message}");
+            ErrorsAdd($"PlcConnect: {ex.Message}");
             isConnectedToPlc = false;
         }
 
@@ -106,9 +106,9 @@ public class Communication : MonoBehaviour
                 {
                     symbol = (IValueSymbol)symbolLoader.Symbols[plcTag];
                 }
-                catch (Exception e)
+                catch
                 {
-                    Debug.LogError($"PlcFetchSymbols: Cannot map tag '{plcTag}'; does it exists on PLC? {e.Message}");
+                    //Debug.LogError($"PlcFetchSymbols: Cannot map tag '{plcTag}'; does it exists on PLC? {e.Message}");
                     ErrorsAdd(plcTag);
                     symbolsFetchedOK = false;
                 }
@@ -125,9 +125,9 @@ public class Communication : MonoBehaviour
                     symbol = (IValueSymbol)symbolLoader.Symbols[plcTag];
                     SubscribeToSymbol(symbol);
                 }
-                catch (Exception e)
+                catch
                 {
-                    Debug.LogError($"PlcFetchSymbols: Cannot map tag '{plcTag}'; does it exists on PLC? {e.Message}");
+                    //Debug.LogError($"PlcFetchSymbols: Cannot map tag '{plcTag}'; does it exists on PLC? {e.Message}");
                     ErrorsAdd(plcTag);
                     symbolsFetchedOK = false;
                 }
@@ -138,9 +138,9 @@ public class Communication : MonoBehaviour
 
             areSymbolsMapped = symbolsFetchedOK;
         }
-        catch (Exception ex)
+        catch
         {
-            Debug.LogError($"PlcFetchSymbols: {ex.Message}");
+            //Debug.LogError($"PlcFetchSymbols: {ex.Message}");
             areSymbolsMapped = false;
         }
 
@@ -192,7 +192,6 @@ public class Communication : MonoBehaviour
         // Check for errors and show a dialog with list
         if (isConfigFileRead && isConnectedToPlc && errorSetSymbols.Count != 0)
         {
-            //Debug.Log($"There are {errorSet.Count} errors in a set");
             if (GameObject.FindWithTag("Dialog_error_list") == null)
             {
                 string text = "";
@@ -221,7 +220,6 @@ public class Communication : MonoBehaviour
 
     void OnApplicationQuit()
     {
-        Debug.Log("Application is about to quit, cleaning up the resources ...");
         // Unsubscribe from all events and clean up resources
         UnsubscribeFromAllSymbols();
         // Disconnect and dispose
@@ -276,17 +274,18 @@ public class Communication : MonoBehaviour
                 string plcTag = appConfig.InputVariableMap[tag];
                 IValueSymbol symbol = inputPlcTagToSymbol[plcTag];
                 ResultWriteAccess resultWrite = await symbol.WriteValueAsync(valueToWrite, cancel);
-                Debug.Log($"{tag} ::: write success? {resultWrite.Succeeded}");
+                //Debug.Log($"{tag} ::: write success? {resultWrite.Succeeded}");
             }
-            catch (Exception ex)
+            catch
             {
-                Debug.LogError($"WriteToPlc: error during writing tag '{tag}' to PLC: {ex.Message}");
+                //Debug.LogError($"WriteToPlc: error during writing tag '{tag}' to PLC: {ex.Message}");
                 ErrorsAdd($"Cannot write tag '{tag}' on PLC.");
             }
         }
         else
         {
-            Debug.LogError($"WriteToPlc: cannot write tag {tag} to PLC, either there is no connection or mapping errors exist.");
+            //Debug.LogError($"WriteToPlc: cannot write tag {tag} to PLC, either there is no connection or mapping errors exist.");
+            //ErrorsAdd($"WriteToPlc: cannot write tag '{tag}' to PLC, either there is no connection or mapping errors exist.");
         }
 
     }
@@ -328,6 +327,6 @@ public class Communication : MonoBehaviour
         Symbol sym = (Symbol)e.Symbol;
         bool val = (bool)e.Value;
         outputPlcTagToValue[sym.InstancePath] = val;
-        Debug.Log($"ADS notification: {sym.InstancePath} value changed to {val}");
+        //Debug.Log($"ADS notification: {sym.InstancePath} value changed to {val}");
     }
 }

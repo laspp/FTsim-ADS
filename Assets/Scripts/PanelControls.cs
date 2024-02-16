@@ -68,7 +68,6 @@ public class PanelControls : MonoBehaviour
 
     public void ToggleSwitchOnChange(Toggle change)
     {
-        Debug.Log("ToggleSwitch change: " + change.isOn);
         comScript.WriteToPlc("ToggleSwitch", change.isOn);
     }
     public void ButtonRedOnChange(Toggle change)
