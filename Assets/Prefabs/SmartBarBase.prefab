@@ -60,7 +60,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -121,7 +121,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   panelBuilder: {fileID: 0}
-  workpieceSpawnPoint: {fileID: 0}
+  workpieceRespawnPoint: {fileID: 0}
   materialBase: {fileID: 2100000, guid: 1d29a14fbe71b6a4493287cd64bdc4ce, type: 2}
   materialHover: {fileID: 2100000, guid: 83020ddace30b4246a6d9cb16b5e1f2e, type: 2}
   materialRespawn: {fileID: 2100000, guid: 9c345f46c05c265449e8d7e56a46b163, type: 2}

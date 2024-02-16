@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,12 +6,9 @@ public class PanelHelp : MonoBehaviour
     public Transform showHelpStartToggle;
 
     private int showHelpOnStart;
-    //private GameObject helpWindow;
 
     void Awake()
     {
-        //helpWindow = GameObject.FindGameObjectWithTag("UI_help_window");
-
         if (!PlayerPrefs.HasKey("showHelpOnStart"))
         {
             PlayerPrefs.SetInt("showHelpOnStart", 1);

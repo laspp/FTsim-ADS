@@ -143,14 +143,14 @@ public class MoveCamera : MonoBehaviour
 		}
 	}
 
-	public void setCameraTop()
+	public void SetCameraTop()
 	{
 		transform.position = cameraPositionTop;
 		transform.rotation = cameraRotationTop;
 		Camera.main.orthographic = true;
 		Camera.main.orthographicSize = cameraOrtographicSizeTop;
 	}
-	public void setCameraSide()
+	public void SetCameraSide()
 	{
 		transform.position = cameraPositionSide;
 		transform.rotation = cameraRotationSide;
@@ -158,133 +158,10 @@ public class MoveCamera : MonoBehaviour
 		Camera.main.orthographicSize = cameraOrtographicSizeSide;
 	}
 
-	public void resetCamera()
+	public void ResetCamera()
 	{
 		transform.position = cameraStartPoint;
 		transform.rotation = cameraStartRotation;
 		Camera.main.orthographic = false;
 	}
 }
-
-//// Credit to damien_oconnell from http://forum.unity3d.com/threads/39513-Click-drag-camera-movement
-//// for using the mouse displacement for calculating the amount of camera movement and panning code.
-
-//using UnityEngine;
-//using System.Collections;
-
-//public class MoveCamera : MonoBehaviour 
-//{
-//	//
-//	// VARIABLES
-//	//
-
-//	public float turnSpeed = 4.0f;		// Speed of camera turning when mouse moves in along an axis
-//	public float panSpeed = 4.0f;		// Speed of the camera when being panned
-//	public float zoomSpeed = 4.0f;		// Speed of the camera going back and forth
-
-//	private Vector3 mouseOrigin;	// Position of cursor when mouse dragging starts
-//	private bool isPanning;		// Is the camera being panned?
-//	private bool isRotating;	// Is the camera being rotated?
-//	private bool isZooming;		// Is the camera zooming?
-
-//	// Starting point
-//	public Vector3 cameraStartPoint = Vector3.zero;
-//	public Quaternion cameraStartRotation;
-
-//	void Start()
-//	{
-//		cameraStartPoint = transform.position;
-//		cameraStartRotation = transform.rotation;
-//	}
-//	//
-//	// UPDATE
-//	//
-//	void Update () 
-//	{
-//		// Get the left mouse button
-//		if(Input.GetMouseButtonDown(0))
-//		{
-//			// Get mouse origin
-//			mouseOrigin = Input.mousePosition;
-//			isRotating = true;
-//		}
-
-//		// Get the right mouse button
-//		if(Input.GetMouseButtonDown(1))
-//		{
-//			// Get mouse origin
-//			mouseOrigin = Input.mousePosition;
-//			isPanning = true;
-//		}
-
-//		// Get the middle mouse button
-//		if(Input.GetMouseButtonDown(2))
-//		{
-//			// Get mouse origin
-//			mouseOrigin = Input.mousePosition;
-//			isZooming = true;
-//		}
-
-//		// Disable movements on button release
-//		if (!Input.GetMouseButton(0)) isRotating=false;
-//		if (!Input.GetMouseButton(1)) isPanning=false;
-//		if (!Input.GetMouseButton(2)) isZooming=false;
-
-//		// Rotate camera along X and Y axis
-//		if (isRotating)
-//		{
-//			Vector3 pos = Camera.main.ScreenToViewportPoint(Input.mousePosition - mouseOrigin);
-
-//			transform.RotateAround(transform.position, transform.right, -pos.y * turnSpeed);
-//			transform.RotateAround(transform.position, Vector3.up, pos.x * turnSpeed);
-//		}
-
-//		// Move the camera on it's XY plane
-//		if (isPanning)
-//		{
-//			Vector3 pos = Camera.main.ScreenToViewportPoint(Input.mousePosition - mouseOrigin);
-
-//			Vector3 move = new Vector3(pos.x * panSpeed, pos.y * panSpeed, 0);
-//			transform.Translate(move, Space.Self);
-//		}
-
-//		// Move the camera linearly along Z axis
-//		if (isZooming)
-//		{
-//			Vector3 pos = Camera.main.ScreenToViewportPoint(Input.mousePosition - mouseOrigin);
-//			Vector3 move = pos.y * zoomSpeed * transform.forward; 
-//			transform.Translate(move, Space.World);
-//		}
-//		// Scrollwheel
-//		Vector3 moveScroll = Input.GetAxis ("Mouse ScrollWheel") * zoomSpeed * transform.forward;
-//		transform.Translate(moveScroll, Space.World);
-
-//	}
-
-//	public void resetCamera(){
-//		transform.position = cameraStartPoint;
-//		transform.rotation = cameraStartRotation;
-//	}
-//	public void infoCamera(){
-//		if (GameObject.FindWithTag ("Dialog_error_PLCSIM") == null && GameObject.FindWithTag ("Dialog_camera_info") == null) {
-//			Dialog.MessageBox (
-//				"Dialog_camera_info", 
-//				"Control and navigation", 
-//				"Use your mouse buttons to control the camera:\n" +
-//				"    left - rotation,\n" +
-//				"    middle/scroll wheel - zoom,\n" +
-//				"    right - translation.\n\n" +
-//				"Use keys to control the buttons:\n" +
-//				"    Q - key,\n" +
-//				"    W - high-left,\n" +
-//				"    E - high-right,\n" +
-//				"    S - low-left,\n" +
-//				"    D - low-right,\n" +
-//				"    A - green.\n", 
-//				"Close", 
-//				() => {;},
-//				heightMax: 250,
-//				pos_y: 20);
-//		}
-//	}
-//}

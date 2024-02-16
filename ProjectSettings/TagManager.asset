@@ -5,7 +5,6 @@ TagManager:
   serializedVersion: 2
   tags:
   - Dialog_error_PLC_connection
-  - UI_help_window
   - Workpiece
   - Dialog_error_list
   - Dialog_error_config
