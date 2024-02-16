@@ -26,6 +26,14 @@ public class SmartBar : MonoBehaviour, IPointerClickHandler
         materialBase = objMeshRederer.material;
     }
 
+    void OnTriggerEnter(Collider collider)
+    {
+        //Debug.Log($"SmartBar::OnTriggerEnter: {collider} {collider.gameObject.tag}");
+        if (collider.gameObject.CompareTag("Player")) { 
+            //TODO
+        }
+    }
+
     void OnMouseEnter()
     {
         if (builderScript.BuilderMode)
