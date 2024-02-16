@@ -9,7 +9,7 @@ public class Builder : MonoBehaviour
 
     public GameObject buttonReset;
     public GameObject buttonSave;
-    public GameObject toggleSpawn;
+    public GameObject toggleRespawn;
     public GameObject prefabSmartBar;
     public GameObject communication;
     public int gridX = 10;
@@ -43,7 +43,7 @@ public class Builder : MonoBehaviour
         SpawnMode = false;
         btnSave = buttonSave.GetComponent<Button>();
         btnReset = buttonReset.GetComponent<Button>();
-        tglSpawn = toggleSpawn.GetComponent<Toggle>();
+        tglSpawn = toggleRespawn.GetComponent<Toggle>();
         btnSave.interactable = false;
         btnReset.interactable = false;
         tglSpawn.interactable = false;
@@ -95,6 +95,12 @@ public class Builder : MonoBehaviour
                 if (isSaved)
                 {
                     clone.GetComponent<SmartBarBase>().TargetScale = sScale;
+                }
+
+                // Is a default respawn point?
+                if (x == -offsetX && z == -offsetZ) {
+                    Transform child = clone.transform.GetChild(0);
+                    child.gameObject.GetComponent<SmartBar>().SetRespawnPoint();
                 }
             }
         }

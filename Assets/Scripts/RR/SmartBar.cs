@@ -42,7 +42,7 @@ public class SmartBar : MonoBehaviour, IPointerClickHandler
     }
     void OnMouseExit()
     {
-        if (gameObject.CompareTag("SmartBarRespawn"))
+        if (gameObject.CompareTag(tagRespawn))
         {
             objMeshRederer.material = materialRespawn;
         }
@@ -60,21 +60,7 @@ public class SmartBar : MonoBehaviour, IPointerClickHandler
             {
                 if (builderScript.SpawnMode)
                 {
-                    float maxScale = smartBarBaseScript.maxScale;
-                    // Set spawn point above this bar
-                    workpieceRespawnPoint.position = new Vector3(transform.position.x, maxScale, transform.position.z);
-                    
-                    // Remove tag from old position
-                    GameObject go = GameObject.FindGameObjectWithTag(tagRespawn);
-                    if (go != null)
-                    {
-                        go.tag = "Untagged";
-                        go.GetComponent<MeshRenderer>().material = materialBase;
-                    }
-                    
-                    // Apply unique tag to mark this smartbar
-                    gameObject.tag = tagRespawn;
-                    objMeshRederer.material = materialRespawn;
+                    SetRespawnPoint();
                 }
                 else
                 {
@@ -88,5 +74,24 @@ public class SmartBar : MonoBehaviour, IPointerClickHandler
                 smartBarBaseScript.ScaleDown();
             }
         }
+    }
+
+    public void SetRespawnPoint()
+    {
+        float maxScale = smartBarBaseScript.maxScale;
+        // Set spawn point above this bar
+        workpieceRespawnPoint.position = new Vector3(transform.position.x, maxScale, transform.position.z);
+
+        // Remove tag from old position
+        GameObject go = GameObject.FindGameObjectWithTag(tagRespawn);
+        if (go != null)
+        {
+            go.tag = "Untagged";
+            go.GetComponent<MeshRenderer>().material = materialBase;
+        }
+
+        // Apply tag to mark this smartbar
+        gameObject.tag = tagRespawn;
+        objMeshRederer.material = materialRespawn;
     }
 }

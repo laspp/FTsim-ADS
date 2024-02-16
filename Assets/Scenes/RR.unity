@@ -2906,7 +2906,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buttonReset: {fileID: 975574551}
   buttonSave: {fileID: 138801487}
-  toggleSpawn: {fileID: 481052978}
+  toggleRespawn: {fileID: 481052978}
   prefabSmartBar: {fileID: 2038250223}
   communication: {fileID: 248566264}
   gridX: 10
