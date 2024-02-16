@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class ToggleKeyControl : MonoBehaviour
+public class KeyControlButton : MonoBehaviour
 {
     public string key_code;
     public bool detectEdge = false;

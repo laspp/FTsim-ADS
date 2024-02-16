@@ -95,5 +95,4 @@ public class PanelControls : MonoBehaviour
     {
         comScript.WriteToPlc("ButtonBlackBottomRight", change.isOn);
     }
-
 }
