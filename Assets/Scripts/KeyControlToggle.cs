@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(Toggle))]
 public class KeyControlToggle : MonoBehaviour
 {
-    public string key_code;
+    public KeyCode keyCode;
     public bool detectEdge = false;
     private bool keyOld = false;
 
@@ -11,11 +12,11 @@ public class KeyControlToggle : MonoBehaviour
     {
         if (detectEdge)
         {
-            if (Input.GetKeyDown(key_code) && !keyOld)
+            if (Input.GetKeyDown(keyCode) && !keyOld)
             {
                 this.GetComponent<Toggle>().isOn = true;
             }
-            if (Input.GetKeyDown(key_code) && keyOld)
+            if (Input.GetKeyDown(keyCode) && keyOld)
             {
                 this.GetComponent<Toggle>().isOn = false;
             }
@@ -23,11 +24,11 @@ public class KeyControlToggle : MonoBehaviour
         }
         else
         {
-            if (Input.GetKeyDown(key_code))
+            if (Input.GetKeyDown(keyCode))
             {
                 this.GetComponent<Toggle>().isOn = true;
             }
-            if (Input.GetKeyUp(key_code))
+            if (Input.GetKeyUp(keyCode))
             {
                 this.GetComponent<Toggle>().isOn = false;
             }
