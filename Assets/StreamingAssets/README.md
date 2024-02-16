@@ -24,3 +24,6 @@ N/A
 // This value is used when generating an impulse signal:
 // signal is high/low at least for PLC_cycle seconds.
 // Increase this number if you experience wrong counting of impulses.
+
+// Map builder data
+"SmartBarGrid": [ [x,y,height], [x,y,height], ... ]
