@@ -599,7 +599,7 @@ Behaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 201959637}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!20 &201959641
 Camera:
   m_ObjectHideFlags: 0
@@ -1225,7 +1225,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 4
+  m_Lightmapping: 2
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1.03
