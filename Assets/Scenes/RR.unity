@@ -2128,7 +2128,7 @@ GameObject:
   - component: {fileID: 481052979}
   - component: {fileID: 481052980}
   m_Layer: 5
-  m_Name: ToggleSpawn
+  m_Name: ToggleRespawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2204,7 +2204,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1003398107}
         m_TargetAssemblyTypeName: Builder, Assembly-CSharp
-        m_MethodName: ToggleSpawnOnChange
+        m_MethodName: ToggleRepawnOnChange
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6131,7 +6131,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Set spawn point
+  m_Text: Set respawn point
 --- !u!222 &1248461559
 CanvasRenderer:
   m_ObjectHideFlags: 0

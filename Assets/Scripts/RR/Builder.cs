@@ -127,20 +127,15 @@ public class Builder : MonoBehaviour
 
     public void SaveSmartBarGrid()
     {
-        //if (smartBarGrid == null)
-        //{
-        //    smartBarGrid = new List<int[]>();
-        //}
         // Clear the list and  populate it based on current state of smartBars.
         smartBarGrid.Clear();
 
         GameObject[] smartBarBases = GameObject.FindGameObjectsWithTag("SmartBarBase");
         foreach (GameObject sbb in smartBarBases)
         {
-
             float targetScale = sbb.GetComponent<SmartBarBase>().TargetScale;
             float origScale = sbb.GetComponent<SmartBarBase>().OrigScale;
-            
+
             if (targetScale > origScale)
             {
                 int x = sbb.GetComponent<SmartBarBase>().GridIndexX;
@@ -181,7 +176,7 @@ public class Builder : MonoBehaviour
             tglSpawn.interactable = false;
         }
     }
-    public void ToggleSpawnOnChange()
+    public void ToggleRepawnOnChange()
     {
         SpawnMode = !SpawnMode;
     }
