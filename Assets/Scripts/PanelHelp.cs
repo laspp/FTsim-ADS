@@ -8,11 +8,11 @@ public class PanelHelp : MonoBehaviour
     public Transform showHelpStartToggle;
 
     private int showHelpOnStart;
-    private GameObject helpWindow;
+    //private GameObject helpWindow;
 
     void Awake()
     {
-        helpWindow = GameObject.FindGameObjectWithTag("UI_help_window");
+        //helpWindow = GameObject.FindGameObjectWithTag("UI_help_window");
 
         if (!PlayerPrefs.HasKey("showHelpOnStart"))
         {
@@ -20,15 +20,15 @@ public class PanelHelp : MonoBehaviour
         }
         showHelpOnStart = PlayerPrefs.GetInt("showHelpOnStart");
         showHelpStartToggle.GetComponent<Toggle>().isOn = (showHelpOnStart == 1);
-        helpWindow.SetActive(showHelpOnStart == 1);
+        gameObject.SetActive(showHelpOnStart == 1);
     }
 
     public void ToggleVisibility()
     {
-        if (helpWindow.activeInHierarchy)
-            helpWindow.SetActive(false);
+        if (gameObject.activeInHierarchy)
+            gameObject.SetActive(false);
         else
-            helpWindow.SetActive(true);
+            gameObject.SetActive(true);
     }
 
     public void ToggleButtonOnChange()
