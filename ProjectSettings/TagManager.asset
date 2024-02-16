@@ -10,7 +10,6 @@ TagManager:
   - Dialog_error_list
   - Dialog_error_config
   - Holder
-  - hnd
   - SmartBarBase
   - SmartBarRespawn
   layers:

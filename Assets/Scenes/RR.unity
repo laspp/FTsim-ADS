@@ -7727,7 +7727,7 @@ GameObject:
   - component: {fileID: 1917633465}
   m_Layer: 0
   m_Name: GripperLeft
-  m_TagString: hnd
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7872,6 +7872,7 @@ MonoBehaviour:
   objPosition: {fileID: 1917633461}
   objGripped: {fileID: 0}
   warningSign: {fileID: 471936432}
+  gripperRightTrigger: {fileID: 1057728795}
 --- !u!1 &1956772061
 GameObject:
   m_ObjectHideFlags: 0

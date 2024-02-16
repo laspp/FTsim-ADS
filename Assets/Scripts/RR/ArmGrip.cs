@@ -23,7 +23,8 @@ public class ArmGrip : MonoBehaviour
     public Transform objPosition; // object that defines position and is used to trigger pulses
     public Transform objGripped = null;
     public GameObject warningSign;
-    
+    public Transform gripperRightTrigger;
+
     bool isGripped;
     Collider workpieceCollider;
 
@@ -102,36 +103,41 @@ public class ArmGrip : MonoBehaviour
 
     
 
-    void OnTriggerEnter(Collider other)
+    void OnTriggerEnter(Collider otherCollider)
     {
-        if (other.transform == switchReference)
+        if (otherCollider.transform == switchReference)
         {
             referenceSwitchActive = true;
         }
-        if (other.transform == objWarningLimitSwitch)
+        else if (otherCollider.transform == objWarningLimitSwitch)
         {
             warningSwitchActive = true;
-        }        
+        }
+        else if (otherCollider.transform == gripperRightTrigger)
+        {
+            warningOpenEndActive = true;
+        }
     }
 
-    void OnTriggerExit(Collider other)
+    void OnTriggerExit(Collider otherCollider)
     {
-        if (other.transform == switchReference)
+        if (otherCollider.transform == switchReference)
         {
             referenceSwitchActive = false;
         }
-        if (other.transform == objWarningLimitSwitch)
+        if (otherCollider.transform == objWarningLimitSwitch)
         {
             warningSwitchActive = false;
-        }        
+        }
+        else if (otherCollider.transform == gripperRightTrigger)
+        {
+            warningOpenEndActive = false;
+        }
     }
 
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.transform == gripperRight)
-        {
-            warningOpenEndActive = true;
-        }
+        
         if (collision.gameObject.CompareTag("Workpiece"))
         {
             workpieceCollider = collision.collider;
@@ -140,10 +146,6 @@ public class ArmGrip : MonoBehaviour
 
     void OnCollisionExit(Collision collision)
     {
-        if (collision.transform == gripperRight)
-        {
-            warningOpenEndActive = false;
-        }
         if (collision.gameObject.CompareTag("Workpiece"))
         {
             workpieceCollider = null;
@@ -155,11 +157,6 @@ public class ArmGrip : MonoBehaviour
     void Update()
     {
         UpdateWarningSignVisibility();
-
-        //if (!workpieceCollider)
-        //{
-        //    isGripped = false;
-        //}
 
         // Compute state of a step switch (movement impulse)
         // Duration of a previous frame
