@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(MeshCollider))]
 
@@ -10,12 +11,16 @@ public class SmartBar : MonoBehaviour, IPointerClickHandler
     public Material materialBase;
     public Material materialHover;
     public Material materialRespawn;
+    public Material materialCollision;
+    public GameObject buttonClearCollisions;
+    public string tagRespawn = "SmartBarRespawn";
+    public string tagPlayer = "Player";
 
     GameObject smartBarBase;
     MeshRenderer objMeshRederer;
     Builder builderScript;
     SmartBarBase smartBarBaseScript;
-    readonly string tagRespawn = "SmartBarRespawn";
+    bool collisionDetected;
 
     void Awake()
     {
@@ -24,13 +29,17 @@ public class SmartBar : MonoBehaviour, IPointerClickHandler
         smartBarBaseScript = smartBarBase.GetComponent<SmartBarBase>();
         objMeshRederer = GetComponent<MeshRenderer>();
         materialBase = objMeshRederer.material;
+        collisionDetected = false;
     }
 
     void OnTriggerEnter(Collider collider)
     {
         //Debug.Log($"SmartBar::OnTriggerEnter: {collider} {collider.gameObject.tag}");
-        if (collider.gameObject.CompareTag("Player")) { 
-            //TODO
+        if (collider.gameObject.CompareTag(tagPlayer)) {
+            //Debug.Log($"SmartBar::OnTriggerEnter: {collider} {collider.gameObject.tag}");
+            objMeshRederer.material = materialCollision;
+            collisionDetected = true;
+            buttonClearCollisions.GetComponent<Button>().interactable = true;
         }
     }
 
@@ -50,7 +59,11 @@ public class SmartBar : MonoBehaviour, IPointerClickHandler
     }
     void OnMouseExit()
     {
-        if (gameObject.CompareTag(tagRespawn))
+        if (collisionDetected)
+        {
+            objMeshRederer.material = materialCollision;
+        }
+        else if (gameObject.CompareTag(tagRespawn))
         {
             objMeshRederer.material = materialRespawn;
         }
@@ -100,6 +113,16 @@ public class SmartBar : MonoBehaviour, IPointerClickHandler
 
         // Apply tag to mark this smartbar
         gameObject.tag = tagRespawn;
-        objMeshRederer.material = materialRespawn;
+        if (!collisionDetected)
+        {
+            objMeshRederer.material = materialRespawn;
+        }        
+    }
+
+    public void ResetCollisionDetected()
+    {
+        collisionDetected = false;
+        OnMouseExit();
+        buttonClearCollisions.GetComponent<Button>().interactable = false;
     }
 }

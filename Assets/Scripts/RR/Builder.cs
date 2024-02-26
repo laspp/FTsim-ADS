@@ -131,6 +131,17 @@ public class Builder : MonoBehaviour
         }
     }
 
+    public void ClearSmartBarCollisions()
+    {
+        GameObject[] smartBarBases = GameObject.FindGameObjectsWithTag("SmartBarBase");
+        Transform child;
+        foreach (GameObject sbb in smartBarBases)
+        {
+            child = sbb.transform.GetChild(0);
+            child.gameObject.GetComponent<SmartBar>().ResetCollisionDetected();
+        }
+    }
+
     public void SaveSmartBarGrid()
     {
         // Clear the list and  populate it based on current state of smartBars.
