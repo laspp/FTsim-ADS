@@ -24,6 +24,11 @@ public class ShowFPS : MonoBehaviour
         comScript = communication.GetComponent<Communication>();
         showFPS = comScript.appConfig.ShowFPS;
         fpsText.text = "";
+        // Hide panel that is a parent of a text object
+        if (!showFPS)
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     void Update()
