@@ -13,6 +13,8 @@ public class Communication : MonoBehaviour
 {
 
     public AppConfig appConfig;  // Parsed JSON configuration from configFile
+    public StatusBar panelStatusBar;
+    
     private AdsClient adsClient;
     private string configFilePath;
     private bool isConfigFileRead = false;
@@ -76,6 +78,7 @@ public class Communication : MonoBehaviour
             {
                 //Debug.Log($"PlcConnect: connected to PLC ({adsClient.Address}).");
                 isConnectedToPlc = true;
+                panelStatusBar.SetStatusBarText($"PlcConnect: connected to PLC ({adsClient.Address}).");
             }
             else
             {
