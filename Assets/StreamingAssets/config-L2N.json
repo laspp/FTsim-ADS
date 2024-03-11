@@ -1,8 +1,8 @@
 {
-  "PlcAmsNetId": "local", // "local" = "0.0.0.0.0.0"
-  "PlcAdsPort": 851, // 851 = first PLC in a project, 852 = second ...
-  "NotificationCycleTime": 20, // How frequently should PLC check for data change. In miliseconds.
-  "NotificationMaxDelay": 0, // The maximum Delay time for ADS Notifications. In miliseconds.
+  "PlcAmsNetId": "local",
+  "PlcAdsPort": 851,
+  "NotificationCycleTime": 20, 
+  "NotificationMaxDelay": 0, 
   "ShowFPS": true,
   "InputVariableMap": {
     "ToggleSwitch": "IO.ToggleSwitch",
