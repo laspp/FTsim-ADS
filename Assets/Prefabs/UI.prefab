@@ -928,6 +928,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   showHelpStartToggle: {fileID: 3248103537451489015}
   keyboardShortcuts: {fileID: 220830174344727159}
+  panelStatusBar: {fileID: 7814470617718127438}
 --- !u!1 &1284340547894067256
 GameObject:
   m_ObjectHideFlags: 0
@@ -7286,6 +7287,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   statusBarText: {fileID: 7265068844849610210}
+  timeToDisappear: 10
 --- !u!1 &4628818075666409149
 GameObject:
   m_ObjectHideFlags: 0

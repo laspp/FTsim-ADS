@@ -78,7 +78,7 @@ public class Communication : MonoBehaviour
             {
                 //Debug.Log($"PlcConnect: connected to PLC ({adsClient.Address}).");
                 isConnectedToPlc = true;
-                panelStatusBar.SetStatusBarText($"PlcConnect: connected to PLC ({adsClient.Address}).");
+                panelStatusBar.SetStatusBarText($"Successfully connected to PLC ({adsClient.Address}).");
             }
             else
             {

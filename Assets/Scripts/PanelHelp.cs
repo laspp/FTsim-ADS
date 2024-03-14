@@ -5,8 +5,10 @@ public class PanelHelp : MonoBehaviour
 {
     public Transform showHelpStartToggle;
     public GameObject keyboardShortcuts;
+    public StatusBar panelStatusBar;
 
-    private int showHelpOnStart;
+    int showHelpOnStart;
+    bool hintShown = false;
 
     void Awake()
     {
@@ -26,6 +28,12 @@ public class PanelHelp : MonoBehaviour
         {
             gameObject.SetActive(false);
             keyboardShortcuts.SetActive(false);
+            if (!hintShown)
+            {
+                panelStatusBar.SetStatusBarText($"Press F1 to display the help window.");
+                hintShown = true;
+            }
+            
         }            
         else
         {

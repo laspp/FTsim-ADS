@@ -3,7 +3,7 @@
   "PlcAdsPort": 851,
   "NotificationCycleTime": 20,
   "NotificationMaxDelay": 0,
-  "ShowFPS": false,
+  "ShowFPS": true,
   "InputVariableMap": {
     "ToggleSwitch": "IO.ToggleSwitch",
     "ButtonRed": "IO.ButtonRed",

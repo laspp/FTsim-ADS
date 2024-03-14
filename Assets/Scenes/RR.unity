@@ -1978,7 +1978,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa9243136052c224bae9bee01742c7d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  communication: {fileID: 248566264}
+  communication: {fileID: 248566265}
   tagSwitchReference: SwitchReferenceExtend
   tagSwitchStep: SwitchStepExtend
   tagDirection: MotorExtendDirection
@@ -3111,7 +3111,7 @@ MonoBehaviour:
   buttonSave: {fileID: 138801487}
   toggleRespawn: {fileID: 481052978}
   prefabSmartBar: {fileID: 2038250223}
-  communication: {fileID: 248566264}
+  communication: {fileID: 248566265}
   gridX: 10
   gridZ: 16
   spacing: 0.65
@@ -6173,7 +6173,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7eb025911cc3e03419cc91f835a004f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  communication: {fileID: 248566264}
+  communication: {fileID: 248566265}
   tagSwitchReference: SwitchReferenceRotate
   tagSwitchStep: SwitchStepRotate
   tagDirection: MotorRotateDirection
@@ -7050,7 +7050,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c282b84b2b06864bbb1f533b4df0759, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  communication: {fileID: 248566264}
+  communication: {fileID: 248566265}
   tagSwitchReference: SwitchReferenceLift
   tagSwitchStep: SwitchStepLift
   tagDirection: MotorLiftDirection
@@ -8514,7 +8514,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec343224b23662542ab1f455ddfa5b73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  communication: {fileID: 248566264}
+  communication: {fileID: 248566265}
   tagSwitchReference: SwitchReferenceGrip
   tagSwitchStep: SwitchStepGrip
   tagDirection: MotorGripDirection

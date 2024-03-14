@@ -11,14 +11,14 @@ public class Builder : MonoBehaviour
     public GameObject buttonSave;
     public GameObject toggleRespawn;
     public GameObject prefabSmartBar;
-    public GameObject communication;
+    public Communication communication;
     public int gridX = 10;
     public int gridZ = 16;
     public float spacing = 0.65f;
     public int offsetX = -8;
     public int offsetZ = -3;
 
-    Communication com;
+    
     float startX;
     float startZ;
     Button btnSave, btnReset;
@@ -36,8 +36,7 @@ public class Builder : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        com = communication.GetComponent<Communication>();
-        smartBarGrid = com.appConfig.SmartBarGrid;
+        smartBarGrid = communication.appConfig.SmartBarGrid;
 
         BuilderMode = false;
         SpawnMode = false;
@@ -164,7 +163,7 @@ public class Builder : MonoBehaviour
         }
 
         // Write the list to JSON config file
-        com.ConfigFileSave();
+        communication.ConfigFileSave();
 
     }
     // Method to add a new item to the list only if it doesn't already exist
