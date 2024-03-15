@@ -6,25 +6,24 @@ using UnityEngine.UI;
 
 public class SmartBar : MonoBehaviour, IPointerClickHandler
 {
-    public GameObject panelBuilder;
+    public Builder panelBuilder;
     public Transform workpieceRespawnPoint;
     public Material materialBase;
     public Material materialHover;
     public Material materialRespawn;
     public Material materialCollision;
-    public GameObject buttonClearCollisions;
+    public Button buttonClearCollisions;
     public string tagRespawn = "SmartBarRespawn";
     public string tagPlayer = "Player";
+    public StatusBar panelStatusBar;
 
     GameObject smartBarBase;
     MeshRenderer objMeshRederer;
-    Builder builderScript;
     SmartBarBase smartBarBaseScript;
     bool collisionDetected;
 
     void Awake()
-    {
-        builderScript = panelBuilder.GetComponent<Builder>();
+    {        
         smartBarBase = transform.parent.gameObject;
         smartBarBaseScript = smartBarBase.GetComponent<SmartBarBase>();
         objMeshRederer = GetComponent<MeshRenderer>();
@@ -34,20 +33,19 @@ public class SmartBar : MonoBehaviour, IPointerClickHandler
 
     void OnTriggerEnter(Collider collider)
     {
-        //Debug.Log($"SmartBar::OnTriggerEnter: {collider} {collider.gameObject.tag}");
         if (collider.gameObject.CompareTag(tagPlayer)) {
-            //Debug.Log($"SmartBar::OnTriggerEnter: {collider} {collider.gameObject.tag}");
             objMeshRederer.material = materialCollision;
             collisionDetected = true;
-            buttonClearCollisions.GetComponent<Button>().interactable = true;
+            buttonClearCollisions.interactable = true;
+            panelStatusBar.SetStatusBarText("Robot arm collision with terrain block detected.");
         }
     }
 
     void OnMouseEnter()
     {
-        if (builderScript.BuilderMode)
+        if (panelBuilder.BuilderMode)
         {
-            if (builderScript.SpawnMode)
+            if (panelBuilder.RespawnMode)
             {
                 objMeshRederer.material = materialRespawn;
             }
@@ -75,11 +73,11 @@ public class SmartBar : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (builderScript.BuilderMode)
+        if (panelBuilder.BuilderMode)
         {
             if (eventData.button == PointerEventData.InputButton.Left)
             {
-                if (builderScript.SpawnMode)
+                if (panelBuilder.RespawnMode)
                 {
                     SetRespawnPoint();
                 }
@@ -123,6 +121,6 @@ public class SmartBar : MonoBehaviour, IPointerClickHandler
     {
         collisionDetected = false;
         OnMouseExit();
-        buttonClearCollisions.GetComponent<Button>().interactable = false;
+        buttonClearCollisions.interactable = false;
     }
 }

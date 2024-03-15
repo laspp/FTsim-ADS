@@ -6,23 +6,22 @@ using UnityEngine.UI;
 
 public class Builder : MonoBehaviour
 {
-
+    public Communication communication;
+    public StatusBar panelStatusBar;
     public GameObject buttonReset;
     public GameObject buttonSave;
     public GameObject toggleRespawn;
-    public GameObject prefabSmartBar;
-    public Communication communication;
+    public GameObject prefabSmartBar;    
     public int gridX = 10;
     public int gridZ = 16;
     public float spacing = 0.65f;
     public int offsetX = -8;
     public int offsetZ = -3;
-
-    
+        
     float startX;
     float startZ;
     Button btnSave, btnReset;
-    Toggle tglSpawn;
+    Toggle tglRespawn;
     List<int[]> smartBarGrid;
     bool isSaved = false;
     int sX, sZ, sScale = 1;
@@ -31,7 +30,7 @@ public class Builder : MonoBehaviour
     public bool BuilderMode { get => builderMode; set => builderMode = value; }
 
     bool spawnMode;
-    public bool SpawnMode { get => spawnMode; set => spawnMode = value; }
+    public bool RespawnMode { get => spawnMode; set => spawnMode = value; }
 
     // Start is called before the first frame update
     void Awake()
@@ -39,13 +38,13 @@ public class Builder : MonoBehaviour
         smartBarGrid = communication.appConfig.SmartBarGrid;
 
         BuilderMode = false;
-        SpawnMode = false;
+        RespawnMode = false;
         btnSave = buttonSave.GetComponent<Button>();
         btnReset = buttonReset.GetComponent<Button>();
-        tglSpawn = toggleRespawn.GetComponent<Toggle>();
+        tglRespawn = toggleRespawn.GetComponent<Toggle>();
         btnSave.interactable = false;
         btnReset.interactable = false;
-        tglSpawn.interactable = false;
+        tglRespawn.interactable = false;
 
         startX = prefabSmartBar.transform.position.x + offsetX * spacing;
         startZ = prefabSmartBar.transform.position.z + offsetZ * spacing;
@@ -183,17 +182,23 @@ public class Builder : MonoBehaviour
         {
             btnSave.interactable = true;
             btnReset.interactable = true;
-            tglSpawn.interactable = true;
+            tglRespawn.interactable = true;
+            panelStatusBar.SetStatusBarText("Utilize the left and right mouse buttons to manipulate the terrain.");
         }
         else
         {
             btnSave.interactable = false;
             btnReset.interactable = false;
-            tglSpawn.interactable = false;
+            tglRespawn.interactable = false;
         }
     }
     public void ToggleRepawnOnChange()
     {
-        SpawnMode = !SpawnMode;
+        RespawnMode = !RespawnMode;
+
+        if (RespawnMode)
+        {
+            panelStatusBar.SetStatusBarText("Click on a terrain block to set it as the respawn point for workpieces.");
+        }
     }
 }

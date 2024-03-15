@@ -8296,7 +8296,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   communication: {fileID: 0}
-  fpsText: {fileID: 0}
+  fpsText: {fileID: 1499560316067272926}
 --- !u!1 &5329160128604979642
 GameObject:
   m_ObjectHideFlags: 0
@@ -14042,10 +14042,10 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5374443482646898837}
-  - {fileID: 598777580692305750}
   - {fileID: 2597412992302326849}
   - {fileID: 39434994395980080}
+  - {fileID: 5374443482646898837}
+  - {fileID: 598777580692305750}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
