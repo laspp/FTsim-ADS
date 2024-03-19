@@ -258,7 +258,7 @@ public class Communication : MonoBehaviour
         {
             configFilePath = System.IO.Path.Combine(Application.streamingAssetsPath, configFile);
             ConfigFileManager.SaveConfig(configFilePath, appConfig);
-            panelStatusBar.SetStatusBarText($"Configuration saved to {configFilePath}.");
+            panelStatusBar.SetStatusBarText($"Configuration saved to {configFile}.");
         }
         catch (Exception)
         {            
