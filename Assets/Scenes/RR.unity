@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.45140272, g: 0.5008954, b: 0.572319, a: 1}
+  m_IndirectSpecularColor: {r: 0.45140266, g: 0.50089526, b: 0.5723188, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1978,7 +1978,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa9243136052c224bae9bee01742c7d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  communication: {fileID: 248566264}
+  communication: {fileID: 248566265}
   tagSwitchReference: SwitchReferenceExtend
   tagSwitchStep: SwitchStepExtend
   tagDirection: MotorExtendDirection
@@ -2712,7 +2712,7 @@ PrefabInstance:
     - target: {fileID: 7706691782867399755, guid: b808f3231c8bdea46978e7c2403077ad,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1061365903202314483, guid: b808f3231c8bdea46978e7c2403077ad, type: 3}
@@ -3107,11 +3107,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee1bc894e50d9944ebfacc91b7caad66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  communication: {fileID: 248566265}
+  panelStatusBar: {fileID: 1500145776}
   buttonReset: {fileID: 975574551}
   buttonSave: {fileID: 138801487}
   toggleRespawn: {fileID: 481052978}
   prefabSmartBar: {fileID: 2038250223}
-  communication: {fileID: 248566264}
   gridX: 10
   gridZ: 16
   spacing: 0.65
@@ -3553,7 +3554,7 @@ PrefabInstance:
         type: 3}
       propertyPath: communication
       value: 
-      objectReference: {fileID: 248566264}
+      objectReference: {fileID: 248566265}
     - target: {fileID: 218710352049761870, guid: 7c6c7f9f81ae74046a567cc8940108a1,
         type: 3}
       propertyPath: m_FontData.m_FontSize
@@ -5388,7 +5389,7 @@ PrefabInstance:
         type: 3}
       propertyPath: communication
       value: 
-      objectReference: {fileID: 248566264}
+      objectReference: {fileID: 248566265}
     - target: {fileID: 7073684870567787117, guid: 7c6c7f9f81ae74046a567cc8940108a1,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -6011,14 +6012,14 @@ PrefabInstance:
     - {fileID: 6412268330005165166, guid: 7c6c7f9f81ae74046a567cc8940108a1, type: 3}
     - {fileID: 7021078000348872133, guid: 7c6c7f9f81ae74046a567cc8940108a1, type: 3}
     m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 4034810225606101426, guid: 7c6c7f9f81ae74046a567cc8940108a1,
-        type: 3}
-      insertIndex: 6
-      addedObject: {fileID: 1181728621}
     - targetCorrespondingSourceObject: {fileID: 2597412992302326849, guid: 7c6c7f9f81ae74046a567cc8940108a1,
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1003398103}
+    - targetCorrespondingSourceObject: {fileID: 4034810225606101426, guid: 7c6c7f9f81ae74046a567cc8940108a1,
+        type: 3}
+      insertIndex: 6
+      addedObject: {fileID: 1181728621}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7c6c7f9f81ae74046a567cc8940108a1, type: 3}
 --- !u!224 &1106130348 stripped
@@ -6173,7 +6174,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7eb025911cc3e03419cc91f835a004f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  communication: {fileID: 248566264}
+  communication: {fileID: 248566265}
   tagSwitchReference: SwitchReferenceRotate
   tagSwitchStep: SwitchStepRotate
   tagDirection: MotorRotateDirection
@@ -7050,7 +7051,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c282b84b2b06864bbb1f533b4df0759, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  communication: {fileID: 248566264}
+  communication: {fileID: 248566265}
   tagSwitchReference: SwitchReferenceLift
   tagSwitchStep: SwitchStepLift
   tagDirection: MotorLiftDirection
@@ -8514,7 +8515,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec343224b23662542ab1f455ddfa5b73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  communication: {fileID: 248566264}
+  communication: {fileID: 248566265}
   tagSwitchReference: SwitchReferenceGrip
   tagSwitchStep: SwitchStepGrip
   tagDirection: MotorGripDirection
@@ -9175,7 +9176,12 @@ PrefabInstance:
         type: 3}
       propertyPath: panelBuilder
       value: 
-      objectReference: {fileID: 1003398102}
+      objectReference: {fileID: 1003398107}
+    - target: {fileID: 2547143686855853422, guid: ee2220cd2676a6d4fb08f61509defb9b,
+        type: 3}
+      propertyPath: panelStatusBar
+      value: 
+      objectReference: {fileID: 1500145776}
     - target: {fileID: 2547143686855853422, guid: ee2220cd2676a6d4fb08f61509defb9b,
         type: 3}
       propertyPath: workpieceSpawnPoint
@@ -9185,7 +9191,7 @@ PrefabInstance:
         type: 3}
       propertyPath: buttonClearCollisions
       value: 
-      objectReference: {fileID: 89913426}
+      objectReference: {fileID: 89913428}
     - target: {fileID: 2547143686855853422, guid: ee2220cd2676a6d4fb08f61509defb9b,
         type: 3}
       propertyPath: workpieceRespawnPoint

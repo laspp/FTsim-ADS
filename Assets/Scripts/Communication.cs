@@ -43,16 +43,14 @@ public class Communication : MonoBehaviour
         //Debug.Log("Communication: connecting to Beckhoff PLC over ADS ...\n");
 
         try
-        {
-            
+        {            
             ConfigFileLoad();
             
             tagCycleTime = appConfig.NotificationCycleTime;
             tagMaxDelay = appConfig.NotificationMaxDelay;
 
             PlcConnect();
-            PlcFetchSymbols();           
-
+            PlcFetchSymbols();
         }
         catch (Exception ex)
         {
@@ -78,7 +76,7 @@ public class Communication : MonoBehaviour
             {
                 //Debug.Log($"PlcConnect: connected to PLC ({adsClient.Address}).");
                 isConnectedToPlc = true;
-                panelStatusBar.SetStatusBarText($"PlcConnect: connected to PLC ({adsClient.Address}).");
+                panelStatusBar.SetStatusBarText($"Successfully connected to PLC ({adsClient.Address}).");
             }
             else
             {
@@ -259,7 +257,8 @@ public class Communication : MonoBehaviour
         try
         {
             configFilePath = System.IO.Path.Combine(Application.streamingAssetsPath, configFile);
-            ConfigFileManager.SaveConfig(configFilePath, appConfig);            
+            ConfigFileManager.SaveConfig(configFilePath, appConfig);
+            panelStatusBar.SetStatusBarText($"Configuration saved to {configFilePath}.");
         }
         catch (Exception)
         {            

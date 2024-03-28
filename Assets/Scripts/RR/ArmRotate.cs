@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class ArmRotate : MonoBehaviour
 {
-    public GameObject communication;
+    public Communication communication;
     [Tooltip("A name of tag (defined in config-RR.json)")]
     public string tagSwitchReference = "SwitchReferenceRotate";
     [Tooltip("A name of tag (defined in config-RR.json)")]
@@ -24,8 +24,6 @@ public class ArmRotate : MonoBehaviour
     public Transform objPositionEnd;
     public GameObject warningSign;
     
-
-    Communication com;
     float PLCCycle; // target cycle of the PLC in seconds
     readonly float speed_factor = 1.0f; // Horizontal speed between 1 (i.e. max speed) and 0.1 (min. speed)
     readonly int framesPerUnitAngle = 2; // each frame, move by unit/framesPerUnitDist
@@ -63,10 +61,8 @@ public class ArmRotate : MonoBehaviour
     // Initialization
     void Awake()
     {
-        com = communication.GetComponent<Communication>();
-
-        PLCCycle = float.Parse(com.appConfig.TrainingModelSpecific["PLCCycle"]);
-        stepsLimit = int.Parse(com.appConfig.TrainingModelSpecific[strStepsLimit]); // number of pulses on the distance between arm and the limit
+        PLCCycle = float.Parse(communication.appConfig.TrainingModelSpecific["PLCCycle"]);
+        stepsLimit = int.Parse(communication.appConfig.TrainingModelSpecific[strStepsLimit]); // number of pulses on the distance between arm and the limit
 
         referenceSwitchActive = false;
         warningSwitchActive = false;
@@ -168,9 +164,9 @@ public class ArmRotate : MonoBehaviour
         // Movement control
         if (allowedToMove)
         {
-            if (com.GetTagValue(tagMovement))
+            if (communication.GetTagValue(tagMovement))
             {
-                if (com.GetTagValue(tagDirection))
+                if (communication.GetTagValue(tagDirection))
                 {
                     MoveTowardSwitch();
                 }
@@ -287,7 +283,7 @@ public class ArmRotate : MonoBehaviour
             //  If both forces are inactive, write to PLC
             if (!(forceFalse || forceTrue))
             {
-                com.WriteToPlc(tag, newValue);
+                communication.WriteToPlc(tag, newValue);
             }
         }
     }
@@ -301,7 +297,7 @@ public class ArmRotate : MonoBehaviour
         {
             val = switchReferenceValue;
         }
-        com.WriteToPlc(tagSwitchReference, val);
+        communication.WriteToPlc(tagSwitchReference, val);
     }
 
     public void SwitchReferenceForceFalseOnChange(Toggle change)
@@ -314,7 +310,7 @@ public class ArmRotate : MonoBehaviour
         {
             val = switchReferenceValue;
         }
-        com.WriteToPlc(tagSwitchReference, val);
+        communication.WriteToPlc(tagSwitchReference, val);
     }
 
     public void SwitchStepForceTrueOnChange(Toggle change)
@@ -327,7 +323,7 @@ public class ArmRotate : MonoBehaviour
         {
             val = switchStepValue;
         }
-        com.WriteToPlc(tagSwitchStep, val);
+        communication.WriteToPlc(tagSwitchStep, val);
     }
 
     public void SwitchStepForceFalseOnChange(Toggle change)
@@ -340,7 +336,7 @@ public class ArmRotate : MonoBehaviour
         {
             val = switchStepValue;
         }
-        com.WriteToPlc(tagSwitchStep, val);
+        communication.WriteToPlc(tagSwitchStep, val);
     }
 
 }

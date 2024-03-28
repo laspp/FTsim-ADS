@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class ArmGrip : MonoBehaviour
 {
-    public GameObject communication;
+    public Communication communication;
     [Tooltip("A name of tag (defined in config-RR.json)")]
     public string tagSwitchReference = "SwitchReferenceGrip";
     [Tooltip("A name of tag (defined in config-RR.json)")]
@@ -28,7 +28,6 @@ public class ArmGrip : MonoBehaviour
     bool isGripped;
     Collider workpieceCollider;
 
-    Communication com;
     float PLCCycle; // target cycle of the PLC in seconds
     readonly float speedFactor = 1.0f; // Horizontal speed between 1 (i.e. max speed) and 0.1 (min. speed)
     readonly int framesPerUnitAngle = 2; // each frame, move by unit/framesPerUnitDist
@@ -68,10 +67,8 @@ public class ArmGrip : MonoBehaviour
     // Initialization
     void Awake()
     {
-        com = communication.GetComponent<Communication>();
-
-        PLCCycle = float.Parse(com.appConfig.TrainingModelSpecific["PLCCycle"]);
-        stepsLimit = int.Parse(com.appConfig.TrainingModelSpecific[strStepsLimit]); // number of pulses on the distance between arm and the limit
+        PLCCycle = float.Parse(communication.appConfig.TrainingModelSpecific["PLCCycle"]);
+        stepsLimit = int.Parse(communication.appConfig.TrainingModelSpecific[strStepsLimit]); // number of pulses on the distance between arm and the limit
 
         isGripped = false;
         referenceSwitchActive = false;
@@ -186,9 +183,9 @@ public class ArmGrip : MonoBehaviour
         // Movement control
         if (allowedToMove)
         {
-            if (com.GetTagValue(tagMovement))
+            if (communication.GetTagValue(tagMovement))
             {
-                if (com.GetTagValue(tagDirection))
+                if (communication.GetTagValue(tagDirection))
                 {
                     MoveTowardSwitch();
                 }
@@ -308,7 +305,7 @@ public class ArmGrip : MonoBehaviour
             //  If both forces are inactive, write to PLC
             if (!(forceFalse || forceTrue))
             {
-                com.WriteToPlc(tag, newValue);
+                communication.WriteToPlc(tag, newValue);
             }
         }
     }
@@ -322,7 +319,7 @@ public class ArmGrip : MonoBehaviour
         {
             val = switchReferenceValue;
         }
-        com.WriteToPlc(tagSwitchReference, val);
+        communication.WriteToPlc(tagSwitchReference, val);
     }
 
     public void SwitchReferenceForceFalseOnChange(Toggle change)
@@ -335,7 +332,7 @@ public class ArmGrip : MonoBehaviour
         {
             val = switchReferenceValue;
         }
-        com.WriteToPlc(tagSwitchReference, val);
+        communication.WriteToPlc(tagSwitchReference, val);
     }
 
     public void SwitchStepForceTrueOnChange(Toggle change)
@@ -348,7 +345,7 @@ public class ArmGrip : MonoBehaviour
         {
             val = switchStepValue;
         }
-        com.WriteToPlc(tagSwitchStep, val);
+        communication.WriteToPlc(tagSwitchStep, val);
     }
 
     public void SwitchStepForceFalseOnChange(Toggle change)
@@ -361,7 +358,7 @@ public class ArmGrip : MonoBehaviour
         {
             val = switchStepValue;
         }
-        com.WriteToPlc(tagSwitchStep, val);
+        communication.WriteToPlc(tagSwitchStep, val);
     }
 
 }

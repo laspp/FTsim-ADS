@@ -3,10 +3,9 @@ using UnityEngine;
 
 public class ShowFPS : MonoBehaviour
 {
-    public GameObject communication;
+    public Communication communication;
     public TextMeshProUGUI fpsText;
 
-    Communication comScript;
     private int frameCount;
     private double dt;
     private int fps;
@@ -21,8 +20,7 @@ public class ShowFPS : MonoBehaviour
         fps = 0;
         updateRate = 4.0;  // 4 updates per sec.
 
-        comScript = communication.GetComponent<Communication>();
-        showFPS = comScript.appConfig.ShowFPS;
+        showFPS = communication.appConfig.ShowFPS;
         fpsText.text = "";
         // Hide panel that is a parent of a text object
         if (!showFPS)
