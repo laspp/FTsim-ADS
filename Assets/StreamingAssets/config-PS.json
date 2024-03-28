@@ -1,0 +1,46 @@
+{  //iz texae shella poglej tage in ustrezno preimenuj zadeve
+  "PlcAmsNetId": "local",
+  "PlcAdsPort": 851,
+  "NotificationCycleTime": 20,
+  "NotificationMaxDelay": 0,
+  "ShowFPS": true,
+  "InputVariableMap": {
+    "ToggleSwitch": "IO.ToggleSwitch",
+    "ButtonRed": "IO.ButtonRed",
+    "ButtonGreen": "IO.ButtonGreen",
+    "ButtonBlackTopLeft": "IO.ButtonBlackLeftUp",
+    "ButtonBlackTopRight": "IO.ButtonBlackRightUp",
+    "ButtonBlackBottomLeft": "IO.ButtonBlackLeftDown",
+    "ButtonBlackBottomRight": "IO.ButtonBlackRightDown",
+    "SwitchReferenceRotate": "IO.SwitchReferenceRotate",
+    "SwitchStepRotate": "IO.SwitchStepRotate",
+    "SwitchReferenceLift": "IO.SwitchReferenceLift",
+    "SwitchStepLift": "IO.SwitchStepLift",
+    "SwitchReferenceExtend": "IO.SwitchReferenceExtend",
+    "SwitchStepExtend": "IO.SwitchStepExtend",
+    "SwitchReferenceGrip": "IO.SwitchReferenceGrip",
+    "SwitchStepGrip": "IO.SwitchStepGrip"
+  },
+  "OutputVariableMap": {
+    "LightRed": "IO.LEDRed",
+    "LightGreen": "IO.LEDGreen",
+    "LightBlueTop": "IO.LEDBlueUp",
+    "LightBlueBottom": "IO.LEDBlueDown",
+    "MotorRotateDirection": "IO.MotorRotateDirection",
+    "MotorRotateMovement": "IO.MotorRotateMovement",
+    "MotorLiftDirection": "IO.MotorLiftDirection",
+    "MotorLiftMovement": "IO.MotorLiftMovement",
+    "MotorExtendDirection": "IO.MotorExtendDirection",
+    "MotorExtendMovement": "IO.MotorExtendMovement",
+    "MotorGripDirection": "IO.MotorGripDirection",
+    "MotorGripMovement": "IO.MotorGripMovement"
+  },
+  "TrainingModelSpecific": {
+    "RotateStepsLimit": "180",
+    "LiftStepsLimit": "120",
+    "ExtendStepsLimit": "80",
+    "GripStepsLimit": "18",
+    "PLCCycle": "0.02"
+  },
+  "SmartBarGrid": []
+}
