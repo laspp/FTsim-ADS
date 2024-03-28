@@ -11473,9 +11473,9 @@ MonoBehaviour:
   m_Text: "WORKPIECE\nClick on a NEW button to add a workpiece or DEL to remove it.
     Move the workpiece around with a left mouse button. Right-click on a workpiece
     to remove it.\n\nCAMERA\nHold SHIFT and use your mouse buttons to control the
-    camera:\r \n    left - rotation, \n\r    middle/scroll wheel - zoom, \r\n   
-    right - translation. \r\r\r\n\nPANEL\nYou can use keyboard keys to control the
-    panel buttons. "
+    camera:\r \n    left - rotation, \n\r    middle/scroll wheel - zoom, \r\n right
+    - translation. \r\r\r\n\nPANEL\nYou can use keyboard keys to control the panel
+    buttons. "
 --- !u!114 &2789103111530693394
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14042,10 +14042,10 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2597412992302326849}
-  - {fileID: 39434994395980080}
   - {fileID: 5374443482646898837}
   - {fileID: 598777580692305750}
+  - {fileID: 2597412992302326849}
+  - {fileID: 39434994395980080}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
