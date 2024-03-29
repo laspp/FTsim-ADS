@@ -1,4 +1,4 @@
-{  //iz texae shella poglej tage in ustrezno preimenuj zadeve
+{
   "PlcAmsNetId": "local",
   "PlcAdsPort": 851,
   "NotificationCycleTime": 20,
@@ -12,35 +12,28 @@
     "ButtonBlackTopRight": "IO.ButtonBlackRightUp",
     "ButtonBlackBottomLeft": "IO.ButtonBlackLeftDown",
     "ButtonBlackBottomRight": "IO.ButtonBlackRightDown",
-    "SwitchReferenceRotate": "IO.SwitchReferenceRotate",
-    "SwitchStepRotate": "IO.SwitchStepRotate",
-    "SwitchReferenceLift": "IO.SwitchReferenceLift",
-    "SwitchStepLift": "IO.SwitchStepLift",
-    "SwitchReferenceExtend": "IO.SwitchReferenceExtend",
-    "SwitchStepExtend": "IO.SwitchStepExtend",
-    "SwitchReferenceGrip": "IO.SwitchReferenceGrip",
-    "SwitchStepGrip": "IO.SwitchStepGrip"
+    "PhotocellEntry": "IO.PhotocellEntry",
+    "PhotocellExit": "IO.PhotocellExit",
+    "SwitchMachine": "IO.SwitchMachine",
+    "SwitchCompressor": "IO.SwitchCompressor",
+    "SwitchTablePosition": "IO.SwitchTablePosition",
+    "SwitchTableExit": "IO.SwitchTableExit",
   },
   "OutputVariableMap": {
     "LightRed": "IO.LEDRed",
     "LightGreen": "IO.LEDGreen",
     "LightBlueTop": "IO.LEDBlueUp",
     "LightBlueBottom": "IO.LEDBlueDown",
-    "MotorRotateDirection": "IO.MotorRotateDirection",
-    "MotorRotateMovement": "IO.MotorRotateMovement",
-    "MotorLiftDirection": "IO.MotorLiftDirection",
-    "MotorLiftMovement": "IO.MotorLiftMovement",
-    "MotorExtendDirection": "IO.MotorExtendDirection",
-    "MotorExtendMovement": "IO.MotorExtendMovement",
-    "MotorGripDirection": "IO.MotorGripDirection",
-    "MotorGripMovement": "IO.MotorGripMovement"
+    "MotorCompressor": "IO.MotorCompressor",
+    "MotorTableDirection": "IO.MotorTableDirection",
+    "MotorTableMovement": "IO.MotorTableMovement",
+    "MotorBeltDirection": "IO.MotorBeltDirection",
+    "MotorBeltMovement": "IO.MotorBeltMovement",
+    "ValveEntryForward": "IO.ValveEntryForward",
+    "ValveEntryBackward": "IO.ValveEntryBackward",
+    "ValveMachine": "IO.ValveMachine",
+    "ValveExitBackward": "IO.ValveExitBackward",
+    "ValveExitForward": "IO.ValveExitForward",
   },
-  "TrainingModelSpecific": {
-    "RotateStepsLimit": "180",
-    "LiftStepsLimit": "120",
-    "ExtendStepsLimit": "80",
-    "GripStepsLimit": "18",
-    "PLCCycle": "0.02"
-  },
-  "SmartBarGrid": []
+  "TrainingModelSpecific": {},
 }
