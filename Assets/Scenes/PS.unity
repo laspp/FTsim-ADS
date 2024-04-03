@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641317, b: 0.5748161, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657868, g: 0.49641335, b: 0.5748162, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1142,6 +1142,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 202964680}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &214290082 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7814470617718127438, guid: 7c6c7f9f81ae74046a567cc8940108a1,
+    type: 3}
+  m_PrefabInstance: {fileID: 265584182}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cd871987051cc74682e85b76bf982d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &226752546
 GameObject:
   m_ObjectHideFlags: 0
@@ -1256,7 +1268,7 @@ MonoBehaviour:
     NotificationCycleTime: 0
     NotificationMaxDelay: 0
     ShowFPS: 0
-  panelStatusBar: {fileID: 0}
+  panelStatusBar: {fileID: 214290082}
 --- !u!4 &248566266
 Transform:
   m_ObjectHideFlags: 0
