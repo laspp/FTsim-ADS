@@ -14,7 +14,7 @@ public class Communication : MonoBehaviour
 
     public AppConfig appConfig;  // Parsed JSON configuration from configFile
     public StatusBar panelStatusBar;
-    
+
     private AdsClient adsClient;
     private string configFilePath;
     private bool isConfigFileRead = false;
@@ -43,9 +43,9 @@ public class Communication : MonoBehaviour
         //Debug.Log("Communication: connecting to Beckhoff PLC over ADS ...\n");
 
         try
-        {            
+        {
             ConfigFileLoad();
-            
+
             tagCycleTime = appConfig.NotificationCycleTime;
             tagMaxDelay = appConfig.NotificationMaxDelay;
 
@@ -64,7 +64,7 @@ public class Communication : MonoBehaviour
         InvokeRepeating(nameof(ErrorsDisplayConnection), 1f, 1f);  //function name, init delay, repeat frequency
         InvokeRepeating(nameof(ErrorsDisplaySymbols), 1f, 1f);
     }
-    
+
     private void PlcConnect()
     {
         try
@@ -109,7 +109,7 @@ public class Communication : MonoBehaviour
                 }
                 catch
                 {
-                    //Debug.LogError($"PlcFetchSymbols: Cannot map tag '{plcTag}'; does it exists on PLC? {e.Message}");
+                    //Debug.LogError($"DBG PlcFetchSymbols: Cannot map tag '{plcTag}'; does it exists on PLC? ");
                     ErrorsAdd(plcTag);
                     symbolsFetchedOK = false;
                 }
@@ -128,7 +128,7 @@ public class Communication : MonoBehaviour
                 }
                 catch
                 {
-                    //Debug.LogError($"PlcFetchSymbols: Cannot map tag '{plcTag}'; does it exists on PLC? {e.Message}");
+                    Debug.LogError($"PlcFetchSymbols: Cannot map tag '{plcTag}'; does it exists on PLC? ");
                     ErrorsAdd(plcTag);
                     symbolsFetchedOK = false;
                 }
@@ -261,7 +261,7 @@ public class Communication : MonoBehaviour
             panelStatusBar.SetStatusBarText($"Configuration saved to {configFile}.");
         }
         catch (Exception)
-        {            
+        {
             throw;
         }
     }

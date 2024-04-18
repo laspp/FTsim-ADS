@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657868, g: 0.49641335, b: 0.5748162, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641317, b: 0.5748161, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2713,6 +2713,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -65.2
       objectReference: {fileID: 0}
+    - target: {fileID: 6939544516249988454, guid: 7c6c7f9f81ae74046a567cc8940108a1,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.6000004
+      objectReference: {fileID: 0}
     - target: {fileID: 7057230420717432145, guid: 7c6c7f9f81ae74046a567cc8940108a1,
         type: 3}
       propertyPath: communication
@@ -2792,6 +2797,11 @@ PrefabInstance:
         type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7589472084605039155, guid: 7c6c7f9f81ae74046a567cc8940108a1,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.6000004
       objectReference: {fileID: 0}
     - target: {fileID: 7623167843208475742, guid: 7c6c7f9f81ae74046a567cc8940108a1,
         type: 3}
@@ -3313,7 +3323,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   detectorA: {fileID: 2045523766}
   detectorB: {fileID: 45558598}
-  sensorTag: 
+  sensorTag: PhotocellEntry
 --- !u!1 &302161103
 GameObject:
   m_ObjectHideFlags: 0
@@ -3676,7 +3686,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   detectorA: {fileID: 1043223146}
   detectorB: {fileID: 2049008186}
-  sensorTag: 
+  sensorTag: PhotocellExit
 --- !u!1 &321294546
 GameObject:
   m_ObjectHideFlags: 0
@@ -4957,7 +4967,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 201959643}
         m_TargetAssemblyTypeName: MoveCamera, Assembly-CSharp
         m_MethodName: SetCameraTop
         m_Mode: 1
@@ -5242,7 +5252,7 @@ Transform:
   m_GameObject: {fileID: 579276960}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.831, z: 0}
+  m_LocalPosition: {x: -0, y: 0.79, z: 0}
   m_LocalScale: {x: 0.9803921, y: 0.17263755, z: 0.9803922}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5266,8 +5276,9 @@ MonoBehaviour:
   tagValveMachine: ValveMachine
   tagValveExitForward: ValveExitForward
   tagValveExitBackward: ValveExitBackward
-  SwitchCompressor: SwitchCompressor
+  MotorCompressor: MotorCompressor
   pistonType: 0
+  speed: 0.5
 --- !u!1 &605857951
 GameObject:
   m_ObjectHideFlags: 0
@@ -5904,8 +5915,9 @@ MonoBehaviour:
   tagValveMachine: ValveMachine
   tagValveExitForward: ValveExitForward
   tagValveExitBackward: ValveExitBackward
-  SwitchCompressor: SwitchCompressor
+  MotorCompressor: MotorCompressor
   pistonType: 2
+  speed: 0.5
 --- !u!54 &792270133
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -6060,7 +6072,7 @@ GameObject:
   - component: {fileID: 867835767}
   - component: {fileID: 867835766}
   - component: {fileID: 867835765}
-  - component: {fileID: 867835768}
+  - component: {fileID: 867835770}
   - component: {fileID: 867835769}
   m_Layer: 0
   m_Name: table
@@ -6159,18 +6171,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 867835763}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &867835768
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 867835763}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 072a21832920ca04b8e6a50bd4257d68, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!54 &867835769
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -6198,6 +6198,21 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &867835770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 867835763}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 285c865e03f39cd42b456e7d28b6d977, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dropDown2: {fileID: 0}
+  MotorTableDirection: MotorTableDirection
+  MotorTableMovement: MotorTableMovement
 --- !u!1 &888603015
 GameObject:
   m_ObjectHideFlags: 0
@@ -8156,7 +8171,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 201959643}
         m_TargetAssemblyTypeName: MoveCamera, Assembly-CSharp
         m_MethodName: ResetCamera
         m_Mode: 1
@@ -8206,6 +8221,127 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1306358298}
   m_CullTransparentMesh: 1
+--- !u!1 &1311404867
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1311404868}
+  - component: {fileID: 1311404872}
+  - component: {fileID: 1311404871}
+  - component: {fileID: 1311404870}
+  - component: {fileID: 1311404869}
+  m_Layer: 0
+  m_Name: BeltForceField
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1311404868
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1311404867}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.5389999, z: 0.019}
+  m_LocalScale: {x: 0.6769476, y: 0.077153645, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1959963129}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1311404869
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1311404867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d774b7af4cc7c845ae01cc7afb90ef0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tagDirection: MotorBeltDirection
+  tagMovement: MotorBeltMovement
+  speed: 1
+  direction: {x: 0, y: 0, z: 1}
+--- !u!23 &1311404870
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1311404867}
+  m_Enabled: 0
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials: []
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 1
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &1311404871
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1311404867}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!33 &1311404872
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1311404867}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &1324745081
 GameObject:
   m_ObjectHideFlags: 0
@@ -9396,8 +9532,9 @@ MonoBehaviour:
   tagValveMachine: ValveMachine
   tagValveExitForward: ValveExitForward
   tagValveExitBackward: ValveExitBackward
-  SwitchCompressor: SwitchCompressor
+  MotorCompressor: MotorCompressor
   pistonType: 1
+  speed: 0.5
 --- !u!64 &1492783497
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -9687,7 +9824,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 201959643}
         m_TargetAssemblyTypeName: MoveCamera, Assembly-CSharp
         m_MethodName: SetCameraSide
         m_Mode: 1
@@ -10873,6 +11010,7 @@ Transform:
   - {fileID: 345918159}
   - {fileID: 306569623}
   - {fileID: 1455635823}
+  - {fileID: 1311404868}
   m_Father: {fileID: 130438856}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &1959963130
