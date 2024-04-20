@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -7,6 +8,7 @@ using UnityEngine.UIElements;
 
 public class Piston : MonoBehaviour
 {
+    Communication com;
     [Tooltip("A name of tag (defined in config-PS.json)")]
     public string tagValveEntryForward = "ValveEntryForward";
     [Tooltip("A name of tag (defined in config-PS.json)")]
@@ -19,6 +21,8 @@ public class Piston : MonoBehaviour
     public string tagValveExitBackward = "ValveExitBackward";
     [Tooltip("A name of tag (defined in config-PS.json)")]
     public string MotorCompressor = "MotorCompressor";
+    string tagForward;
+    string tagBackward;
 
     public enum PistonLocation
     {
@@ -26,11 +30,8 @@ public class Piston : MonoBehaviour
         Machine,
         Belt
     }
-
     [Tooltip("Select the piston location")]
     public PistonLocation pistonType;
-    string tagForward;
-    string tagBackward;
 
     Vector3 moveVector = new(0, -1, 0);
     public float speed = 0.5f;
@@ -38,7 +39,10 @@ public class Piston : MonoBehaviour
     float positionStart;
     float positionEnd;
 
-    Communication com;
+    // Define a public static event
+    public static event Action<int> OnPistonMove;
+    private bool callEventForward = true;
+    private bool callEventBackward = true;
 
     // Start is called before the first frame update
     void Start()
@@ -101,7 +105,15 @@ public class Piston : MonoBehaviour
         {
             transform.Translate(Time.fixedDeltaTime * speed * moveVector);
             position = transform.localPosition.y;
+            if (callEventForward)
+            {
+                callEventForward = false;
+                OnPistonMove?.Invoke(2);
+                UnityEngine.Debug.Log("cam forward event");
+            }
             //UnityEngine.Debug.Log($"{position}");
+        } else if (position == positionEnd) {
+            callEventForward = true;
         }
     }
 
@@ -111,8 +123,20 @@ public class Piston : MonoBehaviour
         {
             transform.Translate(Time.fixedDeltaTime * speed * -moveVector);
             position = transform.localPosition.y;
+            if (callEventBackward)
+            {
+                callEventBackward = false;
+                OnPistonMove?.Invoke(2);
+                UnityEngine.Debug.Log("cam backward  event");
+            }
             //UnityEngine.Debug.Log($"{position}");
         }
+        else if (position == positionEnd)
+        {
+            callEventBackward = true;
+        }
     }
+
+
 
 }
