@@ -33,21 +33,22 @@ public class Piston : MonoBehaviour
     [Tooltip("Select the piston location")]
     public PistonLocation pistonType;
 
-    Vector3 moveVector = new(0, -1, 0);
-    public float speed = 0.5f;
+    Vector3 moveVector = new(0, -0.5f, 0);
+    public float speed = 0.01f;
     float position;
     float positionStart;
     float positionEnd;
 
-    // Define a public static event
-    public static event Action<int> OnPistonMove;
     private bool callEventForward = true;
     private bool callEventBackward = true;
+
+    private AirPressureController airPressureController;
 
     // Start is called before the first frame update
     void Start()
     {
         com = GameObject.Find("Communication").GetComponent<Communication>();
+        airPressureController = GameObject.Find("AirPressure").GetComponent<AirPressureController>();
 
         position = transform.localPosition.y;
 
@@ -62,11 +63,11 @@ public class Piston : MonoBehaviour
                 break;
             case PistonLocation.Machine:
                 positionStart = position;
-                positionEnd = position - 1.65f;
+                positionEnd = position - 1.80f;
                 break;
             case PistonLocation.Belt:
                 //start and End are reversed because piston is rotated compared to Entry piston
-                positionStart = position + 1.412f;
+                positionStart = position + 1.422f;
                 positionEnd = position;
                 tagForward = tagValveExitForward;
                 tagBackward = tagValveExitBackward;
@@ -84,14 +85,24 @@ public class Piston : MonoBehaviour
     {
         //UnityEngine.Debug.Log($"Compressor on: {com.GetTagValue(MotorCompressor)}");
         // Movement control
-        if (com.GetTagValue(MotorCompressor))
+        // if (com.GetTagValue(MotorCompressor))
+        if (airPressureController.GetAirPressureLevel() > 0)
         {
-            if (com.GetTagValue(tagForward) || com.GetTagValue(tagValveMachine) && pistonType == PistonLocation.Machine)
+            if (pistonType == PistonLocation.Machine) {
+                if (com.GetTagValue(tagValveMachine)){
+                    MoveForward();
+                    UnityEngine.Debug.Log($"moving {pistonType} piston forward");
+                } else {
+                    MoveBackward();
+                    UnityEngine.Debug.Log($"moving {pistonType} piston backward");
+                }
+            }
+            else if (com.GetTagValue(tagForward))
             {
                 MoveForward();
                 UnityEngine.Debug.Log($"moving {pistonType} piston forward");
             }
-            else if (com.GetTagValue(tagBackward) || !com.GetTagValue(tagValveMachine) && pistonType == PistonLocation.Machine)
+            else if (com.GetTagValue(tagBackward))
             {
                 MoveBackward();
                 UnityEngine.Debug.Log($"moving {pistonType} piston backward");
@@ -108,11 +119,12 @@ public class Piston : MonoBehaviour
             if (callEventForward)
             {
                 callEventForward = false;
-                OnPistonMove?.Invoke(2);
-                UnityEngine.Debug.Log("cam forward event");
+                //OnPistonMove?.Invoke(2);
+                airPressureController.DecrementAirPressureLevel();
+                UnityEngine.Debug.Log("cam forward event ");
             }
             //UnityEngine.Debug.Log($"{position}");
-        } else if (position == positionEnd) {
+        } else if (Math.Abs(position - positionEnd) < 0.02f) {
             callEventForward = true;
         }
     }
@@ -126,12 +138,14 @@ public class Piston : MonoBehaviour
             if (callEventBackward)
             {
                 callEventBackward = false;
-                OnPistonMove?.Invoke(2);
+                //OnPistonMove?.Invoke(2);
+                if (pistonType != PistonLocation.Machine){
+                    airPressureController.DecrementAirPressureLevel();
+                }
                 UnityEngine.Debug.Log("cam backward  event");
             }
             //UnityEngine.Debug.Log($"{position}");
-        }
-        else if (position == positionEnd)
+        } else if ( Math.Abs(position - positionStart) < 0.02f )
         {
             callEventBackward = true;
         }

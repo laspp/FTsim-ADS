@@ -10,7 +10,7 @@ public class Table : MonoBehaviour
     public string tagTablePosSwitch = "SwitchTablePosition";
 
     Rigidbody table; //če je object rigitbody je to simulirano "fizikalno" telo na katerega delujejo sile v unitiyju
-    Vector3 rotateCW = new Vector3(0, 18, 0);
+    Vector3 rotateCW = new Vector3(0, 9, 0); //smaler the number, slower rotation
     Communication com;
     float rotation = 0;
     Quaternion deltaRotation;
@@ -20,6 +20,7 @@ public class Table : MonoBehaviour
     {
         com = GameObject.Find("Communication").GetComponent<Communication>();
         table = GetComponent<Rigidbody>();
+
     }
 
     void rotate_CW()

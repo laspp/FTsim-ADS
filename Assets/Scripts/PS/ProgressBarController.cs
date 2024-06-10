@@ -35,6 +35,7 @@ public class ProgressBarController : MonoBehaviour
 
     private IEnumerator UpdateProgressBar()
     {
+        // BUG THAT BLOCK WHOLE UNITY!!!
         while (isRunning) // Keep running the coroutine
         {
             Debug.Log($"isrunning");
@@ -54,16 +55,16 @@ public class ProgressBarController : MonoBehaviour
     }
 
     //subscribe to the OnPistonMove event
-    private void OnEnable()
-    {
-        Piston.OnPistonMove += RemoveSquares;
-    }
+    // private void OnEnable()
+    // {
+    //     Piston.OnPistonMove += RemoveSquares;
+    // }
 
-    //unsubscribe to the OnPistonMove event
-    private void OnDisable()
-    {
-        Piston.OnPistonMove -= RemoveSquares;
-    }
+    // //unsubscribe to the OnPistonMove event
+    // private void OnDisable()
+    // {
+    //     Piston.OnPistonMove -= RemoveSquares;
+    // }
 
     private void RemoveSquares(int count)
     {

@@ -331,4 +331,5 @@ public class Communication : MonoBehaviour
         outputPlcTagToValue[sym.InstancePath] = val;
         //Debug.Log($"ADS notification: {sym.InstancePath} value changed to {val}");
     }
+
 }
