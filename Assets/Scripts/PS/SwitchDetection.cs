@@ -24,7 +24,7 @@ public class SwitchDetection : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         // Check if the object that entered the trigger is the one we're interested in
-        if (other.gameObject.CompareTag("Workpiece"))
+        if (other.gameObject.CompareTag("Workpiece") || other.gameObject.CompareTag("Miza_ograja") )
         {
             sensorValue = 1; // Change sensor value
             com.WriteToPlc(sensorTag, sensorValue); // Write new value to PLC
@@ -35,7 +35,7 @@ public class SwitchDetection : MonoBehaviour
     void OnTriggerExit(Collider other)
     {
         // Check if the object that left the trigger is the one we're interested in
-        if (other.gameObject.CompareTag("Workpiece"))
+        if (other.gameObject.CompareTag("Workpiece") || other.gameObject.CompareTag("Miza_ograja") )
         {
             sensorValue = 0; // Change sensor value
             com.WriteToPlc(sensorTag, sensorValue); // Write new value to PLC

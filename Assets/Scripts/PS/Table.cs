@@ -64,7 +64,7 @@ public class Table : MonoBehaviour
             }
 
             //update the table position switch value
-            com.WriteToPlc(tagTablePosSwitch, Mathf.Abs(rotation) % 90 < 4);
+            //com.WriteToPlc(tagTablePosSwitch, Mathf.Abs(rotation) % 90 < 4);
             //--
             //Debug.Log($"rotation {rotation}");
         //    timer = 0.0f; // Reset the timer
