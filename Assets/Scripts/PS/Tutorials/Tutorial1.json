@@ -1,0 +1,26 @@
+{
+  "TutorialStep": 1,
+  "TutorialTitle": "Turn on the light",
+  "TaskDescription": "Turn on the light by clicking on the light switch",
+  "SpeechBubble": {
+    "Text": "This is the light switch. Click it to turn on the light.",
+    "Position": {
+      "x": 100,
+      "y": 200
+    },
+    "Style": {
+      "BackgroundColor": "#FFFFFF",
+      "TextColor": "#000000",
+      "BorderRadius": 5
+    }
+  },
+  "Test": {
+    "TestType": "Tutorial",
+    "TestName": "Tutorial 1",
+    "TestDescription": "Turn on the light",
+    "TestExpected": "The light is turned on",
+    "TestResult": "The light is turned on",
+    "TestResultStatus": "Passed"
+  }
+  "nextTutorial": "Tutorial2.json"
+}

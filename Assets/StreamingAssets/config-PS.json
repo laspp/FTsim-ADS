@@ -35,5 +35,7 @@
     "ValveExitBackward": "IO.ValveExitBackward",
     "ValveExitForward": "IO.ValveExitForward",
   },
-  "TrainingModelSpecific": {},
+  "TrainingModelSpecific": {
+    "FillOneAirCilinderTime" : 5.0,
+  },
 }
