@@ -5,6 +5,7 @@
   "SpeechBubble": {
     "Text": "This is the light switch. Click it to turn on the light.",
     "Position": {
+      "baseComponent": "LightRed",
       "x": 100,
       "y": 200
     },
