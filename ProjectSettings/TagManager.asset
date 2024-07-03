@@ -13,6 +13,7 @@ TagManager:
   - SmartBarRespawn
   - UI_help_window
   - Miza_ograja
+  - Dialog_error_tutorial
   layers:
   - Default
   - TransparentFX

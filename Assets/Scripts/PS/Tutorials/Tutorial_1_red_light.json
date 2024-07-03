@@ -1,6 +1,6 @@
 {
   "TutorialStep": 1,
-  "TutorialTitle": "Turn on the light",
+  "TutorialTitle": "RED LIGHT",
   "TaskDescription": "Turn on the light by clicking on the light switch",
   "ChatBubbles": [
     {
@@ -19,6 +19,5 @@
     "TestExpected": "The light is turned on",
     "TestResult": "The light is turned on",
     "TestResultStatus": "Passed"
-  },
-  "nextTutorial": "Tutorial2.json"
+  }
 }

@@ -39,7 +39,7 @@ public class TutorialLoader : MonoBehaviour
 {
     public TutorialManager tutorialManager; 
     public string tutorialsFolderPath = "Scripts/PS/Tutorials";
-    public int currentTutorialIndex = 1; 
+    public int currentTutorialIndex = 0; 
 
     public TutorialData LoadTutorial(int tutorialIndex)
     {
@@ -50,15 +50,25 @@ public class TutorialLoader : MonoBehaviour
         if (foundFiles.Length > 0) 
         {
             string jsonContent = File.ReadAllText(foundFiles[0]); // Directly access the only file
-            TutorialData tutorialData = JsonUtility.FromJson<TutorialData>(jsonContent);
-            if (tutorialData == null)
+            try
             {
-                tutorialManager.AddError($"Failed to parse tutorial data from {foundFiles[0]}");
-                Debug.LogError($"Failed to parse tutorial data from {foundFiles[0]}");
+                TutorialData tutorialData = JsonUtility.FromJson<TutorialData>(jsonContent);
+                if (tutorialData == null)
+                {
+                    tutorialManager.AddError($"File {foundFiles[0]} is empty or not a valid JSON.");
+                    Debug.LogError($"File {foundFiles[0]} is empty or not a valid JSON.");
+                    return null;
+                }
+                //Debug.Log($"Loaded tutorial: {tutorialData}"); // .TutorialTitle
+                Debug.Log($"Loaded tutorial: {JsonUtility.ToJson(tutorialData, true)}");
+                return tutorialData;
+            }
+            catch (Exception e)
+            {
+                tutorialManager.AddError($"Failed to parse tutorial data from {foundFiles[0]}. Error: {e.Message}");
+                Debug.LogError($"Failed to parse tutorial data from {foundFiles[0]}. Error: {e.Message}");
                 return null;
             }
-            Debug.Log($"Loaded tutorial: {tutorialData}"); // .TutorialTitle
-            return tutorialData;
         }
         else
         {
@@ -93,7 +103,11 @@ public class TutorialManager : MonoBehaviour
         currentTutorialData = tutorialLoader.LoadTutorial(tutorialLoader.currentTutorialIndex);
         if (currentTutorialData != null)
         {
-            DisplayChatBubbles(currentTutorialData.ChatBubbles);
+            Debug.Log($"{currentTutorialData.TutorialTitle}, {currentTutorialData.TaskDescription}");
+            DisplayTaskInPanel(currentTutorialData.TutorialTitle, currentTutorialData.TaskDescription);
+            if(currentTutorialData.ChatBubbles.Count > 0){
+                DisplayChatBubbles(currentTutorialData.ChatBubbles);
+            }
             Debug.Log($"TutorialManager initialized with tutorial index: {tutorialLoader.currentTutorialIndex}");
         } 
         
@@ -108,7 +122,22 @@ public class TutorialManager : MonoBehaviour
     //     //     DisplaySpeechBubble(currentTutorialData.SpeechBubble);
     //     // }
     // }
+    void DisplayTaskInPanel(string tutorialTitle, string taskDescription)
+    {
+        try{
+            GameObject tutorialPanel = GameObject.Find("TutorialPanel");
+            TMP_Text titleText = tutorialPanel.transform.Find("TextHeader").GetComponent<TMP_Text>();
+            titleText.text = tutorialTitle;
 
+            GameObject textMainField = GameObject.Find("TextMainField");
+            TMP_Text descriptionText = textMainField.GetComponentInChildren<TMP_Text>();
+            descriptionText.text = taskDescription;
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("TutorialPanel object not found; " + e.Message);
+        }
+    }
     void DisplayChatBubbles(List<ChatBubble> chatBubbles)
     {
         foreach (var chatBubble in chatBubbles)

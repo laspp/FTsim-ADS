@@ -12,10 +12,12 @@ public class PanelHelp : MonoBehaviour
 
     void Awake()
     {
-        if (!PlayerPrefs.HasKey("showHelpOnStart"))
-        {
-            PlayerPrefs.SetInt("showHelpOnStart", 1);
-        }
+        // ker je toggle disejblan ga ne upoštevamo, mogoče kasneje uporabi
+        // if (!PlayerPrefs.HasKey("showHelpOnStart"))
+        // {
+        //     PlayerPrefs.SetInt("showHelpOnStart", 1);
+        // }
+        PlayerPrefs.SetInt("showHelpOnStart", 1); // Force enable on start
         showHelpOnStart = PlayerPrefs.GetInt("showHelpOnStart");
         showHelpStartToggle.GetComponent<Toggle>().isOn = (showHelpOnStart == 1);
         gameObject.SetActive(showHelpOnStart == 1);
