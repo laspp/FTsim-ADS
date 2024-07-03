@@ -1,0 +1,6 @@
+NAMING CONVENTION
+
+imena JSON fiov, ki tvorijo tutoriale, sledijo formatu
+Tutorial_X_<test>.json , kjer je X int sledečega turorial in <test> kratek opis tutoriuala
+
+imena ChatBubblov v sceni so ChatBubble_Y_Z , kjer je Y TutorialStep ali zaporedna številka tutoriala in Z kateri zapovrstjo je trenutni oblaček

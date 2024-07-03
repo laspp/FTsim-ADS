@@ -10854,7 +10854,7 @@ PrefabInstance:
     - target: {fileID: 3362136904802841524, guid: a74c525e343a3554c838da20f25fac91,
         type: 3}
       propertyPath: m_Name
-      value: "drugi obla\u010Dek"
+      value: ChatBubble_1_2
       objectReference: {fileID: 0}
     - target: {fileID: 4418952757838105034, guid: a74c525e343a3554c838da20f25fac91,
         type: 3}
@@ -16714,6 +16714,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6796dbbecb3f5334eaa84c22896a75e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dialogPrefab: {fileID: 0}
 --- !u!4 &1963624588
 Transform:
   m_ObjectHideFlags: 0
@@ -16966,7 +16967,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!81 &2010451729
 AudioListener:
   m_ObjectHideFlags: 0
@@ -18221,7 +18222,7 @@ PrefabInstance:
     - target: {fileID: 3362136904802841524, guid: a74c525e343a3554c838da20f25fac91,
         type: 3}
       propertyPath: m_Name
-      value: ChatBubble
+      value: ChatBubble_1_1
       objectReference: {fileID: 0}
     - target: {fileID: 4418952757838105034, guid: a74c525e343a3554c838da20f25fac91,
         type: 3}
@@ -18327,6 +18328,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4961148011673958468, guid: a74c525e343a3554c838da20f25fac91,
+        type: 3}
+      propertyPath: m_text
+      value: prazno
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
