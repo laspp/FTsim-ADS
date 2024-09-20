@@ -11894,6 +11894,21 @@ PrefabInstance:
       propertyPath: pusher2Zone
       value: 
       objectReference: {fileID: 1689685854}
+    - target: {fileID: 3561246302588809780, guid: b808f3231c8bdea46978e7c2403077ad,
+        type: 3}
+      propertyPath: m_Mass
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3561246302588809780, guid: b808f3231c8bdea46978e7c2403077ad,
+        type: 3}
+      propertyPath: m_AngularDrag
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3561246302588809780, guid: b808f3231c8bdea46978e7c2403077ad,
+        type: 3}
+      propertyPath: m_ImplicitCom
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7651811605767951232, guid: b808f3231c8bdea46978e7c2403077ad,
         type: 3}
       propertyPath: m_LocalPosition.x
