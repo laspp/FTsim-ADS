@@ -126,9 +126,5 @@ public class DialogWithScroll : MonoBehaviour {
             Destroy(this.gameObject);
             m_actionOK();
         }
-
-        
-
-        
     }
 }

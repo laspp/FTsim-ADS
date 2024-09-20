@@ -11,6 +11,8 @@ TagManager:
   - Holder
   - SmartBarBase
   - SmartBarRespawn
+  - UI_help_window
+  - Miza_ograja
   layers:
   - Default
   - TransparentFX

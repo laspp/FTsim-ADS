@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.45140272, g: 0.5008954, b: 0.572319, a: 1}
+  m_IndirectSpecularColor: {r: 0.45140266, g: 0.50089526, b: 0.5723188, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3107,12 +3107,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee1bc894e50d9944ebfacc91b7caad66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  communication: {fileID: 248566265}
-  panelStatusBar: {fileID: 1500145776}
   buttonReset: {fileID: 975574551}
   buttonSave: {fileID: 138801487}
   toggleRespawn: {fileID: 481052978}
   prefabSmartBar: {fileID: 2038250223}
+  communication: {fileID: 248566265}
+  panelStatusBar: {fileID: 1500145776}
   gridX: 10
   gridZ: 16
   spacing: 0.65
@@ -6012,14 +6012,14 @@ PrefabInstance:
     - {fileID: 6412268330005165166, guid: 7c6c7f9f81ae74046a567cc8940108a1, type: 3}
     - {fileID: 7021078000348872133, guid: 7c6c7f9f81ae74046a567cc8940108a1, type: 3}
     m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 2597412992302326849, guid: 7c6c7f9f81ae74046a567cc8940108a1,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1003398103}
     - targetCorrespondingSourceObject: {fileID: 4034810225606101426, guid: 7c6c7f9f81ae74046a567cc8940108a1,
         type: 3}
       insertIndex: 6
       addedObject: {fileID: 1181728621}
+    - targetCorrespondingSourceObject: {fileID: 2597412992302326849, guid: 7c6c7f9f81ae74046a567cc8940108a1,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1003398103}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7c6c7f9f81ae74046a567cc8940108a1, type: 3}
 --- !u!224 &1106130348 stripped
