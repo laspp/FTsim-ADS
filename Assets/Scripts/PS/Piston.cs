@@ -69,8 +69,8 @@ public class Piston : MonoBehaviour
                 //start and End are reversed because piston is rotated compared to Entry piston
                 positionStart = position + 1.422f;
                 positionEnd = position;
-                tagForward = tagValveExitForward;
-                tagBackward = tagValveExitBackward;
+                tagForward = tagValveExitBackward;
+                tagBackward = tagValveExitForward;
                 break;
             //default:
             //    positionEnd = positionStart;
@@ -91,21 +91,21 @@ public class Piston : MonoBehaviour
             if (pistonType == PistonLocation.Machine) {
                 if (com.GetTagValue(tagValveMachine)){
                     MoveForward();
-                    UnityEngine.Debug.Log($"moving {pistonType} piston forward");
+                    //UnityEngine.Debug.Log($"moving {pistonType} piston forward");
                 } else {
                     MoveBackward();
-                    UnityEngine.Debug.Log($"moving {pistonType} piston backward");
+                    //UnityEngine.Debug.Log($"moving {pistonType} piston backward");
                 }
             }
             else if (com.GetTagValue(tagForward))
             {
                 MoveForward();
-                UnityEngine.Debug.Log($"moving {pistonType} piston forward");
+                //UnityEngine.Debug.Log($"moving {pistonType} piston forward");
             }
             else if (com.GetTagValue(tagBackward))
             {
                 MoveBackward();
-                UnityEngine.Debug.Log($"moving {pistonType} piston backward");
+                //UnityEngine.Debug.Log($"moving {pistonType} piston backward");
             }
         }
     }
