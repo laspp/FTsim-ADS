@@ -18,7 +18,10 @@ public class AirPressureController : MonoBehaviour
 
     [Tooltip("Name of gameObject for progres bar reference. If null, \"PressureProgressBar\" will be used")]
     public string progressBarStr = "PressureProgressBar";
+    public string fillOneAirCilinderTimeStr = "FillOneAirCilinderTime";
     private GameObject progressBar;
+
+    private float FillOneAirCilinderTime;
 
     void Start()
     {
@@ -27,6 +30,7 @@ public class AirPressureController : MonoBehaviour
         progressBar = GameObject.Find(progressBarStr);
         // Debug.Log($"airTank: {airTank}");
         // Debug.Log($"PressureProgressBar: {progressBar}");
+        FillOneAirCilinderTime = float.Parse(com.appConfig.TrainingModelSpecific[fillOneAirCilinderTimeStr]);
 
         //start with empty tank
         foreach (var air in airTank.GetComponentsInChildren<Image>())
@@ -51,7 +55,7 @@ public class AirPressureController : MonoBehaviour
             {
                 IncrementAirPressureLevel();
             }
-            yield return new WaitForSeconds(5);
+            yield return new WaitForSeconds(FillOneAirCilinderTime);
         }
     }
 
