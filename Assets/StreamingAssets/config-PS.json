@@ -36,6 +36,6 @@
     "ValveExitForward": "IO.ValveExitForward",
   },
   "TrainingModelSpecific": {
-    "FillOneAirCilinderTime" : 1.0,
+    "FillOneAirCilinderTime" : 5.0,
   },
 }

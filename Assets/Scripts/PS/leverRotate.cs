@@ -6,7 +6,7 @@ public class leverRotate : MonoBehaviour
 {
     private float rotationX = 0f;
     private bool isAnimating = false;
-    public int speed = 30;
+    public int speed = 80;
     public Communication com;
     public string SwitchCompressorTag = "SwitchCompressor";
     private int sensorValue;
@@ -15,7 +15,7 @@ public class leverRotate : MonoBehaviour
     void Start()
     {
         com = GameObject.Find("Communication").GetComponent<Communication>();
-        com.WriteToPlc("ToggleSwitch", false);
+        com.WriteToPlc(SwitchCompressorTag, false);
     }
 
     public void SwitchCompressorChange(Toggle change)

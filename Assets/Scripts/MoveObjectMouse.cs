@@ -25,6 +25,7 @@ public class MoveObjectMouse : MonoBehaviour , IPointerClickHandler
 	}
 
 	public void OnPointerClick(PointerEventData eventData){
+			Debug.Log("HERE");
 		if (eventData.button == PointerEventData.InputButton.Right){
 			// Remove object on right click
 			Destroy(gameObject);			
