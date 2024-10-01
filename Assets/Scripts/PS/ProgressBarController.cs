@@ -38,14 +38,14 @@ public class ProgressBarController : MonoBehaviour
         // BUG THAT BLOCK WHOLE UNITY!!!
         while (isRunning) // Keep running the coroutine
         {
-            Debug.Log($"isrunning");
+            //Debug.Log($"isrunning");
             if (com.GetTagValue(MotorCompressor))
             {
                 
                 // If there are missing squares, add one
                 if (currentSquare < squares.Length && squares[currentSquare].enabled == false)
                 {
-                    UnityEngine.Debug.Log($"sqare enabled");
+                    //UnityEngine.Debug.Log($"sqare enabled");
                     squares[currentSquare].enabled = true; // Enable the Image component to make visible
                     currentSquare++;
                 }
@@ -72,7 +72,7 @@ public class ProgressBarController : MonoBehaviour
         {
             if (currentSquare > 0)
             {
-                Debug.Log($"sqare removed");
+                //Debug.Log($"sqare removed");
                 currentSquare--;
                 squares[currentSquare].enabled = false; // Disable the Image component to make non-visible
             }

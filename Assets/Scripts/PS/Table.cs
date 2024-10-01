@@ -50,16 +50,16 @@ public class Table : MonoBehaviour
             //--
             if (com.GetTagValue(tagTableMovement))
             {
-                Debug.Log($"Table moventent");
+                //Debug.Log($"Table moventent");
                 if (com.GetTagValue(tagTableDirection))
                 {
-                    Debug.Log("rotate CCW");
+                    //Debug.Log("rotate CCW");
                     rotate_CCW();
                 }
                 else
                 {
                     rotate_CW();
-                    Debug.Log("rotate CW");
+                    //Debug.Log("rotate CW");
                 }
             }
 

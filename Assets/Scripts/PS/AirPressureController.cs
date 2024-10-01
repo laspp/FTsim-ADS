@@ -93,7 +93,7 @@ public class AirPressureController : MonoBehaviour
 
     public void DecrementAirPressureLevel()
     {
-        Debug.Log($"DecrementAirPressureLevel from {airPressureLevel} to {airPressureLevel - 1}");
+        //Debug.Log($"DecrementAirPressureLevel from {airPressureLevel} to {airPressureLevel - 1}");
         if (airPressureLevel > 0){
             lock (lockObject)
             {

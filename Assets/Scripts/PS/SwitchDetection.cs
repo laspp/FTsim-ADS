@@ -4,12 +4,12 @@ using UnityEngine.UI;
 public class SwitchDetection : MonoBehaviour
 {
     private Communication com;
-    private int sensorValue;
+    private int sensorValue, newValue;
     [Tooltip("String with a tag name. If None, the name of the game object will be used.")]
     public string sensorTag = null;
     private bool forceTrue, forceFalse;
     
-    void Awake()
+    void Start()
     {
         com = GameObject.Find("Communication").GetComponent<Communication>();
 
@@ -18,7 +18,10 @@ public class SwitchDetection : MonoBehaviour
             sensorTag = this.name;
         }
 
-        sensorValue = -1; // Initial sensor value
+        forceTrue = false;
+        forceFalse = false;
+        sensorValue = 0; // Initial sensor value
+        com.WriteToPlc(sensorTag, sensorValue);
     }
 
     void OnTriggerEnter(Collider other)
@@ -26,9 +29,10 @@ public class SwitchDetection : MonoBehaviour
         // Check if the object that entered the trigger is the one we're interested in
         if (other.gameObject.CompareTag("Workpiece") || other.gameObject.CompareTag("Miza_ograja") )
         {
-            sensorValue = 1; // Change sensor value
-            com.WriteToPlc(sensorTag, sensorValue); // Write new value to PLC
-            UnityEngine.Debug.Log($"swithced pressed {sensorTag}");
+            newValue = 1;
+            // Check for change and forces, then write to PLC
+            WriteOnChange(sensorTag, newValue);
+            //UnityEngine.Debug.Log($"swithced pressed {sensorTag}");
         }
     }
 
@@ -37,15 +41,28 @@ public class SwitchDetection : MonoBehaviour
         // Check if the object that left the trigger is the one we're interested in
         if (other.gameObject.CompareTag("Workpiece") || other.gameObject.CompareTag("Miza_ograja") )
         {
-            sensorValue = 0; // Change sensor value
-            com.WriteToPlc(sensorTag, sensorValue); // Write new value to PLC
-            UnityEngine.Debug.Log($"swithced UN-pressed {sensorTag}");
+            newValue = 0;
+            // Check for change and forces, then write to PLC
+            WriteOnChange(sensorTag, newValue);
+            //UnityEngine.Debug.Log($"swithced UN-pressed {sensorTag}");
         }
     }
 
+    private void WriteOnChange(string tag, int newValue)
+    {
+        if (sensorValue != newValue)
+        {
+            //  If both forces are inactive, write to PLC
+            if (!(forceFalse || forceTrue))
+            {
+                com.WriteToPlc(tag, newValue);
+            }
+            sensorValue = newValue;
+        }
+    }
     public void SwitchForceTrueOnChange(Toggle change)
     {
-        Debug.Log($"{sensorTag}, {change.isOn}, {change.name}, {change.group.name}");
+        //Debug.Log($"tag: {sensorTag}, sensorValue: {sensorValue}, isOn: {change.isOn}, toggle: {change.name}, group: {change.group.name}");
 
         forceTrue = change.isOn;
         // Write true to PLC if isOn = true
@@ -60,7 +77,8 @@ public class SwitchDetection : MonoBehaviour
     }
     public void SwitchForceFalseOnChange(Toggle change)
     {
-        Debug.Log($"{sensorTag}, {change.isOn}, {change.name}, {change.group.name}");
+       
+        //Debug.Log($"tag: {sensorTag}, sensorValue: {sensorValue}, isOn: {change.isOn}, toggle: {change.name}, group: {change.group.name}");
 
         forceFalse = change.isOn;
         // Write false to PLC if isOn = true

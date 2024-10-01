@@ -90,7 +90,7 @@ public class Photocell : MonoBehaviour
 
     public void ForceTrueOnChange(Toggle change)
     {
-        Debug.Log($"{sensorTag}, {change.isOn}, {change.name}, {change.group.name}");
+        //Debug.Log($"{sensorTag}, {change.isOn}, {change.name}, {change.group.name}");
 
         forceTrue = change.isOn;
         // Write true to PLC if isOn = true
@@ -105,7 +105,7 @@ public class Photocell : MonoBehaviour
     }
     public void ForceFalseOnChange(Toggle change)
     {
-        Debug.Log($"{sensorTag}, {change.isOn}, {change.name}, {change.group.name}");
+        //Debug.Log($"{sensorTag}, {change.isOn}, {change.name}, {change.group.name}");
 
         forceFalse = change.isOn;
         // Write false to PLC if isOn = true

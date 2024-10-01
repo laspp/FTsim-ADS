@@ -38,14 +38,12 @@ public class WorkpieceMove : MonoBehaviour
             {
                 if (com.GetTagValue(tagMovement))
                 {
+                    Vector3 movement = Time.fixedDeltaTime * speed * direction;
                     if (com.GetTagValue(tagDirection))
                     {
-                        workpiece.transform.Translate(Time.fixedDeltaTime * speed * (-direction));
+                        movement = -movement;
                     }
-                    else
-                    {
-                        workpiece.transform.Translate(Time.fixedDeltaTime * speed * (direction));
-                    }
+                    workpiece.transform.Translate(movement, Space.World);
                 }                
             }
         }

@@ -13,7 +13,7 @@ public class PanelControls : MonoBehaviour
     public Transform lightBlueBottom;
        
 
-    void Awake()
+    void Start()
     {
         
         // Initialize all panel inputs to false (buttons, toggle switch)

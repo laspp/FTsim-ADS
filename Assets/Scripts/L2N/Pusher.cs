@@ -162,7 +162,7 @@ public class Pusher : MonoBehaviour
     }
     public void SwitchStartForceTrueOnChange(Toggle change)
     {
-        Debug.Log($"{tagSwitchStart}, {change.isOn}, {change.name}, {change.group.name}");
+        //Debug.Log($"{tagSwitchStart}, {change.isOn}, {change.name}, {change.group.name}");
 
         switchStartForceTrue = change.isOn;
         // Write true to PLC if isOn = true
@@ -177,7 +177,7 @@ public class Pusher : MonoBehaviour
     }
     public void SwitchStartForceFalseOnChange(Toggle change)
     {
-        Debug.Log($"{tagSwitchStart}, {change.isOn}, {change.name}, {change.group.name}");
+        //Debug.Log($"{tagSwitchStart}, {change.isOn}, {change.name}, {change.group.name}");
 
         switchStartForceFalse = change.isOn;
         // Write false to PLC if isOn = true
@@ -191,7 +191,7 @@ public class Pusher : MonoBehaviour
     }
     public void SwitchEndForceTrueOnChange(Toggle change)
     {
-        Debug.Log($"{tagSwitchEnd}, {change.isOn}, {change.name}, {change.group.name}");
+        //Debug.Log($"{tagSwitchEnd}, {change.isOn}, {change.name}, {change.group.name}");
 
         switchEndForceTrue = change.isOn;
         // Write true to PLC if isOn = true
@@ -206,7 +206,7 @@ public class Pusher : MonoBehaviour
     }
     public void SwitchEndForceFalseOnChange(Toggle change)
     {
-        Debug.Log($"{tagSwitchEnd}, {change.isOn}, {change.name}, {change.group.name}");
+        //Debug.Log($"{tagSwitchEnd}, {change.isOn}, {change.name}, {change.group.name}");
 
         switchEndForceFalse = change.isOn;
         // Write false to PLC if isOn = true

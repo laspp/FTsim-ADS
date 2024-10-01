@@ -20,7 +20,7 @@ public class leverRotate : MonoBehaviour
 
     public void SwitchCompressorChange(Toggle change)
     {
-        Debug.Log("SwitchCompressorChange: " + change.isOn);
+        //Debug.Log("SwitchCompressorChange: " + change.isOn);
         com.WriteToPlc(SwitchCompressorTag, change.isOn);
         if (change && !isAnimating)
         {
@@ -30,7 +30,7 @@ public class leverRotate : MonoBehaviour
 
     IEnumerator RotateLever(bool rotateUp)
     {
-        Debug.Log("RotateLever: " + rotateUp);
+        //Debug.Log("RotateLever: " + rotateUp);
         isAnimating = true;
         if (rotateUp)
         {
@@ -57,7 +57,7 @@ public class leverRotate : MonoBehaviour
 
     public void SwitchForceTrueOnChange(Toggle change)
     {
-        Debug.Log($"{SwitchCompressorTag}, {change.isOn}, {change.name}, {change.group.name}");
+        //Debug.Log($"{SwitchCompressorTag}, {change.isOn}, {change.name}, {change.group.name}");
 
         //forceTrue = change.isOn;
         // Write true to PLC if isOn = true
@@ -72,7 +72,7 @@ public class leverRotate : MonoBehaviour
     }
     public void SwitchForceFalseOnChange(Toggle change)
     {
-        Debug.Log($"{SwitchCompressorTag}, {change.isOn}, {change.name}, {change.group.name}");
+        //Debug.Log($"{SwitchCompressorTag}, {change.isOn}, {change.name}, {change.group.name}");
 
         //forceFalse = change.isOn;
         // Write false to PLC if isOn = true

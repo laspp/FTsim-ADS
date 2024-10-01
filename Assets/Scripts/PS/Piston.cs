@@ -121,7 +121,6 @@ public class Piston : MonoBehaviour
                 callEventForward = false;
                 //OnPistonMove?.Invoke(2);
                 airPressureController.DecrementAirPressureLevel();
-                UnityEngine.Debug.Log("cam forward event ");
             }
             //UnityEngine.Debug.Log($"{position}");
         } else if (Math.Abs(position - positionEnd) < 0.02f) {
@@ -142,7 +141,6 @@ public class Piston : MonoBehaviour
                 if (pistonType != PistonLocation.Machine){
                     airPressureController.DecrementAirPressureLevel();
                 }
-                UnityEngine.Debug.Log("cam backward  event");
             }
             //UnityEngine.Debug.Log($"{position}");
         } else if ( Math.Abs(position - positionStart) < 0.02f )

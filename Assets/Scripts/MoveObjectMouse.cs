@@ -11,6 +11,8 @@ public class MoveObjectMouse : MonoBehaviour , IPointerClickHandler
 	private Color origColor;
 	private Vector3 screenPoint;
 	private Vector3 offset;
+	private RigidbodyConstraints originalConstraints;
+    private bool wasKinematic;
 
 	void Start(){
 		objRigidBody = GetComponent<Rigidbody> ();
@@ -25,7 +27,7 @@ public class MoveObjectMouse : MonoBehaviour , IPointerClickHandler
 	}
 
 	public void OnPointerClick(PointerEventData eventData){
-			Debug.Log("HERE");
+		
 		if (eventData.button == PointerEventData.InputButton.Right){
 			// Remove object on right click
 			Destroy(gameObject);			
@@ -37,7 +39,14 @@ public class MoveObjectMouse : MonoBehaviour , IPointerClickHandler
 	{
 		screenPoint = Camera.main.WorldToScreenPoint(gameObject.transform.position);
 		offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z));
-		objRigidBody.constraints = RigidbodyConstraints.FreezeRotation;
+		
+		// Save original constraints and kinematic state
+        originalConstraints = objRigidBody.constraints;
+        wasKinematic = objRigidBody.isKinematic;
+
+        // Set new constraints for dragging
+        objRigidBody.constraints = RigidbodyConstraints.FreezeRotation;
+        objRigidBody.isKinematic = true;
 	}
 
 	void OnMouseDrag()
@@ -45,12 +54,11 @@ public class MoveObjectMouse : MonoBehaviour , IPointerClickHandler
 		Vector3 curScreenPoint = new Vector3 (Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
 		Vector3 curPosition = Camera.main.ScreenToWorldPoint (curScreenPoint) + offset;
 		transform.position = curPosition;
-		objRigidBody.constraints = RigidbodyConstraints.FreezeRotation;
-		objRigidBody.isKinematic = true;
 	}
 	void OnMouseUp(){
-		objRigidBody.constraints = RigidbodyConstraints.None;
-		objRigidBody.isKinematic = false;
+		// Restore original constraints and kinematic state
+        objRigidBody.constraints = originalConstraints;
+        objRigidBody.isKinematic = wasKinematic;
 	}
 
 }
