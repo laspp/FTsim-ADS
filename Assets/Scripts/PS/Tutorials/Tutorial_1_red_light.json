@@ -1,0 +1,23 @@
+{
+  "TutorialStep": 1,
+  "TutorialTitle": "RED LIGHT",
+  "TaskDescription": "Turn on the light by clicking on the light switch",
+  "ChatBubbles": [
+    {
+      "Id": 1,
+      "Text": "This is NOT the light switch. Click it to turn on the light."
+    },
+    {
+      "Id": 2,
+      "Text": "The light is now turned on."
+    }
+  ],
+  "Test": {
+    "TestType": "Tutorial",
+    "TestName": "Tutorial 1",
+    "TestDescription": "Turn on the light",
+    "TestExpected": "The light is turned on",
+    "TestResult": "The light is turned on",
+    "TestResultStatus": "Passed"
+  }
+}
