@@ -13,6 +13,11 @@
       "Tag": "LightRed",
       "Val": "true",
       "Time": "1"
+    },
+    {
+      "Tag": "LightGreen",
+      "Val": "true",
+      "Time": "1"
     }
   ]
 }

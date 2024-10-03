@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using TMPro;
 using System.Collections;
 using UnityEngine.UI;
+using System.Threading.Tasks;
+using System.Linq;
 
 [Serializable]
 public class TutorialData
@@ -182,51 +184,72 @@ public class TutorialManager : MonoBehaviour
 
     }
 
-    public void ButtonTest()
+//----------------------Test----------------------
+    public async void ButtonTest()
     {
-        
+        var testTasks = new List<Task<bool>>();
+        GameObject testButtonGameObj = GameObject.Find("ButtonTest");
+        Button testButton = testButtonGameObj.GetComponent<Button>();
+        TMP_Text buttonText = testButton.GetComponentInChildren<TMP_Text>();
+        Color lightGray = new Color(0.7f, 0.7f, 0.7f);
+        SetButtonColor(testButton, lightGray);
+
         foreach (var test in currentTutorialData.Tests)
         {
-            StartCoroutine(RunTest(test, TestCompleted));
+            //StartCoroutine(RunTest(test, TestCompleted));
+            testTasks.Add(RunTest(test));
             
-            
+        }
+
+        bool[] results = await Task.WhenAll(testTasks);
+        bool allTrue = results.All(result => result);
+
+        
+        if (allTrue)
+        {
+            Debug.Log("All tests succeeded.");
+            SetButtonColor(testButton, Color.green);
+            buttonText.text = "Next";
+        }
+        else
+        {
+            Debug.Log("Some tests failed.");
+            SetButtonColor(testButton, Color.red);
         }
     }
 
-    private IEnumerator RunTest(Test test, System.Action<bool> callback)
+    private async Task<bool> RunTest(Test test)
     {
         bool curVal;
         float curTime = 0;
-        
+
         while (curTime <= test.Time)
         {
             curVal = com.GetTagValue(test.Tag);
             if (curVal == test.Val)
             {
                 curTime += 0.5f;
-                yield return new WaitForSeconds(0.5f);
+                await Task.Delay(500); // Wait for 0.5 seconds
             }
             else
             {
                 Debug.Log($"Test failed: {test.Tag} is not {test.Val}");
-                callback(false); // Indicate failure
-                yield break;
+                return false;
             }
         }
-
-        callback(true); // Indicate success
+        return true;
     }
 
-    void TestCompleted(bool success)
+    private void SetButtonColor(Button button, Color color)
     {
-        if (success)
-        {
-            Debug.Log("Test completed successfully.");
-        }
-        else
-        {
-            Debug.Log("Test failed.");
-        }
+        color.a = 1;
+        color = color*0.85f;
+        var colors = button.colors;
+        colors.normalColor = color;
+        colors.highlightedColor = color*1.4f;
+        colors.pressedColor = color;
+        colors.selectedColor = color*1.2f;
+        button.colors = colors;
     }
 
 //-----------------Error handling-----------------
