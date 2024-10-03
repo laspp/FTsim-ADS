@@ -3,6 +3,8 @@ using UnityEngine;
 using System.IO;
 using System.Collections.Generic;
 using TMPro;
+using System.Collections;
+using UnityEngine.UI;
 
 [Serializable]
 public class TutorialData
@@ -11,7 +13,7 @@ public class TutorialData
     public string TutorialTitle;
     public string TaskDescription;
     public List<ChatBubble> ChatBubbles;
-    public Test Test;
+    public List<Test> Tests;
 }
 
 [Serializable]
@@ -25,12 +27,9 @@ public class ChatBubble
 [Serializable]
 public class Test
 {
-    public string TestType;
-    public string TestName;
-    public string TestDescription;
-    public string TestExpected;
-    public string TestResult;
-    public string TestResultStatus;
+    public string Tag;
+    public bool Val;
+    public float Time;
 }
 
 //-----------------code-----------------
@@ -40,6 +39,8 @@ public class TutorialLoader : MonoBehaviour
     public TutorialManager tutorialManager; 
     public string tutorialsFolderPath = "Scripts/PS/Tutorials";
     public int currentTutorialIndex = 0; 
+
+    public string lightRed = "LightRed";
 
     public TutorialData LoadTutorial(int tutorialIndex)
     {
@@ -92,9 +93,12 @@ public class TutorialManager : MonoBehaviour
     private TutorialData currentTutorialData;
     public GameObject dialogPrefab; // Reference to your dialog prefab
     private HashSet<string> errorMessages = new HashSet<string>();
+   // private List<Test> tests = new List<Test>();
+    Communication com;
 
     void Start()
     {
+        com = GameObject.Find("Communication").GetComponent<Communication>();
         tutorialLoader = gameObject.AddComponent<TutorialLoader>();
         tutorialLoader.tutorialManager = this; // create a reference to this TutorialManager
     
@@ -105,9 +109,14 @@ public class TutorialManager : MonoBehaviour
         {
             Debug.Log($"{currentTutorialData.TutorialTitle}, {currentTutorialData.TaskDescription}");
             DisplayTaskInPanel(currentTutorialData.TutorialTitle, currentTutorialData.TaskDescription);
-            if(currentTutorialData.ChatBubbles.Count > 0){
+            if(currentTutorialData.ChatBubbles != null && currentTutorialData.ChatBubbles.Count > 0){
                 DisplayChatBubbles(currentTutorialData.ChatBubbles);
             }
+            // if(currentTutorialData.Test != null && currentTutorialData.Test.Count > 0){ // if there are tests enable the test button
+            //     GameObject testButton = GameObject.Find("ButtonTest");
+            //     Button buttonComponent = testButton.GetComponent<Button>();
+            //     buttonComponent.interactable = true;
+            // }
             Debug.Log($"TutorialManager initialized with tutorial index: {tutorialLoader.currentTutorialIndex}");
         } 
         
@@ -160,6 +169,63 @@ public class TutorialManager : MonoBehaviour
             {
                 Debug.LogError($"ChatBubble object {objectName} not found.");
             }
+        }
+    }
+
+    void ButtonPrev(List<ChatBubble> chatBubbles)
+    {
+        
+    }
+
+    void ButtonNext(List<ChatBubble> chatBubbles)
+    {       
+
+    }
+
+    public void ButtonTest()
+    {
+        
+        foreach (var test in currentTutorialData.Tests)
+        {
+            StartCoroutine(RunTest(test, TestCompleted));
+            
+            
+        }
+    }
+
+    private IEnumerator RunTest(Test test, System.Action<bool> callback)
+    {
+        bool curVal;
+        float curTime = 0;
+        
+        while (curTime <= test.Time)
+        {
+            curVal = com.GetTagValue(test.Tag);
+            if (curVal == test.Val)
+            {
+                curTime += 0.5f;
+                yield return new WaitForSeconds(0.5f);
+            }
+            else
+            {
+                Debug.Log($"Test failed: {test.Tag} is not {test.Val}");
+                callback(false); // Indicate failure
+                yield break;
+            }
+        }
+
+        callback(true); // Indicate success
+    }
+
+    void TestCompleted(bool success)
+    {
+        if (success)
+        {
+            Debug.Log("Test completed successfully.");
+        }
+        else
+        {
+            Debug.Log("Test failed.");
         }
     }
 
