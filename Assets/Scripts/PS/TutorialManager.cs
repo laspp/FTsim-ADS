@@ -42,8 +42,6 @@ public class TutorialLoader : MonoBehaviour
     public string tutorialsFolderPath = "Scripts/PS/Tutorials";
     public int currentTutorialIndex = 0; 
 
-    public string lightRed = "LightRed";
-
     public TutorialData LoadTutorial(int tutorialIndex)
     {
         string fileName = $"Tutorial_{tutorialIndex}_*.json";
@@ -81,58 +79,77 @@ public class TutorialLoader : MonoBehaviour
         }
     }
 
-//RAZMISLI KAKO UPORABITI
-    // public void LoadNextTutorial()
-    // {
-    //     currentTutorialIndex++;
-    // }
+
+    public TutorialData LoadNextTutorial()
+    {
+        currentTutorialIndex++;
+        return LoadTutorial(currentTutorialIndex);
+    }
 }
 
 // TutorialManager with state management and display logic
 public class TutorialManager : MonoBehaviour
 {
+    public enum ButtonState
+    {
+        Read,
+        Test,
+        Next
+    }
     private TutorialLoader tutorialLoader;
     private TutorialData currentTutorialData;
     public GameObject dialogPrefab; // Reference to your dialog prefab
     private HashSet<string> errorMessages = new HashSet<string>();
    // private List<Test> tests = new List<Test>();
     Communication com;
+    Button testButton;
+    TMP_Text testButtonText;
+
+    private ButtonState testButtonState = ButtonState.Next;
 
     void Start()
     {
         com = GameObject.Find("Communication").GetComponent<Communication>();
+        GameObject testButtonGameObj = GameObject.Find("ButtonTest");
+        testButton = testButtonGameObj.GetComponent<Button>();
+        testButtonText = testButton.GetComponentInChildren<TMP_Text>();
         tutorialLoader = gameObject.AddComponent<TutorialLoader>();
         tutorialLoader.tutorialManager = this; // create a reference to this TutorialManager
     
         InvokeRepeating(nameof(DisplayErrors), 1f, 1f); // display errors every second
 
         currentTutorialData = tutorialLoader.LoadTutorial(tutorialLoader.currentTutorialIndex);
+        
+        CheckTutorialData();
+    }
+
+    void CheckTutorialData()
+    {
+        //testButton.interactable = true;
+
         if (currentTutorialData != null)
         {
             Debug.Log($"{currentTutorialData.TutorialTitle}, {currentTutorialData.TaskDescription}");
             DisplayTaskInPanel(currentTutorialData.TutorialTitle, currentTutorialData.TaskDescription);
             if(currentTutorialData.ChatBubbles != null && currentTutorialData.ChatBubbles.Count > 0){
                 DisplayChatBubbles(currentTutorialData.ChatBubbles);
+            } else {
+                //nič ni za prebreati
+                testButtonText.text = "Test";
+                testButtonState = ButtonState.Test;
             }
-            // if(currentTutorialData.Test != null && currentTutorialData.Test.Count > 0){ // if there are tests enable the test button
-            //     GameObject testButton = GameObject.Find("ButtonTest");
-            //     Button buttonComponent = testButton.GetComponent<Button>();
-            //     buttonComponent.interactable = true;
-            // }
+
+            //to se pogleda na koncu reada
+            if(currentTutorialData.Tests == null || currentTutorialData.Tests.Count == 0){ // if there are tests enable the test button
+                
+                testButtonText.text = "Next";
+                testButtonState = ButtonState.Next;
+            }
             Debug.Log($"TutorialManager initialized with tutorial index: {tutorialLoader.currentTutorialIndex}");
         } 
         
     }
 
-    // public void OnTutorialCompleted()
-    // {
-    //     tutorialLoader.LoadNextTutorial();
-    //     currentTutorialData = tutorialLoader.LoadTutorial(tutorialLoader.currentTutorialIndex);
-    //     // if (currentTutorialData != null)
-    //     // {
-    //     //     DisplaySpeechBubble(currentTutorialData.SpeechBubble);
-    //     // }
-    // }
     void DisplayTaskInPanel(string tutorialTitle, string taskDescription)
     {
         try{
@@ -174,48 +191,70 @@ public class TutorialManager : MonoBehaviour
         }
     }
 
-    void ButtonPrev(List<ChatBubble> chatBubbles)
+    void ButtonArrPrev(List<ChatBubble> chatBubbles)
     {
         
     }
 
-    void ButtonNext(List<ChatBubble> chatBubbles)
+    void ButtonArrNext(List<ChatBubble> chatBubbles)
     {       
 
     }
 
 //----------------------Test----------------------
+
+
     public async void ButtonTest()
     {
         var testTasks = new List<Task<bool>>();
-        GameObject testButtonGameObj = GameObject.Find("ButtonTest");
-        Button testButton = testButtonGameObj.GetComponent<Button>();
-        TMP_Text buttonText = testButton.GetComponentInChildren<TMP_Text>();
         Color lightGray = new Color(0.7f, 0.7f, 0.7f);
+        
+        testButton.interactable = false;
         SetButtonColor(testButton, lightGray);
 
-        foreach (var test in currentTutorialData.Tests)
+        switch (testButtonState)
         {
-            //StartCoroutine(RunTest(test, TestCompleted));
-            testTasks.Add(RunTest(test));
-            
-        }
+            case ButtonState.Read:
+            // ko pridemo do zadnjega oblačka na pučici desno gremo v testing, če obstaja
+                testButton.interactable = true;
+                break;
+            case ButtonState.Test:
+            //implementacija testiranja
+                foreach (var test in currentTutorialData.Tests)
+                    {
+                        testTasks.Add(RunTest(test));   
+                    }
 
-        bool[] results = await Task.WhenAll(testTasks);
-        bool allTrue = results.All(result => result);
+                    bool[] results = await Task.WhenAll(testTasks);
+                    bool allTrue = results.All(result => result);
+
+                if (allTrue)
+                    {
+                        Debug.Log("All tests succeeded.");
+                        SetButtonColor(testButton, Color.green);
+                        testButtonText.text = "Next";
+                        testButtonState = ButtonState.Next;
+                    }
+                else
+                    {
+                        Debug.Log("Some tests failed.");
+                        SetButtonColor(testButton, Color.red);
+                    }
+
+                testButton.interactable = true;
+                break;
+            case ButtonState.Next:
+            //preklop na naslednji tutorial
+                currentTutorialData = tutorialLoader.LoadNextTutorial();
+                CheckTutorialData();
+
+                testButtonText.text = "Read";
+                testButtonState = ButtonState.Read;
+                testButton.interactable = false;
+                break;
+        }
 
         
-        if (allTrue)
-        {
-            Debug.Log("All tests succeeded.");
-            SetButtonColor(testButton, Color.green);
-            buttonText.text = "Next";
-        }
-        else
-        {
-            Debug.Log("Some tests failed.");
-            SetButtonColor(testButton, Color.red);
-        }
     }
 
     private async Task<bool> RunTest(Test test)

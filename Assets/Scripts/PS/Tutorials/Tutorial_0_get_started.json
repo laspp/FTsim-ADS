@@ -8,16 +8,5 @@
       "Text": "Hi!\nChat bubbles can be closed with X or by right arrow, which shows the nex one (if exists)."
     }
   ],
-  "Tests": [
-    {
-      "Tag": "LightRed",
-      "Val": "true",
-      "Time": "1"
-    },
-    {
-      "Tag": "LightGreen",
-      "Val": "true",
-      "Time": "1"
-    }
-  ]
+  "Tests": []
 }

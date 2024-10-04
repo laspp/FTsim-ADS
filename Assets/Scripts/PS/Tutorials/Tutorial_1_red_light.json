@@ -12,12 +12,16 @@
       "Text": "The light is now turned on."
     }
   ],
-  "Test": {
-    "TestType": "Tutorial",
-    "TestName": "Tutorial 1",
-    "TestDescription": "Turn on the light",
-    "TestExpected": "The light is turned on",
-    "TestResult": "The light is turned on",
-    "TestResultStatus": "Passed"
-  }
+  "Tests": [
+    {
+      "Tag": "LightRed",
+      "Time": "1",
+      "Val": "true"
+    },
+    {
+      "Tag": "LightGreen",
+      "Val": "true",
+      "Time": "1"
+    }
+  ]
 }
