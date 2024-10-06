@@ -1,0 +1,20 @@
+{
+  "TutorialStep": 2,
+  "TutorialTitle": "RED AND GREEN LIGHT",
+  "TaskDescription": "Do some exercise and repead whole process for the green light",
+  "ChatBubbles": [
+   
+  ],
+  "Tests": [
+    {
+      "Tag": "LightRed",
+      "Time": "1",
+      "Val": "true"
+    },
+    {
+      "Tag": "LightGreen",
+      "Val": "true",
+      "Time": "1"
+    }
+  ]
+}

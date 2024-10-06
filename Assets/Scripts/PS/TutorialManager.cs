@@ -106,6 +106,15 @@ public class TutorialManager : MonoBehaviour
     TMP_Text testButtonText;
 
     private ButtonState testButtonState = ButtonState.Next;
+    Color lightGray = new Color(0.7f, 0.7f, 0.7f);
+    //Color lighterlightGray = new Color(0.85f, 0.85f, 0.85f);
+    private List<GameObject> allChatBubbles = new List<GameObject>();
+    private List<GameObject> currentlyOpenChatBubbles = new List<GameObject>();
+    public GameObject chatBubblesParent;
+    private int chatBubbleIndex;
+
+    Button arrPrevButton;
+    Button arrNextButton;
 
     void Start()
     {
@@ -115,38 +124,63 @@ public class TutorialManager : MonoBehaviour
         testButtonText = testButton.GetComponentInChildren<TMP_Text>();
         tutorialLoader = gameObject.AddComponent<TutorialLoader>();
         tutorialLoader.tutorialManager = this; // create a reference to this TutorialManager
-    
+        chatBubblesParent = GameObject.Find("ChatBubblesParent");
+        Debug.Log($"ChatBubblesParent: {chatBubblesParent}");
+        arrPrevButton = GameObject.Find("ButtonPrev").GetComponent<Button>();
+        arrNextButton = GameObject.Find("ButtonNext").GetComponent<Button>();
+        
         InvokeRepeating(nameof(DisplayErrors), 1f, 1f); // display errors every second
 
+        HideAllChatBubbles();
+
+        SetButtonColor(arrNextButton, lightGray);
+        arrNextButton.interactable = false;
+
         currentTutorialData = tutorialLoader.LoadTutorial(tutorialLoader.currentTutorialIndex);
-        
         CheckTutorialData();
     }
 
     void CheckTutorialData()
     {
         //testButton.interactable = true;
+        chatBubbleIndex = 0;
 
         if (currentTutorialData != null)
         {
-            Debug.Log($"{currentTutorialData.TutorialTitle}, {currentTutorialData.TaskDescription}");
+            //Tudi če je prazno polje, pobriše prejšni text
             DisplayTaskInPanel(currentTutorialData.TutorialTitle, currentTutorialData.TaskDescription);
-            if(currentTutorialData.ChatBubbles != null && currentTutorialData.ChatBubbles.Count > 0){
-                DisplayChatBubbles(currentTutorialData.ChatBubbles);
-            } else {
+            
+            if(currentTutorialData.ChatBubbles == null || currentTutorialData.ChatBubbles.Count == 0){
                 //nič ni za prebreati
+                Debug.Log("No chat bubbles to display.");
                 testButtonText.text = "Test";
                 testButtonState = ButtonState.Test;
+            } else {
+                Debug.Log($"ChatBubbles count: {currentTutorialData.ChatBubbles.Count}");
+                DisplayChatBubbles(currentTutorialData.ChatBubbles, chatBubbleIndex);
             }
 
-            //to se pogleda na koncu reada
-            if(currentTutorialData.Tests == null || currentTutorialData.Tests.Count == 0){ // if there are tests enable the test button
-                
+            if(currentTutorialData.Tests == null || currentTutorialData.Tests.Count == 0){ 
+            // if there are tests enable the test button
+                Debug.Log("No tests to run.");
                 testButtonText.text = "Next";
                 testButtonState = ButtonState.Next;
+            } else {
+                Debug.Log($"Tests count: {currentTutorialData.Tests.Count}");
+                
+                testButtonText.text = "Read";
+                testButtonState = ButtonState.Read;
+                testButton.interactable = false;
+
+                arrNextButton.interactable = true;
+                //SetButtonColor(arrNextButton, Color.white);
             }
             Debug.Log($"TutorialManager initialized with tutorial index: {tutorialLoader.currentTutorialIndex}");
         } 
+        else
+        {
+            Debug.LogError("TutorialData is missing.");
+        }
         
     }
 
@@ -166,39 +200,95 @@ public class TutorialManager : MonoBehaviour
             Debug.LogError("TutorialPanel object not found; " + e.Message);
         }
     }
-    void DisplayChatBubbles(List<ChatBubble> chatBubbles)
+
+    void HideAllChatBubbles()
     {
-        foreach (var chatBubble in chatBubbles)
+        allChatBubbles.Clear();
+        
+        if (chatBubblesParent != null)
         {
-            string objectName = $"ChatBubble_{currentTutorialData.TutorialStep}_{chatBubble.Id}";
-            GameObject chatBubbleObject = GameObject.Find(objectName);
-            if (chatBubbleObject != null)
+            foreach (Transform child in chatBubblesParent.transform)
             {
-                TMP_Text bubbleText = chatBubbleObject.GetComponentInChildren<TMP_Text>();
+                if (child.gameObject.name.StartsWith("ChatBubble"))
+                {
+                    child.gameObject.SetActive(false);
+                    allChatBubbles.Add(child.gameObject);
+                }
+            }
+        }
+        else
+        {
+            Debug.LogError("ChatBubblesParent is not assigned.");
+        }
+    }
+
+    void ClearCurrentChatBubbles()
+    {
+        foreach (GameObject cb in currentlyOpenChatBubbles)
+        {
+            cb.SetActive(false);
+        }
+        currentlyOpenChatBubbles.Clear();
+    }
+
+    void DisplayChatBubbles(List<ChatBubble> chatBubbles, int chatBubbleId = 0)
+    {
+        
+        if (chatBubbleId < 0 || chatBubbleId >= chatBubbles.Count)
+        {
+            Debug.LogError($"Invalid chatBubbleId: {chatBubbleId}");
+            return;
+        }
+        ChatBubble chatBubble = chatBubbles[chatBubbleId];
+        string objectName = $"ChatBubble_{currentTutorialData.TutorialStep}_{chatBubbleId.ToString()}";
+
+        foreach (GameObject obj in allChatBubbles)
+        {
+            if (obj.name == objectName)//display the chat bubble
+            {
+                obj.SetActive(true);
+                
+                TMP_Text bubbleText = obj.GetComponentInChildren<TMP_Text>();
                 if (bubbleText != null)
                 {
                     bubbleText.text = chatBubble.Text;
+                    Debug.Log($"Displaying chat bubble: {objectName}");
                 }
                 else
                 {
                     Debug.LogError($"Text component not found in {objectName}");
                 }
-            }
-            else
-            {
-                Debug.LogError($"ChatBubble object {objectName} not found.");
+                currentlyOpenChatBubbles.Add(obj);
+                Debug.Log($"added {obj.name} to currentlyOpenChatBubbles");
+                return;
             }
         }
+        Debug.LogError($"ChatBubble object {objectName} not found.");
     }
 
-    void ButtonArrPrev(List<ChatBubble> chatBubbles)
+    public void ButtonArrPrev()
     {
         
     }
 
-    void ButtonArrNext(List<ChatBubble> chatBubbles)
+    public void ButtonArrNext()
     {       
 
+        chatBubbleIndex++;
+        Debug.Log($"chatBubbleIndex: {chatBubbleIndex}");
+        DisplayChatBubbles(currentTutorialData.ChatBubbles, chatBubbleIndex);
+
+        //disable previous one?
+
+        if(chatBubbleIndex == currentTutorialData.ChatBubbles.Count - 1){
+            testButtonText.text = "Test";
+            testButtonState = ButtonState.Test;
+            testButton.interactable = true;
+            SetButtonColor(testButton, lightGray);
+
+            //SetButtonColor(arrNextButton, lightGray);
+            arrNextButton.interactable = false;
+        }
     }
 
 //----------------------Test----------------------
@@ -207,16 +297,16 @@ public class TutorialManager : MonoBehaviour
     public async void ButtonTest()
     {
         var testTasks = new List<Task<bool>>();
-        Color lightGray = new Color(0.7f, 0.7f, 0.7f);
         
         testButton.interactable = false;
-        SetButtonColor(testButton, lightGray);
+     
 
         switch (testButtonState)
         {
             case ButtonState.Read:
+            // uninteractive in this state
             // ko pridemo do zadnjega oblačka na pučici desno gremo v testing, če obstaja
-                testButton.interactable = true;
+                
                 break;
             case ButtonState.Test:
             //implementacija testiranja
@@ -231,26 +321,29 @@ public class TutorialManager : MonoBehaviour
                 if (allTrue)
                     {
                         Debug.Log("All tests succeeded.");
-                        SetButtonColor(testButton, Color.green);
+                        SetButtonColor(testButton, Color.green*0.85f);
                         testButtonText.text = "Next";
                         testButtonState = ButtonState.Next;
                     }
                 else
                     {
                         Debug.Log("Some tests failed.");
-                        SetButtonColor(testButton, Color.red);
+                        SetButtonColor(testButton, Color.red*0.85f);
                     }
 
+                
                 testButton.interactable = true;
                 break;
             case ButtonState.Next:
             //preklop na naslednji tutorial
+                ClearCurrentChatBubbles();
+                
                 currentTutorialData = tutorialLoader.LoadNextTutorial();
                 CheckTutorialData();
 
-                testButtonText.text = "Read";
-                testButtonState = ButtonState.Read;
-                testButton.interactable = false;
+  
+
+               
                 break;
         }
 
@@ -282,7 +375,7 @@ public class TutorialManager : MonoBehaviour
     private void SetButtonColor(Button button, Color color)
     {
         color.a = 1;
-        color = color*0.85f;
+        //color = color*0.85f;
         var colors = button.colors;
         colors.normalColor = color;
         colors.highlightedColor = color*1.4f;

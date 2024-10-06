@@ -4,12 +4,12 @@
   "TaskDescription": "Turn on the light by clicking on the light switch",
   "ChatBubbles": [
     {
-      "Id": 1,
-      "Text": "This is NOT the light switch. Click it to turn on the light."
+      "Id": 0,
+      "Text": "This is the RED light button. Press Q on the keyboard"
     },
     {
-      "Id": 2,
-      "Text": "The light is now turned on."
+      "Id": 1,
+      "Text": "This is the RED light, when programmer right and pressed it should glow."
     }
   ],
   "Tests": [
@@ -17,11 +17,6 @@
       "Tag": "LightRed",
       "Time": "1",
       "Val": "true"
-    },
-    {
-      "Tag": "LightGreen",
-      "Val": "true",
-      "Time": "1"
     }
   ]
 }

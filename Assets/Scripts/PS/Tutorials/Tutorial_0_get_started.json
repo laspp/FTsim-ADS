@@ -4,8 +4,8 @@
   "TaskDescription": "Welcome to the PS tutorial! \nFirst, well learn how to move the CAMERA around. Hold SHIFT and use your mouse buttons to control the camera:\n    left - rotation,\n    middle/scroll wheel - zoom,\n    right - translation.\nThe WORKPIECE is your frient and at the same time your biggest enemy. Your goal is to move them around the production line. Click on a NEW button to add one or DEL to remove it. Move the workpiece around with a left mouse button. \n To interact with the PANEL buttons, click on them or use keyboard keys to control the buttons.",
   "ChatBubbles": [
     {
-      "Id": 1,
-      "Text": "Hi!\nChat bubbles can be closed with X or by right arrow, which shows the nex one (if exists)."
+      "Id": 0,
+      "Text": "Hi!\nChat bubbles can be closed with X or by right arrow, which shows the nex one (if exists, the arrow is white)."
     }
   ],
   "Tests": []
