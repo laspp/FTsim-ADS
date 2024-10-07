@@ -1,0 +1,14 @@
+{
+  "TutorialStep": 4,
+  "TutorialTitle": "ENTRY PISTON",
+  "TaskDescription": "Upgrade your previous program, so when photocell detects aworkpiece, entry piston will push it forward (open the ValveEntryForward)\nMake sure, that copressor is running and that preasure level is high enought!",
+  "ChatBubbles": [],
+  "Tests": [
+    {
+      "Tag": "PhotocellEntry",
+      "Val": "true",
+      "TotalTime": "1"
+    }
+  ]
+}
+
