@@ -15,7 +15,7 @@
   "Tests": [
     {
       "Tag": "LightRed",
-      "TotalTime": "1",
+      "TestRunTime": "1",
       "Val": "true",
       "StartTestDelay": "0"
     }

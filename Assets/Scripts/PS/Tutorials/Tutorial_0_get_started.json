@@ -5,7 +5,7 @@
   "ChatBubbles": [
     {
       "Id": 0,
-      "Text": "Hi!\nChat bubbles can be closed with X or by right arrow, which shows the nex one (if exists, the arrow is white)."
+      "Text": "Hi!\nChat bubbles can be closed with X.\nGood luck! :-)"
     }
   ],
   "Tests": []

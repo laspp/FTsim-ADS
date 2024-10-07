@@ -1,13 +1,31 @@
 {
   "TutorialStep": 4,
   "TutorialTitle": "ENTRY PISTON",
-  "TaskDescription": "Upgrade your previous program, so when photocell detects aworkpiece, entry piston will push it forward (open the ValveEntryForward)\nMake sure, that copressor is running and that preasure level is high enought!",
+  "TaskDescription": "Upgrade your previous program, so when photocell detects aworkpiece, entry piston will push it forward (open the ValveEntryForward)\nMake sure, that COMPRESSOR IS RUNNING and that preasure level is high enought!",
   "ChatBubbles": [],
   "Tests": [
     {
-      "Tag": "PhotocellEntry",
+      "Tag": "MotorCompressor",
       "Val": "true",
-      "TotalTime": "1"
+      "TestRunTime": "6"
+    },
+    {
+      "Tag": "ValveEntryForward",
+      "Val": "true",
+      "TestRunTime": "2",
+      "StartTestDelay": "0"
+    },
+    {
+      "Tag": "ValveEntryForward",
+      "TestRunTime": "2",
+      "Val": "false",
+      "StartTestDelay": "4"
+    },
+    {
+      "Tag": "ValveEntryBackward",
+      "TestRunTime": "2",
+      "Val": "true",
+      "StartTestDelay": "4"
     }
   ]
 }

@@ -1,0 +1,23 @@
+{
+  "TutorialStep": ,
+  "TutorialTitle": "",
+  "TaskDescription": "",
+  "ChatBubbles": [
+    {
+      "Id": 0,
+      "Text": ""
+    },
+    {
+      "Id": 1,
+      "Text": "."
+    }
+  ],
+  "Tests": [
+    {
+      "Tag": "",
+      "TestRunTime": "5",
+      "Val": "true",
+      "StartTestDelay": "0"
+    }
+  ]
+}

@@ -33,7 +33,7 @@ public class Test
 {
     public string Tag;
     public bool Val;
-    public float TotalTime;
+    public float TestRunTime;
 
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     [DefaultValue(0)]
@@ -180,7 +180,7 @@ public class TutorialManager : MonoBehaviour
             } else if (!oblacki && testi){
                 arrNextButton.interactable = false;
                 arrPrevButton.interactable = false;
-                
+
                 Debug.Log($"!O_T test count:{currentTutorialData.Tests.Count}");
 
                 ChangeStateToTest();
@@ -308,9 +308,16 @@ public class TutorialManager : MonoBehaviour
 
     public void ButtonArrPrev()
     {
-        chatBubbleIndex--;
+        if(chatBubbleIndex > 0){
+            chatBubbleIndex--;
+        }
         Debug.Log($"chatBubbleIndex: {chatBubbleIndex}");
         DisplayChatBubbles(currentTutorialData.ChatBubbles, chatBubbleIndex);
+
+        //če bi hotel dobiti nazaj prvi oblaček ko je smao
+        // if(currentTutorialData.ChatBubbles.Count > 1){
+        //     arrNextButton.interactable = true;
+        // }
 
         if(chatBubbleIndex <= 0){
             arrPrevButton.interactable = false;
@@ -393,7 +400,6 @@ public class TutorialManager : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("Some tests failed.");
                     SetButtonColor(testButton, Color.red*0.85f);
                     testButton.interactable = true;
                 }
@@ -413,15 +419,16 @@ public class TutorialManager : MonoBehaviour
 
     private async Task<bool> RunTest(Test test)
     {
-        bool curVal = false;
+        bool curVal;
         float curTime = 0;
+        float totalTime = test.StartTestDelay + test.TestRunTime;
         float refreshRate = 1f; //change ONLY this value to set refresh rate
         int refreshRateMiliseconds = (int)(refreshRate * 1000);
 
-        //Debug.Log($"TT{test.StartTestDelay} _ {test.TotalTime}");
-        while (curTime < test.TotalTime)
+        //Debug.Log($"TT{test.StartTestDelay} _ {test.TestRunTime}");
+        while (curTime < totalTime)
         {
-            //Debug.Log($"{curTime} _ {curVal}");
+            Debug.Log($"TIME: {curTime}");
             if (test.StartTestDelay <= curTime)
             {
                 curVal = com.GetTagValue(test.Tag);

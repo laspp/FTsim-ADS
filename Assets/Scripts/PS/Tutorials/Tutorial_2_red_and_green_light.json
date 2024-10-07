@@ -6,13 +6,13 @@
   "Tests": [
     {
       "Tag": "LightRed",
-      "TotalTime": "1",
+      "TestRunTime": "1",
       "Val": "true"
     },
     {
       "Tag": "LightGreen",
       "Val": "true",
-      "TotalTime": "1"
+      "TestRunTime": "1"
     }
   ]
 }
