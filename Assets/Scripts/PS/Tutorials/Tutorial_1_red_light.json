@@ -1,7 +1,7 @@
 {
   "TutorialStep": 1,
   "TutorialTitle": "RED LIGHT",
-  "TaskDescription": "Turn on the light by clicking on the light switch",
+  "TaskDescription": "Turn on the light by clicking on the light switch and holding it for 1 second",
   "ChatBubbles": [
     {
       "Id": 0,

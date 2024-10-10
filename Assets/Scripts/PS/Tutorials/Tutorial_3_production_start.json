@@ -1,0 +1,31 @@
+{
+  "TutorialStep": 3,
+  "TutorialTitle": "PRODUCTION START",
+  "TaskDescription": "Click button NewWorkpeace to add a new workpiece to the scene. As you can see it covers the photocell. To complete the test, also turn on the motor for compres via SwitchCompressor and wait for 3 seconds to build up the preasure",
+  "ChatBubbles": [
+    {
+      "Id": 0,
+      "Text": "This is the button to add new workpiece. You can also press X on the keyboard."
+    },
+    {
+      "Id": 1,
+      "Text": "This is the SwitchCompressor. Program it to turn on themotor for compressor."
+    },
+    {
+      "Id": 2,
+      "Text": "If the  the preasure level bar is empty, pistons won't move."
+    }
+  ],
+  "Tests": [
+    {
+      "Tag": "PhotocellEntry",
+      "Val": "false",
+      "TestRunTime": "1"
+    },
+    {
+      "Tag": "MotorCompressor",
+      "Val": "true",
+      "TestRunTime": "3"
+    }
+  ]
+}

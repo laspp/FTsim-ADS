@@ -14,7 +14,7 @@ public class Table : MonoBehaviour
     Communication com;
     float rotation = 0;
     Quaternion deltaRotation;
-
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -69,5 +69,7 @@ public class Table : MonoBehaviour
             //Debug.Log($"rotation {rotation}");
         //    timer = 0.0f; // Reset the timer
         //}
+
+        
     }
 }

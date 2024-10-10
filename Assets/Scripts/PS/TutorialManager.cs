@@ -262,7 +262,7 @@ public class TutorialManager : MonoBehaviour
         }
     }
 
-    void ClearCurrentChatBubbles()
+    public void ClearCurrentChatBubbles()
     {
         foreach (GameObject cb in currentlyOpenChatBubbles)
         {
@@ -425,23 +425,73 @@ public class TutorialManager : MonoBehaviour
         float refreshRate = 1f; //change ONLY this value to set refresh rate
         int refreshRateMiliseconds = (int)(refreshRate * 1000);
 
+        Communication.TagLocation location = com.CheckTagLocation(test.Tag);
+
         //Debug.Log($"TT{test.StartTestDelay} _ {test.TestRunTime}");
-        while (curTime < totalTime)
-        {
-            Debug.Log($"TIME: {curTime}");
-            if (test.StartTestDelay <= curTime)
-            {
-                curVal = com.GetTagValue(test.Tag);
-                if (curVal != test.Val)
+        switch(location)
+        {  
+            case Communication.TagLocation.Output:
+                while (curTime < totalTime)
                 {
-                    Debug.Log($"Test failed: {test.Tag} is not {test.Val}");
-                    return false;
+                    //Debug.Log($"TIME: {curTime}");
+                    if (test.StartTestDelay <= curTime)
+                    {
+
+                        curVal = com.GetTagValue(test.Tag);
+                        if (curVal != test.Val)
+                        {
+                            Debug.Log($"Test failed: {test.Tag} is not {test.Val}");
+                                return false;
+                        }
+                    }
+                    curTime += refreshRate;
+                    await Task.Delay(refreshRateMiliseconds);
                 }
-            }
-            curTime += refreshRate;
-            await Task.Delay(refreshRateMiliseconds);
+                return true;
+            case Communication.TagLocation.Input:
+                //totalTime in case of an input represends timeout
+                while (curTime < totalTime)
+                {
+                    //Debug.Log($"TIME: {curTime}");
+                    if (test.StartTestDelay <= curTime)
+                    {
+                        curVal = com.GetInputTagValue(test.Tag);
+                        if (curVal == test.Val)
+                        {
+                            Debug.Log($"INPUT Test succeeded: {test.Tag} is {test.Val}");
+                            return true;
+                        }
+                    }
+                    curTime += refreshRate;
+                    await Task.Delay(refreshRateMiliseconds);
+                }
+                Debug.Log($"Test failed: {test.Tag} is not {test.Val}");
+                return false;
+            case Communication.TagLocation.Detector:
+                 //totalTime in case of an input represends timeout
+                while (curTime < totalTime)
+                {
+                    //Debug.Log($"TIME: {curTime}");
+                    if (test.StartTestDelay <= curTime)
+                    {
+                        curVal = com.GetDetectorValue(test.Tag);
+                        if (curVal == test.Val)
+                        {
+                            Debug.Log($"DETECTOR Test succeeded: {test.Tag} is {test.Val}");
+                            return true;
+                        }
+                    }
+                    curTime += refreshRate;
+                    await Task.Delay(refreshRateMiliseconds);
+                }
+                Debug.Log($"Test failed: {test.Tag} is not {test.Val}");
+                return false;
+            case Communication.TagLocation.None:
+
+                AddError($"Cannot write tag '{test.Tag}' on PLC.");
+                return false;
         }
-        return true;
+        return false;
     }
 
     private void SetButtonColor(Button button, Color color)

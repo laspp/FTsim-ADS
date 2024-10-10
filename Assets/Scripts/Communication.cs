@@ -25,10 +25,14 @@ public class Communication : MonoBehaviour
 
     // A mapping from PLC tag names (values in appConfig.OutputVariableMap) to Symbol
     private Dictionary<string, IValueSymbol> outputPlcTagToSymbol = new();
-    // A mapping from PLC tag names to read value
+    // A mapping from PLC tag names to read value (outputs)
     private Dictionary<string, bool> outputPlcTagToValue = new();
+    // A mapping from PLC tag names to read value (inputs)
+    private Dictionary<string, bool> inputPlcTagToValue = new();
     // A mapping from tag names from config file (keys in appConfig.InputVariableMap) to Symbol
     private Dictionary<string, IValueSymbol> inputPlcTagToSymbol = new();
+    // A maaping and states ocollision detectors across the scene
+    private Dictionary<string, bool> detectorValues = new Dictionary<string, bool>();
 
     // Error set for storing messages about symbol mapping
     private HashSet<string> errorSetSymbols = new();
@@ -115,6 +119,7 @@ public class Communication : MonoBehaviour
                 }
 
                 inputPlcTagToSymbol[plcTag] = symbol;
+                inputPlcTagToValue[plcTag] = false;
             }
 
             // Outputs
@@ -277,12 +282,15 @@ public class Communication : MonoBehaviour
                 IValueSymbol symbol = inputPlcTagToSymbol[plcTag];
                 ResultWriteAccess resultWrite = await symbol.WriteValueAsync(valueToWrite, cancel);
                 //Debug.Log($"{tag} ::: write success? {resultWrite.Succeeded}");
+                inputPlcTagToValue[plcTag] = valueToWrite;
+                //Debug.Log($"INPUT VARIABLE {plcTag} {inputPlcTagToValue[plcTag]}");
             }
             catch
             {
                 //Debug.LogError($"WriteToPlc: error during writing tag '{tag}' to PLC: {ex.Message}");
                 ErrorsAdd($"Cannot write tag '{tag}' on PLC.");
             }
+
         }
         else
         {
@@ -292,8 +300,49 @@ public class Communication : MonoBehaviour
 
     }
 
+    public enum TagLocation
+    {
+        Output,
+        Input,
+        Detector,
+        None
+    }
+    public TagLocation CheckTagLocation(string tag)
+    {
+        if (appConfig.OutputVariableMap.ContainsKey(tag) && outputPlcTagToValue.ContainsKey(appConfig.OutputVariableMap[tag]))
+        {
+            return TagLocation.Output;
+        }
+        else if (appConfig.InputVariableMap.ContainsKey(tag) && inputPlcTagToValue.ContainsKey(appConfig.InputVariableMap[tag]))
+        {
+            return TagLocation.Input;
+        }
+        else if (detectorValues.ContainsKey(tag))
+        {
+            return TagLocation.Detector;
+        }
+        else
+        {
+            return TagLocation.None;
+        }
+    }
 
-
+    public bool GetInputTagValue(string tag)
+    {
+        try
+        {
+            string plcTag = appConfig.InputVariableMap[tag];
+            bool value = inputPlcTagToValue[plcTag];
+            return value;
+        }
+        catch (Exception ex)
+        {
+            //Debug.LogError($"Communication: error getting value from dictionary: {ex.Message}");
+            ErrorsAdd(ex.Message);
+            return false;
+        }
+    }
+    
     public void WriteToPlc(string tag, int valueToWrite)
     {
         // Convert int to bool: 0 is false, any other value is true
@@ -331,5 +380,49 @@ public class Communication : MonoBehaviour
         outputPlcTagToValue[sym.InstancePath] = val;
         //Debug.Log($"ADS notification: {sym.InstancePath} value changed to {val}");
     }
+    //--------detectors
+    public void RegisterDetector(string tag, WorkpieceCollision detector)
+    {
+        if (!detectorValues.ContainsKey(tag))
+        {
+            detectorValues.Add(tag, false);
+        }
+    }
 
+    // Method to update the value of a detector
+    public void UpdateDetectorValue(string tag, bool value)
+    {
+        if (detectorValues.ContainsKey(tag))
+        {
+            detectorValues[tag] = value;
+        }
+        else
+        {
+            Debug.LogWarning($"Tag '{tag}' does not exist in detectorValues.");
+        }
+    }
+
+     // Method to get the value of a detector with a given tag
+    public bool GetDetectorValue(string tag)
+    {
+        try
+        {
+            if (detectorValues.ContainsKey(tag))
+            {
+                return detectorValues[tag];
+            }
+            else
+            {
+                Debug.LogWarning($"Tag '{tag}' does not exist in detectorValues.");
+                return false;
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"Error getting detector value for tag '{tag}': {ex.Message}");
+            return false;
+        }
+    }
 }
+
+

@@ -1,0 +1,38 @@
+{
+  "TutorialStep":5,
+  "TutorialTitle": "FORCE TABLE",
+  "TaskDescription": "Now we'll learn how to cheat PLC. On the left there is a FOrce table. When pressed, it ovverides the actual values of sensors. It will enables faster testing and speeds up your programing. Force all wariables like the are activated to complete the test",
+  "ChatBubbles": [
+    {
+      "Id": 0,
+      "Text": "Photocells have reversed logic!"
+    }
+  ],
+  "Tests": [
+    {
+      "Tag": "PhotocellExit",
+      "Val": "false",
+      "TestRunTime": "1"
+    },
+    {
+      "Tag": "PhotocellEntry",
+      "Val": "false",
+      "TestRunTime": "1"
+    },
+    {
+      "Tag": "SwitchMachine",
+      "Val": "true",
+      "TestRunTime": "1"
+    },
+    {
+      "Tag": "SwitchTablePosition",
+      "Val": "true",
+      "TestRunTime": "1"
+    },
+    {
+      "Tag": "SwitchTableExit",
+      "Val": "true",
+      "TestRunTime": "1"
+    }
+  ]
+}
