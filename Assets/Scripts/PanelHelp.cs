@@ -1,20 +1,21 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class PanelHelp : MonoBehaviour
 {
     public Transform showHelpStartToggle;
+    Toggle toggle;
     public GameObject keyboardShortcuts;
     public StatusBar panelStatusBar;
-    GameObject TextR;
+    public GameObject TextR;
+    public GameObject startupBubble;
     TutorialManager tutorialManager;
     int showHelpOnStart;
     bool hintShown = false;
-
-    //pojedi cež celo TOGGLE procedura, kje se forca 1?
+    private bool showOnStartupClickedFirstTime = true;
     void Awake()
     {
-        TextR = GameObject.Find("TextR");
         tutorialManager = GameObject.Find("TutorialManager").GetComponent<TutorialManager>();
         if (!PlayerPrefs.HasKey("showHelpOnStart"))
         {
@@ -23,11 +24,10 @@ public class PanelHelp : MonoBehaviour
         }
         showHelpOnStart = PlayerPrefs.GetInt("showHelpOnStart");
         //showHelpStartToggle.GetComponent<Toggle>().isOn = showHelpOnStart == 1;
-        Toggle toggle = showHelpStartToggle.GetComponent<Toggle>();
+        toggle = showHelpStartToggle.GetComponent<Toggle>();
         toggle.isOn = showHelpOnStart == 1;
         keyboardShortcuts.SetActive(showHelpOnStart == 1);
-
-        //toggle.onValueChanged.AddListener(delegate { ToggleButtonOnChange(); });
+        gameObject.SetActive(showHelpOnStart == 1);
     }
 
     public void ToggleVisibility()
@@ -36,7 +36,7 @@ public class PanelHelp : MonoBehaviour
         {
             gameObject.SetActive(false);
             keyboardShortcuts.SetActive(false);
-            TextR.SetActive(false); //JustToggleVisibility.ToggleVisibility();
+            TextR.SetActive(false); 
             tutorialManager.ClearCurrentChatBubbles();
             if (!hintShown)
             {
@@ -56,8 +56,6 @@ public class PanelHelp : MonoBehaviour
 
     public void ToggleButtonOnChange()
     {
-        Toggle toggle = showHelpStartToggle.GetComponent<Toggle>();
-            Debug.Log("ToggleButtonOnChange called. Toggle isOn: " + toggle.isOn);
         if (toggle.isOn)
         {
             Debug.Log("ENABLE TUTORIAL Show help on start 1");
@@ -67,6 +65,15 @@ public class PanelHelp : MonoBehaviour
         {
             Debug.Log("DISABLE TUTORIAL Show help on start 0");
             PlayerPrefs.SetInt("showHelpOnStart", 0);
+        }
+
+        if (showOnStartupClickedFirstTime) 
+        {
+            showOnStartupClickedFirstTime = false; 
+            
+            startupBubble.SetActive(true);    
+            TMP_Text bubbleText = startupBubble.GetComponentInChildren<TMP_Text>();
+            bubbleText.text = "If this checkbox is marked, the tutorial is available.";
         }
     }
 }

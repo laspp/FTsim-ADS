@@ -103,9 +103,8 @@ public class TutorialManager : MonoBehaviour
     }
     private TutorialLoader tutorialLoader;
     private TutorialData currentTutorialData;
-    public GameObject dialogPrefab; // Reference to your dialog prefab
+    public GameObject dialogPrefab; 
     private HashSet<string> errorMessages = new HashSet<string>();
-   // private List<Test> tests = new List<Test>();
     Communication com;
     Button testButton;
     TMP_Text testButtonText;
@@ -117,35 +116,47 @@ public class TutorialManager : MonoBehaviour
     private List<GameObject> currentlyOpenChatBubbles = new List<GameObject>();
     public GameObject chatBubblesParent;
     private int chatBubbleIndex;
-
+    private bool tutorialActive;
     Button arrPrevButton;
     Button arrNextButton;
 
     void Start()
     {
         com = GameObject.Find("Communication").GetComponent<Communication>();
+
+        if (!PlayerPrefs.HasKey("showHelpOnStart"))
+        {
+            Debug.Log("PlayerPRefs not found");
+            PlayerPrefs.SetInt("showHelpOnStart", 1);
+        }
+        tutorialActive = PlayerPrefs.GetInt("showHelpOnStart") == 1;
+      
+        InvokeRepeating(nameof(DisplayErrors), 1f, 1f); // display errors every second
+        
+        tutorialLoader = gameObject.AddComponent<TutorialLoader>();
+        tutorialLoader.tutorialManager = this; // create a reference to this TutorialManager
+
+        chatBubblesParent = GameObject.Find("ChatBubblesParent");
+        HideAllChatBubbles();
+
+        if (tutorialActive){
+            initTutotialManager();
+        }
+    }
+
+    public void initTutotialManager()
+    {
         GameObject testButtonGameObj = GameObject.Find("ButtonTest");
         testButton = testButtonGameObj.GetComponent<Button>();
         testButtonText = testButton.GetComponentInChildren<TMP_Text>();
-        tutorialLoader = gameObject.AddComponent<TutorialLoader>();
-        tutorialLoader.tutorialManager = this; // create a reference to this TutorialManager
-        chatBubblesParent = GameObject.Find("ChatBubblesParent");
-
         arrPrevButton = GameObject.Find("ButtonPrev").GetComponent<Button>();
         arrNextButton = GameObject.Find("ButtonNext").GetComponent<Button>();
-        
-        InvokeRepeating(nameof(DisplayErrors), 1f, 1f); // display errors every second
-
-        HideAllChatBubbles();
-
-        //SetButtonColor(arrNextButton, lightGray);
         arrPrevButton.interactable = false;
         arrNextButton.interactable = false;
 
         currentTutorialData = tutorialLoader.LoadTutorial(tutorialLoader.currentTutorialIndex);
         CheckTutorialData();
     }
-
     void CheckTutorialData()
     {
         //testButton.interactable = true;
@@ -189,33 +200,6 @@ public class TutorialManager : MonoBehaviour
 
                 ChangeStateToNext();
             }
-
-            // if(currentTutorialData.ChatBubbles == null || currentTutorialData.ChatBubbles.Count == 0){
-            //     //nič ni za prebreati
-            //     Debug.Log("No chat bubbles to display.");
-            //     testButtonText.text = "Test";
-            //     testButtonState = ButtonState.Test;
-            // } else {
-            //     Debug.Log($"ChatBubbles count: {currentTutorialData.ChatBubbles.Count}");
-            //     DisplayChatBubbles(currentTutorialData.ChatBubbles, chatBubbleIndex);
-            // }
-
-            // if(currentTutorialData.Tests == null || currentTutorialData.Tests.Count == 0){ 
-            // // if there are tests enable the test button
-            //     Debug.Log("No tests to run.");
-            //     testButtonText.text = "Next";
-            //     testButtonState = ButtonState.Next;
-            // } else {
-            //     Debug.Log($"Tests count: {currentTutorialData.Tests.Count}");
-                
-            //     testButtonText.text = "Read";
-            //     testButtonState = ButtonState.Read;
-            //     testButton.interactable = false;
-
-            //     arrNextButton.interactable = true;
-            //     //SetButtonColor(arrNextButton, Color.white);
-            // }
-            //Debug.Log($"TutorialManager initialized with tutorial index: {tutorialLoader.currentTutorialIndex}");
         } 
         else
         {
