@@ -1,0 +1,47 @@
+{
+    "TutorialStep": 6,
+    "TutorialTitle": "ENTRY PISTON (AUTO)",
+    "TaskDescription": "Upgrade your previous program, so when photocell detects workpiece, entry piston will push it forward. First, click DEL or C on keyboard to remove previous NewWorkpeace.\n-Enclose your code in If statement, where toggle switch is not activated.\n-Detect Photocell entry rising edge with the help of two variables.\n-Use (TON-Timer On Delay) to wait 1 second after edge detection to not open the valve to soon.\n-Use (TP-Timer Pulse) timer to trigger signal for 3 seconds so the piston is fully extenden\n-Start testing, just after you spawned new workipece\n-You can upgrade your program to return the piston back (this is not included in test)",
+    "ChatBubbles": [ 
+    {
+        "Id": 0,
+        "Text": "When coding, use RESTART button to reset the scene. Don't forget starting the compressor!"
+    }
+    ],
+    "Tests": [
+    {
+        "Tag": "MotorCompressor",
+        "Val": "true",
+        "TestRunTime": "3"
+    },
+    {
+        "Tag": "ToggleSwitch",
+        "TestRunTime": "3",
+        "Val": "false"
+    },
+    {
+        "Tag": "ValveEntryForward",
+        "TestRunTime": "1.5",
+        "Val": "true",
+        "StartTestDelay": "1.5"
+    },
+    {
+        "Tag": "PhotocellEntry",
+        "Val": "true",
+        "TestRunTime": "0.1",
+        "StartTestDelay": "3"
+    }
+    ],
+    "Detectors": [
+    {
+        "Tag": "miza_krak1",
+        "Val": "false",
+        "CheckAfterTest": "false"
+    },
+    {
+        "Tag": "miza_krak1",
+        "Val": "true",
+        "CheckAfterTest": "true"
+    }
+    ]
+}

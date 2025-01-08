@@ -3,12 +3,12 @@ using UnityEngine;
 using System.IO;
 using System.Collections.Generic;
 using TMPro;
-using System.Collections;
 using UnityEngine.UI;
 using System.Threading.Tasks;
 using System.Linq;
 using Newtonsoft.Json;
 using System.ComponentModel;
+using JetBrains.Annotations;
 
 [Serializable]
 public class TutorialData
@@ -18,6 +18,7 @@ public class TutorialData
     public string TaskDescription;
     public List<ChatBubble> ChatBubbles;
     public List<Test> Tests;
+    public List<Detector> Detectors;
 }
 
 [Serializable]
@@ -25,6 +26,14 @@ public class ChatBubble
 {
     public int Id;
     public string Text;
+}
+
+[Serializable]
+public class Detector
+{
+    public string Tag;
+    public bool Val;
+    public bool CheckAfterTest;
 }
 
 //-----------------Test-----------------
@@ -46,7 +55,7 @@ public class TutorialLoader : MonoBehaviour
 {
     public TutorialManager tutorialManager; 
     public string tutorialsFolderPath = "Scripts/PS/Tutorials";
-    public int currentTutorialIndex = 0; 
+    public int currentTutorialIndex; 
 
     public TutorialData LoadTutorial(int tutorialIndex)
     {
@@ -88,6 +97,9 @@ public class TutorialLoader : MonoBehaviour
     public TutorialData LoadNextTutorial()
     {
         currentTutorialIndex++;
+        //save the current tutorial index, so we can continue from the same tutorial next time
+        PlayerPrefs.SetInt("tutorialIndex", currentTutorialIndex);
+        
         return LoadTutorial(currentTutorialIndex);
     }
 }
@@ -117,26 +129,27 @@ public class TutorialManager : MonoBehaviour
     public GameObject chatBubblesParent;
     private int chatBubbleIndex;
     private bool tutorialActive;
-    Button arrPrevButton;
-    Button arrNextButton;
+    public Button buttonPrevious;
+    public Button buttonNext;
+
+    public GridLayoutGroup gridToggles;
 
     void Start()
     {
+        tutorialLoader = gameObject.AddComponent<TutorialLoader>();
+        tutorialLoader.tutorialManager = this; 
+
         com = GameObject.Find("Communication").GetComponent<Communication>();
 
         if (!PlayerPrefs.HasKey("showHelpOnStart"))
         {
-            Debug.Log("PlayerPRefs not found");
+            Debug.Log("PlayerPrefs showHelpOnStart key not found");
             PlayerPrefs.SetInt("showHelpOnStart", 1);
         }
         tutorialActive = PlayerPrefs.GetInt("showHelpOnStart") == 1;
       
         InvokeRepeating(nameof(DisplayErrors), 1f, 1f); // display errors every second
-        
-        tutorialLoader = gameObject.AddComponent<TutorialLoader>();
-        tutorialLoader.tutorialManager = this; // create a reference to this TutorialManager
 
-        chatBubblesParent = GameObject.Find("ChatBubblesParent");
         HideAllChatBubbles();
 
         if (tutorialActive){
@@ -149,22 +162,40 @@ public class TutorialManager : MonoBehaviour
         GameObject testButtonGameObj = GameObject.Find("ButtonTest");
         testButton = testButtonGameObj.GetComponent<Button>();
         testButtonText = testButton.GetComponentInChildren<TMP_Text>();
-        arrPrevButton = GameObject.Find("ButtonPrev").GetComponent<Button>();
-        arrNextButton = GameObject.Find("ButtonNext").GetComponent<Button>();
-        arrPrevButton.interactable = false;
-        arrNextButton.interactable = false;
+        buttonPrevious = GameObject.Find("ButtonPrev").GetComponent<Button>();
+        buttonNext = GameObject.Find("ButtonNext").GetComponent<Button>();
+        buttonPrevious.interactable = false;
+        buttonNext.interactable = false;
 
-        currentTutorialData = tutorialLoader.LoadTutorial(tutorialLoader.currentTutorialIndex);
+        int i;
+        //get the last turorial index from playerPrefs if exists
+        if (!PlayerPrefs.HasKey("tutorialIndex"))
+        {
+            Debug.Log("Created tutorialIndex with value 0 in PlayerPrefs.");
+            i = 0;	
+            PlayerPrefs.SetInt("tutorialIndex", 0);
+        } else {
+            i = PlayerPrefs.GetInt("tutorialIndex");
+        }
+
+        StartNewTutorial(i);
+    }
+
+    public void StartNewTutorial(int index)
+    { 
+        ClearCurrentChatBubbles();
+        tutorialLoader.currentTutorialIndex = index;
+        currentTutorialData = tutorialLoader.LoadTutorial(index);
         CheckTutorialData();
     }
-    void CheckTutorialData()
+    public void CheckTutorialData()
     {
         //testButton.interactable = true;
         chatBubbleIndex = 0;
 
         if (currentTutorialData != null)
         {
-            //Tudi če je prazno polje, pobriše prejšni text
+            //even if field is empty, we still display the title and description
             DisplayTaskInPanel(currentTutorialData.TutorialTitle, currentTutorialData.TaskDescription);
             
             bool oblacki = currentTutorialData.ChatBubbles != null && currentTutorialData.ChatBubbles.Count > 0;
@@ -189,8 +220,8 @@ public class TutorialManager : MonoBehaviour
                     ChangeStateToNext();
                 }
             } else if (!oblacki && testi){
-                arrNextButton.interactable = false;
-                arrPrevButton.interactable = false;
+                buttonNext.interactable = false;
+                buttonPrevious.interactable = false;
 
                 Debug.Log($"!O_T test count:{currentTutorialData.Tests.Count}");
 
@@ -300,13 +331,13 @@ public class TutorialManager : MonoBehaviour
 
         //če bi hotel dobiti nazaj prvi oblaček ko je smao
         // if(currentTutorialData.ChatBubbles.Count > 1){
-        //     arrNextButton.interactable = true;
+        //     buttonNext.interactable = true;
         // }
 
         if(chatBubbleIndex <= 0){
-            arrPrevButton.interactable = false;
+            buttonPrevious.interactable = false;
         }
-        arrNextButton.interactable = true;
+        buttonNext.interactable = true;
     }
 
     public void ButtonArrNext()
@@ -316,12 +347,12 @@ public class TutorialManager : MonoBehaviour
         DisplayChatBubbles(currentTutorialData.ChatBubbles, chatBubbleIndex);
 
         if(chatBubbleIndex >= 1){
-            arrPrevButton.interactable = true;
+            buttonPrevious.interactable = true;
         }
         //disable previous one?
 
         if(chatBubbleIndex == currentTutorialData.ChatBubbles.Count - 1){
-            arrNextButton.interactable = false;
+            buttonNext.interactable = false;
             if(currentTutorialData.Tests != null || currentTutorialData.Tests.Count > 0){
                 ChangeStateToTest();
             } else {
@@ -348,11 +379,10 @@ public class TutorialManager : MonoBehaviour
         testButtonState = ButtonState.Read;
         testButton.interactable = false;
 
-        arrNextButton.interactable = true;
+        buttonNext.interactable = true;
     }
+
 //----------------------Test----------------------
-
-
     public async void ButtonTest()
     {
         testButton.interactable = false;
@@ -365,18 +395,26 @@ public class TutorialManager : MonoBehaviour
                 
                 break;
             case ButtonState.Test:
-            //implementacija testiranja
+            // test implementation
                 var testTasks = new List<Task<bool>>();
-           
-                foreach (var test in currentTutorialData.Tests)
+
+                //clear and disable force table
+                DisableAllToggles();
+
+                bool allTrue = false;
+                //check detectors for stating positions
+                if(CheckDetectors(currentTutorialData.Detectors, false))
                 {
-                    testTasks.Add(RunTest(test));   
-                }
+                    foreach (var test in currentTutorialData.Tests)
+                    {
+                        testTasks.Add(RunTest(test));   
+                    }
 
-                bool[] results = await Task.WhenAll(testTasks);
-                bool allTrue = results.All(result => result);
+                    bool[] results = await Task.WhenAll(testTasks);
+                    allTrue = results.All(result => result);
+                } 
 
-                if (allTrue)
+                if (allTrue && CheckDetectors(currentTutorialData.Detectors))
                 {
                     Debug.Log("All tests succeeded.");
                     SetButtonColor(testButton, Color.green*0.85f);
@@ -388,9 +426,10 @@ public class TutorialManager : MonoBehaviour
                     testButton.interactable = true;
                 }
 
+                EnableAllToggles();
                 break;
             case ButtonState.Next:
-            //preklop na naslednji tutorial
+            //switch to next tutorial
                 ClearCurrentChatBubbles();
                 
                 currentTutorialData = tutorialLoader.LoadNextTutorial();
@@ -425,7 +464,7 @@ public class TutorialManager : MonoBehaviour
                         if (curVal != test.Val)
                         {
                             Debug.Log($"Test failed: {test.Tag} is not {test.Val}");
-                                return false;
+                            return false;
                         }
                     }
                     curTime += refreshRate;
@@ -451,31 +490,30 @@ public class TutorialManager : MonoBehaviour
                 }
                 Debug.Log($"Test failed: {test.Tag} is not {test.Val}");
                 return false;
-            case Communication.TagLocation.Detector:
-                 //totalTime in case of an input represends timeout
-                while (curTime < totalTime)
-                {
-                    //Debug.Log($"TIME: {curTime}");
-                    if (test.StartTestDelay <= curTime)
-                    {
-                        curVal = com.GetDetectorValue(test.Tag);
-                        if (curVal == test.Val)
-                        {
-                            Debug.Log($"DETECTOR Test succeeded: {test.Tag} is {test.Val}");
-                            return true;
-                        }
-                    }
-                    curTime += refreshRate;
-                    await Task.Delay(refreshRateMiliseconds);
-                }
-                Debug.Log($"Test failed: {test.Tag} is not {test.Val}");
-                return false;
             case Communication.TagLocation.None:
 
                 AddError($"Cannot write tag '{test.Tag}' on PLC.");
                 return false;
         }
         return false;
+    }
+
+    private bool CheckDetectors(List<Detector> detectors, bool isThisCalledAfterTesting = true)
+    {
+        foreach (var detector in detectors)
+        {
+            if (detector.CheckAfterTest == isThisCalledAfterTesting)
+            {
+                if (com.GetDetectorValue(detector.Tag) != detector.Val)
+                {
+                    Debug.Log($"Detector {detector.Tag} is not in correct state. isThisCalledAfterTesting: {isThisCalledAfterTesting}");
+                    return false;
+                }
+            }
+        }
+
+        Debug.Log("All detectors are in correct state.");
+        return true;
     }
 
     private void SetButtonColor(Button button, Color color)
@@ -487,6 +525,31 @@ public class TutorialManager : MonoBehaviour
         colors.pressedColor = color;
         colors.selectedColor = color*1.2f;
         button.colors = colors;
+    }
+
+    public void DisableAllToggles()
+    {
+        foreach (Transform child in gridToggles.transform)
+        {
+            Toggle toggle = child.GetComponent<Toggle>();
+            if (toggle != null)
+            {
+                toggle.isOn = false;
+                toggle.interactable = false;
+            }
+        }
+    }
+
+    public void EnableAllToggles()
+    {
+        foreach (Transform child in gridToggles.transform)
+        {
+            Toggle toggle = child.GetComponent<Toggle>();
+            if (toggle != null)
+            {
+                toggle.interactable = true;
+            }
+        }
     }
 
 //-----------------Error handling-----------------

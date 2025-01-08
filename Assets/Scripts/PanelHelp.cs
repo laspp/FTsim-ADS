@@ -50,6 +50,8 @@ public class PanelHelp : MonoBehaviour
             gameObject.SetActive(true);
             keyboardShortcuts.SetActive(true);
             TextR.SetActive(true);
+
+            tutorialManager.initTutotialManager();
         }
             
     }

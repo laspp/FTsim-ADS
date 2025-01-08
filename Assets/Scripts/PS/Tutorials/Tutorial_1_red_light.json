@@ -1,7 +1,7 @@
 {
   "TutorialStep": 1,
   "TutorialTitle": "RED LIGHT",
-  "TaskDescription": "Turn on the light by clicking on the light switch and holding it for 1 second",
+  "TaskDescription": "In Visual Studio (VS) editor connect red button with the red light. First, check how you defined button and light in the IOs. Code will look similar to this\nIO.LEDRed := IO.ButtonRed;\nTo pass the test, turn on the light by clicking on the red button and holding it for 1 second",
   "ChatBubbles": [
     {
       "Id": 0,
@@ -9,15 +9,19 @@
     },
     {
       "Id": 1,
-      "Text": "This is the RED light, when programmer right and pressed it should glow."
+      "Text": "This is the RED light, when programed right and pressed it should glow."
     }
   ],
   "Tests": [
     {
+      "Tag": "ButtonRed",
+      "TestRunTime": "1",
+      "Val": "true"
+    },
+    {
       "Tag": "LightRed",
       "TestRunTime": "1",
-      "Val": "true",
-      "StartTestDelay": "0"
+      "Val": "true"
     }
   ]
 }

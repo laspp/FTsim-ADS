@@ -1,0 +1,46 @@
+//ButtonsDebouncer();
+//ledTest();
+//actuators();
+
+// 1 in 2
+IO.LEDRed := IO.ButtonRed;
+IO.LEDGreen := IO.ButtonGreen;
+
+// 3
+IO.MotorCompressor := IO.SwitchCompressor;
+
+// 4
+IF IO.ToggleSwitch THEN
+	IO.ValveEntryForward := IO.ButtonBlackRightUp;
+	IO.ValveEntryBackward := IO.ButtonBlackLeftUp;
+END_IF
+
+// 5
+IF NOT IO.ToggleSwitch THEN
+	IF photocelOldValue AND NOT IO.PhotocellEntry THEN
+		photoCellFalingEdge := TRUE;
+	END_IF	
+		
+	IF photoCellFalingEdge AND NOT IO.PhotocellEntry THEN
+		timerDelay(IN := TRUE, PT := T#1S);
+	ELSE
+		timerDelay(in := FALSE);
+	END_IF
+	
+	IF timerDelay.Q THEN
+		photoCellFalingEdge := FALSE;
+		timerMoveF(IN := TRUE, PT := T#3S);
+	ELSE
+		timerMoveF(IN := FALSE);	 
+	END_IF
+	
+	IF timerMoveF.Q THEN
+		IO.valveEntryForward := TRUE;
+	ELSE
+		IO.valveEntryForward := FALSE;
+	END_IF
+
+	//update old value
+	photocelOldValue := IO.PhotocellEntry;
+	
+END_IF
