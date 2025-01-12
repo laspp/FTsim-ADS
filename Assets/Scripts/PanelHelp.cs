@@ -10,6 +10,7 @@ public class PanelHelp : MonoBehaviour
     public StatusBar panelStatusBar;
     public GameObject TextR;
     public GameObject startupBubble;
+    public GameObject TestOutputConsoleParent;
     TutorialManager tutorialManager;
     int showHelpOnStart;
     bool hintShown = false;
@@ -28,6 +29,8 @@ public class PanelHelp : MonoBehaviour
         toggle.isOn = showHelpOnStart == 1;
         keyboardShortcuts.SetActive(showHelpOnStart == 1);
         gameObject.SetActive(showHelpOnStart == 1);
+
+        TestOutputConsoleParent.SetActive(false);
     }
 
     public void ToggleVisibility()
@@ -37,7 +40,9 @@ public class PanelHelp : MonoBehaviour
             gameObject.SetActive(false);
             keyboardShortcuts.SetActive(false);
             TextR.SetActive(false); 
+            TestOutputConsoleParent.SetActive(false);
             tutorialManager.ClearCurrentChatBubbles();
+            
             if (!hintShown)
             {
                 panelStatusBar.SetStatusBarText($"Press F1 to display the help window.");

@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using System.Linq;
 using Newtonsoft.Json;
 using System.ComponentModel;
-using JetBrains.Annotations;
 
 [Serializable]
 public class TutorialData
@@ -33,7 +32,7 @@ public class Detector
 {
     public string Tag;
     public bool Val;
-    public bool CheckAfterTest;
+    public string CheckAt;
 }
 
 //-----------------Test-----------------
@@ -131,8 +130,9 @@ public class TutorialManager : MonoBehaviour
     private bool tutorialActive;
     public Button buttonPrevious;
     public Button buttonNext;
-
     public GridLayoutGroup gridToggles;
+    public GameObject TestOutputConsoleParent;
+    private  TMP_Text testOutputConsole;    
 
     void Start()
     {
@@ -166,6 +166,7 @@ public class TutorialManager : MonoBehaviour
         buttonNext = GameObject.Find("ButtonNext").GetComponent<Button>();
         buttonPrevious.interactable = false;
         buttonNext.interactable = false;
+        testOutputConsole = TestOutputConsoleParent.GetComponentInChildren<TMP_Text>();
 
         int i;
         //get the last turorial index from playerPrefs if exists
@@ -183,6 +184,7 @@ public class TutorialManager : MonoBehaviour
 
     public void StartNewTutorial(int index)
     { 
+        TestOutputConsoleParent.SetActive(false);
         ClearCurrentChatBubbles();
         tutorialLoader.currentTutorialIndex = index;
         currentTutorialData = tutorialLoader.LoadTutorial(index);
@@ -401,9 +403,12 @@ public class TutorialManager : MonoBehaviour
                 //clear and disable force table
                 DisableAllToggles();
 
+                testOutputConsole.text = "";
+                TestOutputConsoleParent.SetActive(true);
+
                 bool allTrue = false;
                 //check detectors for stating positions
-                if(CheckDetectors(currentTutorialData.Detectors, false))
+                if(CheckDetectors(currentTutorialData.Detectors, "Start"))
                 {
                     foreach (var test in currentTutorialData.Tests)
                     {
@@ -414,9 +419,10 @@ public class TutorialManager : MonoBehaviour
                     allTrue = results.All(result => result);
                 } 
 
-                if (allTrue && CheckDetectors(currentTutorialData.Detectors))
+                if (allTrue && CheckDetectors(currentTutorialData.Detectors, "End"))
                 {
-                    Debug.Log("All tests succeeded.");
+                    Debug.Log("All tests passed!");
+                    testOutputConsole.text += "All tests passed! :-)";
                     SetButtonColor(testButton, Color.green*0.85f);
                     ChangeStateToNext();
                 }
@@ -424,6 +430,7 @@ public class TutorialManager : MonoBehaviour
                 {
                     SetButtonColor(testButton, Color.red*0.85f);
                     testButton.interactable = true;
+                    
                 }
 
                 EnableAllToggles();
@@ -431,7 +438,8 @@ public class TutorialManager : MonoBehaviour
             case ButtonState.Next:
             //switch to next tutorial
                 ClearCurrentChatBubbles();
-                
+                TestOutputConsoleParent.SetActive(false);
+
                 currentTutorialData = tutorialLoader.LoadNextTutorial();
                 CheckTutorialData();
                 break;
@@ -464,6 +472,7 @@ public class TutorialManager : MonoBehaviour
                         if (curVal != test.Val)
                         {
                             Debug.Log($"Test failed: {test.Tag} is not {test.Val}");
+                            testOutputConsole.text += $"X  Test failed: {test.Tag} is not {test.Val}\n";
                             return false;
                         }
                     }
@@ -482,6 +491,7 @@ public class TutorialManager : MonoBehaviour
                         if (curVal == test.Val)
                         {
                             Debug.Log($"INPUT Test succeeded: {test.Tag} is {test.Val}");
+                            testOutputConsole.text += $"OK Test of INPUT {test.Tag} passed\n";
                             return true;
                         }
                     }
@@ -489,6 +499,7 @@ public class TutorialManager : MonoBehaviour
                     await Task.Delay(refreshRateMiliseconds);
                 }
                 Debug.Log($"Test failed: {test.Tag} is not {test.Val}");
+                testOutputConsole.text += $"X  Test failed: {test.Tag} is not {test.Val}\n";
                 return false;
             case Communication.TagLocation.None:
 
@@ -498,21 +509,24 @@ public class TutorialManager : MonoBehaviour
         return false;
     }
 
-    private bool CheckDetectors(List<Detector> detectors, bool isThisCalledAfterTesting = true)
+    private bool CheckDetectors(List<Detector> detectors, string calledAt)
     {
-        foreach (var detector in detectors)
-        {
-            if (detector.CheckAfterTest == isThisCalledAfterTesting)
+        if(detectors != null && detectors.Count > 0) {
+            foreach (var detector in detectors)
             {
-                if (com.GetDetectorValue(detector.Tag) != detector.Val)
+                if (detector.CheckAt == calledAt)
                 {
-                    Debug.Log($"Detector {detector.Tag} is not in correct state. isThisCalledAfterTesting: {isThisCalledAfterTesting}");
-                    return false;
+                    if (com.GetDetectorValue(detector.Tag) != detector.Val)
+                    {
+                        Debug.Log($"Detector {detector.Tag} is not in correct state. Called at: {calledAt}");
+                        testOutputConsole.text += $"Detector {detector.Tag} is not in correct state upon {calledAt}\n";
+                        return false;
+                    }
                 }
             }
+            Debug.Log("All detectors are in correct state.");
+            testOutputConsole.text += $"OK All detectors are in correct state on {calledAt} :-)\n";
         }
-
-        Debug.Log("All detectors are in correct state.");
         return true;
     }
 

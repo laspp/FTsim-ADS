@@ -25,7 +25,7 @@
       "Tag": "",
       "Val": "true",
       //when do we check detectors? If true, we check after the testing is finished, if false, we check before the test starts
-      "CheckAfterTest": "true" 
+      "CheckAt": "Start" /*ali*/ "End" 
     }
   ]
 }
