@@ -1,0 +1,35 @@
+{
+  "TutorialStep": 8,
+  "TutorialTitle": "ENTRY PISTON (MANUAL)",
+  "TaskDescription": "The <b>ToggleSwitch</b> (keyboard shortcut is TAB) is designed to enter maunal mode. Use the top two black buttons and link them to entry piston's valves. Check IO tab in your programing shell for tag names. Piston should move only when the switch is turned on.\nTest checks workipeces final position. Keep in mind to move piston back to the starting position, before spawnig a new workipece. Make sure, that <b>compressor is running</b> and that preasure level is high enough!",
+  "ChatBubbles": [
+  {
+    "Id": 0,
+    "Text": "Toggle between maunal (switch is rotated/active) and automatic mode."
+  }
+  ],
+  "Tests": [
+    {
+      "Tag": "PhotocellEntry",
+      "Val": "true",
+      "TestRunTime": "1"
+    },
+    {
+      "Tag": "MotorCompressor",
+      "Val": "true",
+      "TestRunTime": "3"
+    },
+    {
+      "Tag": "ToggleSwitch",
+      "TestRunTime": "3",
+      "Val": "true"
+    }
+  ],
+  "Detectors": [
+    {
+      "Tag": "miza_krak1",
+      "Val": "true",
+      "CheckAt": "End"
+    }
+  ]
+}

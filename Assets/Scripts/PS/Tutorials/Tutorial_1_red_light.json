@@ -1,11 +1,11 @@
 {
   "TutorialStep": 1,
   "TutorialTitle": "RED LIGHT",
-  "TaskDescription": "In Visual Studio (VS) editor connect red button with the red light. First, check how you defined button and light in the IOs. Code will look similar to this\nIO.LEDRed := IO.ButtonRed;\nTo pass the test, turn on the light by clicking on the red button and holding it for 1 second",
+  "TaskDescription": "In Visual Studio (VS) editor connect red button with the red light. First, check how are button and light defined in the IOs.\nWhen adressing tag value from IOs, use <b>IO.<tagName></b> syntax!\nLink them together, use := operator.\nTo pass the test, turn on the light by clicking on the red button and hold it and press test.",
   "ChatBubbles": [
     {
       "Id": 0,
-      "Text": "This is the RED light button. Press Q on the keyboard"
+      "Text": "This is the RED light button. Press <b>Q</b> on the keyboard"
     },
     {
       "Id": 1,

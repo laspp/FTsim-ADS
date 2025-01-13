@@ -2,45 +2,121 @@
 //ledTest();
 //actuators();
 
-// 1 in 2
-IO.LEDRed := IO.ButtonRed;
-IO.LEDGreen := IO.ButtonGreen;
+// 1 RED LIGHT
+	IO.LEDRed := IO.ButtonRed;
 
-// 3
-IO.MotorCompressor := IO.SwitchCompressor;
+// 2 RED AND GREEN LIGHT
+	IO.LEDGreen := IO.ButtonGreen;
 
-// 4
-IF IO.ToggleSwitch THEN
-	IO.ValveEntryForward := IO.ButtonBlackRightUp;
-	IO.ValveEntryBackward := IO.ButtonBlackLeftUp;
-END_IF
+// 3 PRODUCTION START
+	IO.MotorCompressor := IO.SwitchCompressor;
 
-// 5
-IF NOT IO.ToggleSwitch THEN
-	IF photocelOldValue AND NOT IO.PhotocellEntry THEN
-		photoCellFalingEdge := TRUE;
+// 5 EDGE DETECTION
+	IF NOT buttonOldValue AND IO.ButtonBlackLeftDown THEN
+		buttonRisingEdge := TRUE;
+	END_IF
+	
+	IF buttonRisingEdge THEN
+		timerButtonTP(IN := TRUE, PT:= T#2S);
+		buttonRisingEdge := FALSE;
+	ELSE
+		timerButtonTP(IN := FALSE);
+	END_IF
+	
+	//commented because of 6
+	//IO.LEDBlueDown := timerButtonTP.Q;
+	
+	//update old value
+	buttonOldValue := IO.ButtonBlackLeftDown;
+	
+// 6 TON and TOF TIMERS
+	IF IO.ButtonBlackLeftDown THEN
+		timerTOF(IN := TRUE, PT := T#3S);
+		timerTON(IN := TRUE, PT := T#2S);
+	ELSE
+		timerTOF(IN := FALSE);
+		timerTON(IN := FALSE);
+	END_IF
+	
+	IO.LEDBlueUp := timerTOF.Q;
+	IO.LEDBlueDown := timerTON.Q;
+
+// 8 ENTRY PISTON (MANUAL)	
+	IF IO.ToggleSwitch THEN
+		IO.ValveEntryForward := IO.ButtonBlackRightUp;
+		IO.ValveEntryBackward := IO.ButtonBlackLeftUp;
+	END_IF
+
+// 9 ENTRY PISTON (AUTO)
+	IF NOT IO.ToggleSwitch THEN
+		IF photocelOldValue AND NOT IO.PhotocellEntry THEN
+			photoCellFalingEdge := TRUE;
+		END_IF	
+			
+		IF photoCellFalingEdge AND NOT IO.PhotocellEntry THEN
+			timerDelayTON(IN := TRUE, PT := T#1S);
+		ELSE
+			timerDelayTON(in := FALSE);
+		END_IF
+		
+		IF timerDelayTON.Q THEN
+			photoCellFalingEdge := FALSE;
+			timerMoveEntryPistonF(IN := TRUE, PT := T#3S);
+		ELSE
+			timerMoveEntryPistonF(IN := FALSE);	 
+		END_IF
+		
+		IF timerMoveEntryPistonF.Q THEN
+			IO.valveEntryForward := TRUE;
+		ELSE
+			IO.valveEntryForward := FALSE;
+		END_IF
+	
+		//update old value
+		photocelOldValue := IO.PhotocellEntry;
+	
+// 10 
+	IF timerMoveEntryPistonOldValue AND NOT timerMoveEntryPistonF.Q THEN
+		timerMoveEntryPistonFallingEdge := TRUE;
 	END_IF	
 		
-	IF photoCellFalingEdge AND NOT IO.PhotocellEntry THEN
-		timerDelay(IN := TRUE, PT := T#1S);
+	IF timerMoveEntryPistonFallingEdge THEN
+		timerMoveEntryPistonFallingEdge := FALSE;
+		timerMoveEntryPistonB_TP(IN := TRUE, PT := T#3S);
+		//this two rows needed for 11
+		tablepostionCount := 0;
+		addToCount := TRUE;
 	ELSE
-		timerDelay(in := FALSE);
+		timerMoveEntryPistonB_TP(IN := FALSE);
 	END_IF
 	
-	IF timerDelay.Q THEN
-		photoCellFalingEdge := FALSE;
-		timerMoveF(IN := TRUE, PT := T#3S);
+	IF timerMoveEntryPistonB_TP.Q THEN
+		IO.ValveEntryBackward := TRUE;
 	ELSE
-		timerMoveF(IN := FALSE);	 
+		IO.ValveEntryBackward := FALSE;
 	END_IF
 	
-	IF timerMoveF.Q THEN
-		IO.valveEntryForward := TRUE;
+	//update old value
+	timerMoveEntryPistonOldValue := timerMoveEntryPistonF.Q;
+	
+// 11 ROTATE TABLE
+	IF addToCount AND NOT SwitchTablePositionOldValue AND IO.SwitchTablePosition THEN
+		tablepostionCount := tablepostionCount + 1;
+	END_IF
+	
+	IF addToCount AND tablepostionCount < 2 THEN
+		IO.MotorTableMovement := TRUE;
 	ELSE
-		IO.valveEntryForward := FALSE;
+		IO.MotorTableMovement := FALSE;
 	END_IF
 
-	//update old value
-	photocelOldValue := IO.PhotocellEntry;
+	//safety switch
+	IF IO.SwitchTableExit THEN
+		IO.MotorTableMovement := FALSE;
+		addToCount := FALSE;
+	END_IF
 	
+	//update old value
+	SwitchTablePositionOldValue := IO.SwitchTablePosition;
+
 END_IF
