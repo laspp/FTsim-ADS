@@ -10,7 +10,7 @@
       "Val": "true"
     },
     {
-      "Tag": "LightRed",
+      "Tag": "LEDRed",
       "TestRunTime": "1",
       "Val": "true"
     },
@@ -20,7 +20,7 @@
       "Val": "true"
     },
     {
-      "Tag": "LightGreen",
+      "Tag": "LEDGreen",
       "Val": "true",
       "TestRunTime": "1"
     }

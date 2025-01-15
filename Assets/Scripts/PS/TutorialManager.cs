@@ -503,7 +503,7 @@ public class TutorialManager : MonoBehaviour
                 return false;
             case Communication.TagLocation.None:
 
-                AddError($"Cannot write tag '{test.Tag}' on PLC.");
+                AddError($"Cannot get location and value of tag '{test.Tag}'.");
                 return false;
         }
         return false;

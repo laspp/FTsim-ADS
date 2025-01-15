@@ -1,0 +1,25 @@
+{
+    "TutorialStep": 16,
+    "TutorialTitle": "ANOTHER AT THE END",
+    "TaskDescription": "You've learned many things in this tutorial. The final task is to move belt a little forward when first workpiece is detected by <b>PhotocellExit</b>, so there is space for another one. \nBe creative at coding and note, that you should <b>addres IO tag just once in your code.</b> If it is adressed multiple times, the last one overrides the previous one. A fast solution looks like this:\nIO.<tagName> := <bool varibale1> OR <bool varibale1>\nStart the test when both workpieces reach destination.",
+    "ChatBubbles": [],
+    "Tests": [
+      {
+        "Tag": "MotorBeltMovement",
+        "TestRunTime": "0.1",
+        "Val": "false"
+      },
+      {
+        "Tag": "PhotocellExit",
+        "TestRunTime": "0.1",
+        "Val": "false"
+      }
+    ],
+    "Detectors": [
+    {
+      "Tag": "trak_konec",
+      "Val": "true",
+      "CheckAt": "Start" 
+    }
+  ]
+  }

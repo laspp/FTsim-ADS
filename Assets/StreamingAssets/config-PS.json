@@ -8,22 +8,22 @@
     "ToggleSwitch": "IO.ToggleSwitch",
     "ButtonRed": "IO.ButtonRed",
     "ButtonGreen": "IO.ButtonGreen",
-    "ButtonBlackTopLeft": "IO.ButtonBlackLeftUp",
-    "ButtonBlackTopRight": "IO.ButtonBlackRightUp",
-    "ButtonBlackBottomLeft": "IO.ButtonBlackLeftDown",
-    "ButtonBlackBottomRight": "IO.ButtonBlackRightDown",
+    "ButtonBlackLeftUp": "IO.ButtonBlackLeftUp",
+    "ButtonBlackRightUp": "IO.ButtonBlackRightUp",
+    "ButtonBlackLeftDown": "IO.ButtonBlackLeftDown",
+    "ButtonBlackRightDown": "IO.ButtonBlackRightDown",
     "PhotocellEntry": "IO.PhotocellEntry",
     "PhotocellExit": "IO.PhotocellExit",
     "SwitchMachine": "IO.SwitchMachine",
     "SwitchCompressor": "IO.SwitchCompressor",
     "SwitchTablePosition": "IO.SwitchTablePosition",
-    "SwitchTableExit": "IO.SwitchTableExit",
+    "SwitchTableExit": "IO.SwitchTableExit"
   },
   "OutputVariableMap": {
-    "LightRed": "IO.LEDRed",
-    "LightGreen": "IO.LEDGreen",
-    "LightBlueTop": "IO.LEDBlueUp",
-    "LightBlueBottom": "IO.LEDBlueDown",
+    "LEDRed": "IO.LEDRed",
+    "LEDGreen": "IO.LEDGreen",
+    "LEDBlueUp": "IO.LEDBlueUp",
+    "LEDBlueDown": "IO.LEDBlueDown",
     "MotorCompressor": "IO.MotorCompressor",
     "MotorTableDirection": "IO.MotorTableDirection",
     "MotorTableMovement": "IO.MotorTableMovement",
@@ -33,9 +33,9 @@
     "ValveEntryBackward": "IO.ValveEntryBackward",
     "ValveMachine": "IO.ValveMachine",
     "ValveExitBackward": "IO.ValveExitBackward",
-    "ValveExitForward": "IO.ValveExitForward",
+    "ValveExitForward": "IO.ValveExitForward"
   },
   "TrainingModelSpecific": {
-    "FillOneAirCilinderTime" : 1.0,
-  },
+    "FillOneAirCilinderTime" : 1.0
+  }
 }

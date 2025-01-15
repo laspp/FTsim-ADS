@@ -53,7 +53,7 @@ public class WorkpieceCollision : MonoBehaviour
             {
                 com.UpdateDetectorValue(detectorTag, false);
             }
-            Debug.Log("A Workpiece clone has been removed from the table.");
+            Debug.Log($"A Workpiece clone has been removed from detector {detectorTag}.");
         }
     }
 

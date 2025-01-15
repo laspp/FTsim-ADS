@@ -7,10 +7,10 @@ public class PanelControls : MonoBehaviour
     public Communication communication;
     public GameObject workpiece;
     public Transform spawnPoint;
-    public Transform lightRed;
-    public Transform lightGreen;
-    public Transform lightBlueTop;
-    public Transform lightBlueBottom;
+    public Transform LEDRed;
+    public Transform LEDGreen;
+    public Transform LEDBlueUp;
+    public Transform LEDBlueDown;
        
 
     void Start()
@@ -20,10 +20,10 @@ public class PanelControls : MonoBehaviour
         communication.WriteToPlc("ToggleSwitch", false);
         communication.WriteToPlc("ButtonRed", false);
         communication.WriteToPlc("ButtonGreen", false);
-        communication.WriteToPlc("ButtonBlackTopLeft", false);
-        communication.WriteToPlc("ButtonBlackTopRight", false);
-        communication.WriteToPlc("ButtonBlackBottomLeft", false);
-        communication.WriteToPlc("ButtonBlackBottomRight", false);
+        communication.WriteToPlc("ButtonBlackLeftUp", false);
+        communication.WriteToPlc("ButtonBlackRightUp", false);
+        communication.WriteToPlc("ButtonBlackLeftDown", false);
+        communication.WriteToPlc("ButtonBlackRightDown", false);
 
         workpiece.SetActive(false);
     }
@@ -31,10 +31,10 @@ public class PanelControls : MonoBehaviour
     void Update()
     {
         // Control lights
-        lightRed.GetComponent<Toggle>().isOn = communication.GetTagValue("LightRed");
-        lightGreen.GetComponent<Toggle>().isOn = communication.GetTagValue("LightGreen");
-        lightBlueTop.GetComponent<Toggle>().isOn = communication.GetTagValue("LightBlueTop");
-        lightBlueBottom.GetComponent<Toggle>().isOn = communication.GetTagValue("LightBlueBottom");
+        LEDRed.GetComponent<Toggle>().isOn = communication.GetTagValue("LEDRed");
+        LEDGreen.GetComponent<Toggle>().isOn = communication.GetTagValue("LEDGreen");
+        LEDBlueUp.GetComponent<Toggle>().isOn = communication.GetTagValue("LEDBlueUp");
+        LEDBlueDown.GetComponent<Toggle>().isOn = communication.GetTagValue("LEDBlueDown");
     }
 
     public void CreateNewWorkpiece()
@@ -76,20 +76,20 @@ public class PanelControls : MonoBehaviour
     {
         communication.WriteToPlc("ButtonGreen", change.isOn);
     }
-    public void ButtonBlackTopLeftOnChange(Toggle change)
+    public void ButtonBlackLeftUpOnChange(Toggle change)
     {
-        communication.WriteToPlc("ButtonBlackTopLeft", change.isOn);
+        communication.WriteToPlc("ButtonBlackLeftUp", change.isOn);
     }
-    public void ButtonBlackTopRightOnChange(Toggle change)
+    public void ButtonBlackRightUpOnChange(Toggle change)
     {
-        communication.WriteToPlc("ButtonBlackTopRight", change.isOn);
+        communication.WriteToPlc("ButtonBlackRightUp", change.isOn);
     }
-    public void ButtonBlackBottomLeftOnChange(Toggle change)
+    public void ButtonBlackLeftDownOnChange(Toggle change)
     {
-        communication.WriteToPlc("ButtonBlackBottomLeft", change.isOn);
+        communication.WriteToPlc("ButtonBlackLeftDown", change.isOn);
     }
-    public void ButtonBlackBottomRightOnChange(Toggle change)
+    public void ButtonBlackRightDownOnChange(Toggle change)
     {
-        communication.WriteToPlc("ButtonBlackBottomRight", change.isOn);
+        communication.WriteToPlc("ButtonBlackRightDown", change.isOn);
     }
 }

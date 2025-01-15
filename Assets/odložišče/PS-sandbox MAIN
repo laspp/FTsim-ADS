@@ -1,7 +1,48 @@
-//ButtonsDebouncer();
-//ledTest();
-//actuators();
+//upper window
+PROGRAM MAIN
+VAR
+//	actuators: Actuators;
+//	ledTest: LedTest;
+//5
+buttonOldValue: BOOL;
+buttonRisingEdge: BOOL;
+timerButton_TP: TP;
+//6
+timer_TOF: TOF;
+timer_TON: TON;
+//9
+photocelOldValue: BOOL;
+photocelNewValue: BOOL;
+timerMoveEntryPistonF_TP: TP;
+timerDelay_TON: TON;
+photoCellFalingEdge: BOOL;
+//10
+timerMoveEntryPistonFallingEdge: BOOL;
+timerMoveEntryPistonOldValue : BOOL;
+timerMoveEntryPistonB_TP: TP;
+//11
+addToCount : BOOL;
+tablePostionCount: INT;
+SwitchTablePositionOldValue: BOOL;
+//12
+timerMachine_TP: TP;
+//13
+timerMoveExitPistonF_TOF: TOF;
+moveExitPistonFallingEdge: BOOL;
+moveExitPistonOldValue: BOOL;
+timerMoveExitPistonB_TOF: TOF;
+//14
+runBelt: BOOL;
+//15
+timerBeltTimeout_TOF: TOF;
+beltTimeoutOldValue: BOOL;
+//16
+photocellExitOldValue: BOOL;
+piecesCounter: INT;
+timerBeltMoveLittle_TP: TP;
+END_VAR
 
+//lower window
 // 1 RED LIGHT
 	IO.LEDRed := IO.ButtonRed;
 
@@ -169,20 +210,11 @@ IF NOT IO.ToggleSwitch THEN
 		timerBeltTimeout_TOF(IN := FALSE);
 	END_IF
 	
-	//less code with this apporach
-	IO.MotorBeltMovement := runBelt; 
+	//less code with this apporach  
+	IO.MotorBeltMovement := runBelt OR timerBeltMoveLittle_TP.Q; //OR added for 16 
 	
 	IF NOT IO.PhotocellExit THEN
-		//runBelt := FALSE;
-		// modification for 16
-		IF NOT alreadyMovedWorkpiece THEN
-			alreadyMovedWorkpiece := TRUE;
-			timerBeltMoveLittle_TP(IN := TRUE, PT := T#1.5S);
-		ELSE
-			runBelt := FALSE;
-			//timerBeltMoveLittle_TOF(IN := FALSE);
-		END_IF
-		
+		runBelt := FALSE;	
 	END_IF
 	//	alternative
 	//	IF runBelt AND IO.PhotocellExit THEN
@@ -201,12 +233,18 @@ IF NOT IO.ToggleSwitch THEN
 	//update old value
 	beltTimeoutOldValue := timerBeltTimeout_TOF.Q;
 	
-// 16
-//	IF beltMoveLittleOldValue AND NOT timerBeltMoveLittle_TP.Q THEN
-//		runBelt := FALSE;
-//	END_IF
+// 16 ANOTHER AT THE END
+	IF photocellExitOldValue AND NOT IO.PhotocellExit THEN
+		piecesCounter := piecesCounter + 1;
+	END_IF
 	
-//	//update old value
-//	beltMoveLittleOldValue := timerBeltMoveLittle_TP.Q;
+	IF piecesCounter = 1 THEN
+		timerBeltMoveLittle_TP(IN := TRUE, PT := T#1S);
+	ELSE
+		timerBeltMoveLittle_TP(IN := FALSE);
+	END_IF
+	
+	//update old value
+	photocellExitOldValue := IO.PhotocellExit;
 	
 END_IF // IF NOT IO.ToggleSwitch THEN 
