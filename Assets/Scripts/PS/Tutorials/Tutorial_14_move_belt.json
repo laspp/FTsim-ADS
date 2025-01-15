@@ -1,0 +1,25 @@
+{
+    "TutorialStep": 14,
+    "TutorialTitle": "BELT MOVEMENT",
+    "TaskDescription": "We don't know how long does it take for different item to travel with belt, therefore timers are not the bost approach here. Reuse the falling edge detection of ExitPiston and set newly declared boolean variable (e.g. runBelt) to true. Link it to <b>MotorBeltMovement</b> tag and set it to false when <b>PhotocellExit</b> detects workpiece.\nStart testing when belt starts moving.",
+    "ChatBubbles": [],
+    "Tests": [
+      {
+        "Tag": "MotorBeltMovement",
+        "TestRunTime": "1",
+        "Val": "true"
+      },
+      {
+        "Tag": "MotorBeltMovement",
+        "TestRunTime": "0.1",
+        "Val": "false",
+        "StartTestDelay": "3"
+      },
+      {
+        "Tag": "PhotocellExit",
+        "TestRunTime": "0.1",
+        "Val": "false",
+        "StartTestDelay": "3"
+      }
+    ]
+  }

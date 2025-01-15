@@ -17,10 +17,10 @@
 	END_IF
 	
 	IF buttonRisingEdge THEN
-		timerButtonTP(IN := TRUE, PT:= T#2S);
+		timerButton_TP(IN := TRUE, PT:= T#2S);
 		buttonRisingEdge := FALSE;
 	ELSE
-		timerButtonTP(IN := FALSE);
+		timerButton_TP(IN := FALSE);
 	END_IF
 	
 	//commented because of 6
@@ -31,15 +31,15 @@
 	
 // 6 TON and TOF TIMERS
 	IF IO.ButtonBlackLeftDown THEN
-		timerTOF(IN := TRUE, PT := T#3S);
-		timerTON(IN := TRUE, PT := T#2S);
+		timer_TOF(IN := TRUE, PT := T#3S);
+		timer_TON(IN := TRUE, PT := T#2S);
 	ELSE
-		timerTOF(IN := FALSE);
-		timerTON(IN := FALSE);
+		timer_TOF(IN := FALSE);
+		timer_TON(IN := FALSE);
 	END_IF
 	
-	IO.LEDBlueUp := timerTOF.Q;
-	IO.LEDBlueDown := timerTON.Q;
+	IO.LEDBlueUp := timer_TOF.Q;
+	IO.LEDBlueDown := timer_TON.Q;
 
 // 8 ENTRY PISTON (MANUAL)	
 	IF IO.ToggleSwitch THEN
@@ -48,38 +48,38 @@
 	END_IF
 
 // 9 ENTRY PISTON (AUTO)
-	IF NOT IO.ToggleSwitch THEN
-		IF photocelOldValue AND NOT IO.PhotocellEntry THEN
-			photoCellFalingEdge := TRUE;
-		END_IF	
-			
-		IF photoCellFalingEdge AND NOT IO.PhotocellEntry THEN
-			timerDelayTON(IN := TRUE, PT := T#1S);
-		ELSE
-			timerDelayTON(in := FALSE);
-		END_IF
-		
-		IF timerDelayTON.Q THEN
-			photoCellFalingEdge := FALSE;
-			timerMoveEntryPistonF(IN := TRUE, PT := T#3S);
-		ELSE
-			timerMoveEntryPistonF(IN := FALSE);	 
-		END_IF
-		
-		IF timerMoveEntryPistonF.Q THEN
-			IO.valveEntryForward := TRUE;
-		ELSE
-			IO.valveEntryForward := FALSE;
-		END_IF
-	
-		//update old value
-		photocelOldValue := IO.PhotocellEntry;
-	
-// 10 
-	IF timerMoveEntryPistonOldValue AND NOT timerMoveEntryPistonF.Q THEN
-		timerMoveEntryPistonFallingEdge := TRUE;
+IF NOT IO.ToggleSwitch THEN
+	IF photocelOldValue AND NOT IO.PhotocellEntry THEN
+		photoCellFalingEdge := TRUE;
 	END_IF	
 		
+	IF photoCellFalingEdge AND NOT IO.PhotocellEntry THEN
+		timerDelay_TON(IN := TRUE, PT := T#1S);
+	ELSE
+		timerDelay_TON(in := FALSE);
+	END_IF
+	
+	IF timerDelay_TON.Q THEN
+		photoCellFalingEdge := FALSE;
+		timerMoveEntryPistonF_TP(IN := TRUE, PT := T#3S);
+	ELSE
+		timerMoveEntryPistonF_TP(IN := FALSE);	 
+	END_IF
+	
+	IF timerMoveEntryPistonF_TP.Q THEN
+		IO.valveEntryForward := TRUE;
+	ELSE
+		IO.valveEntryForward := FALSE;
+	END_IF
+
+	//update old value
+	photocelOldValue := IO.PhotocellEntry;
+	
+// 10 RETURN ENTRY PISTON
+	IF timerMoveEntryPistonOldValue AND NOT timerMoveEntryPistonF_TP.Q THEN
+		timerMoveEntryPistonFallingEdge := TRUE;
+	END_IF	
+			
 	IF timerMoveEntryPistonFallingEdge THEN
 		timerMoveEntryPistonFallingEdge := FALSE;
 		timerMoveEntryPistonB_TP(IN := TRUE, PT := T#3S);
@@ -97,7 +97,7 @@
 	END_IF
 	
 	//update old value
-	timerMoveEntryPistonOldValue := timerMoveEntryPistonF.Q;
+	timerMoveEntryPistonOldValue := timerMoveEntryPistonF_TP.Q;
 	
 // 11 ROTATE TABLE
 	IF addToCount AND NOT SwitchTablePositionOldValue AND IO.SwitchTablePosition THEN
@@ -119,4 +119,94 @@
 	//update old value
 	SwitchTablePositionOldValue := IO.SwitchTablePosition;
 
-END_IF
+
+// 12 MACHINE WORK
+//	IF IO.SwitchMachine THEN 
+//		timerMachine_TP(IN := TRUE, PT := T#5S);
+//	ELSE
+//		timerMachine_TP(IN := FALSE);
+//	END_IF
+
+//	IF timerMachine_TP.Q THEN
+//		IO.MotorTableMovement := FALSE;
+//		IO.ValveMachine := IO.ButtonBlackRightDown;
+//	END_IF
+	
+// 13 EXIT PISTON (AUTO)
+	IF tablepostionCount = 2 THEN
+		timerMoveExitPistonF_TOF(IN := TRUE, PT := T#3S);
+		tablepostionCount := 0;
+		addToCount := FALSE;
+	ELSE
+		timerMoveExitPistonF_TOF(IN := FALSE);
+	END_IF
+	
+	//if only one timer is managinf the exit, we can avoid if statements
+	IO.ValveExitForward := timerMoveExitPistonF_TOF.Q; 
+	
+	IF moveExitPistonOldValue AND NOT timerMoveExitPistonF_TOF.Q THEN
+		moveExitPistonFallingEdge := TRUE;
+	END_IF
+	
+	IF moveExitPistonFallingEdge THEN
+		timerMoveExitPistonB_TOF(IN := TRUE, PT := T#3S);
+	ELSE
+		timerMoveExitPistonB_TOF(IN := FALSE);
+	END_IF
+	
+	IO.ValveExitBackward := timerMoveExitPistonB_TOF.Q; 
+	
+	//update old value
+	moveExitPistonOldValue := timerMoveExitPistonF_TOF.Q;
+	
+// 14 BELT MOVEMENT
+	IF moveExitPistonFallingEdge THEN
+		moveExitPistonFallingEdge := FALSE;
+		// timer for 15
+		timerBeltTimeout_TOF(IN := TRUE, PT := T#5S);
+		runBelt := TRUE;
+	ELSE
+		timerBeltTimeout_TOF(IN := FALSE);
+	END_IF
+	
+	//less code with this apporach
+	IO.MotorBeltMovement := runBelt; 
+	
+	IF NOT IO.PhotocellExit THEN
+		//runBelt := FALSE;
+		// modification for 16
+		IF NOT alreadyMovedWorkpiece THEN
+			alreadyMovedWorkpiece := TRUE;
+			timerBeltMoveLittle_TP(IN := TRUE, PT := T#1.5S);
+		ELSE
+			runBelt := FALSE;
+			//timerBeltMoveLittle_TOF(IN := FALSE);
+		END_IF
+		
+	END_IF
+	//	alternative
+	//	IF runBelt AND IO.PhotocellExit THEN
+	//		IO.MotorBeltMovement := TRUE;
+	//	ELSE
+	//		runBelt := FALSE;
+	//		IO.MotorBeltMovement := FALSE;
+	//	END_IF
+	
+// 15 BELT TIMEOUT
+	IF beltTimeoutOldValue AND NOT timerBeltTimeout_TOF.Q THEN
+		runBelt := FALSE;
+		IO.MotorBeltMovement := FALSE;
+	END_IF
+	
+	//update old value
+	beltTimeoutOldValue := timerBeltTimeout_TOF.Q;
+	
+// 16
+//	IF beltMoveLittleOldValue AND NOT timerBeltMoveLittle_TP.Q THEN
+//		runBelt := FALSE;
+//	END_IF
+	
+//	//update old value
+//	beltMoveLittleOldValue := timerBeltMoveLittle_TP.Q;
+	
+END_IF // IF NOT IO.ToggleSwitch THEN 

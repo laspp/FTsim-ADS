@@ -1,0 +1,46 @@
+{
+    "TutorialStep": 13,
+    "TutorialTitle": "EXIT PISTON (AUTO)",
+    "TaskDescription": "You ran out of buttons for manual control, the <b>ExitPiston</b> will be just programatically controled. You have already done automatic control for the entry piston, so go ahed and take a look again at that code. The trigger for the piston can be when <b>tablepostionCount</b> is 2. Use the apropriate timer type and move the piston back and forth.\n<b>ValveForward</b> is used to move piston <b>right</b> and\n<b>ValveBackward</b> to move it left.\nStart testing, when table starts rotating after machine work has finished. Restart scene everytime you test because of the detectors.",
+    "ChatBubbles": [ 
+
+    ],
+    "Tests": [
+    {
+        "Tag": "ValveExitForward",
+        "TestRunTime": "0.1",
+        "Val": "true",
+        "StartTestDelay": "10"
+    },
+    {
+        "Tag": "ValveExitBackward",
+        "TestRunTime": "0.1",
+        "Val": "false",
+        "StartTestDelay": "10"
+    },
+    {
+        "Tag": "ValveExitBackward",
+        "TestRunTime": "0.1",
+        "Val": "true",
+        "StartTestDelay": "13"
+    },
+    {
+        "Tag": "ValveExitForward",
+        "TestRunTime": "0.1",
+        "Val": "false",
+        "StartTestDelay": "13"
+    }
+    ],
+    "Detectors": [
+    {
+        "Tag": "miza_krak1",
+        "Val": "true",
+        "CheckAt": "Start"
+    },
+    {
+        "Tag": "miza_krak1",
+        "Val": "false",
+        "CheckAt": "End"
+    }
+    ]
+}

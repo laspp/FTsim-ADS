@@ -1,7 +1,7 @@
 {
     "TutorialStep":11,
     "TutorialTitle": "ROTATE TABLE",
-    "TaskDescription": "It's time to start moving workpieces around with the help of the rotating table. We will use two (touch) sensors, to help us with the movement. They are visualised as yellow boxes.\n<b>SwitchTablePosition</b> (TRUE, when table is perpendicularly aligned)\n<b>SwitchTableExit</b> (TRUE when workpiece hits the sensor)\nThis is also a safety switch. If workipece hits it, table jumps into emergency stop (interlock) to prevent damage. In more advanced systems, this would also trigger the alarm and notify the operator. So when workipece travels with the table, the SwitchTablePosition postion is triggered before SwitchTableExit. In this tutorial we will only rotate clockwise, threfore the <b>MotorTableDirection</b> will only be set to FALSE entire time.\nEnclose your code in if statement, where ToggleSwitch is not activated. Use variable of type INT to store two rising edges and then stop <b>MotorTableMovement</b> \nStart testing, just after you spawned new workipece",
+    "TaskDescription": "It's time to start moving workpieces around with the help of the rotating table. We will use two (touch) sensors, to help us with the movement. They are visualised as yellow boxes.\n<b>SwitchTablePosition</b> (TRUE, when table is perpendicularly aligned)\n<b>SwitchTableExit</b> (TRUE when workpiece hits the sensor)\nThis is also a safety switch. If workipece hits it, table jumps into emergency stop (interlock) to prevent damage. In more advanced systems, this would also trigger the alarm and notify the operator. So when workipece travels with the table, the SwitchTablePosition postion is triggered before SwitchTableExit. In this tutorial we will only rotate clockwise, threfore the <b>MotorTableDirection</b> will only be set to FALSE entire time.\nEnclose your code in if statement, where ToggleSwitch is not activated. Use variable of type INT to store two rising edges and then stop <b>MotorTableMovement</b> \nStart testing, when table start rotating.",
     "ChatBubbles": [
       {
         "Id": 0,
@@ -14,17 +14,34 @@
     ],
     "Tests": [
       {
-        "Tag": "",
-        "TestRunTime": "5",
+        "Tag": "MotorTableMovement",
+        "TestRunTime": "15",
         "Val": "true",
-        "StartTestDelay": "0"
+        "StartTestDelay": "0.5"
+      },
+      {
+        "Tag": "MotorTableMovement",
+        "TestRunTime": "0.1",
+        "Val": "false",
+        "StartTestDelay": "20"
+      },
+      {
+        "Tag": "SwitchTablePosition",
+        "TestRunTime": "0.1",
+        "Val": "true",
+        "StartTestDelay": "20"
       }
     ],
     "Detectors": [
       {
-        "Tag": "",
-        "Val": "true",
-        "CheckAt": "End"
+          "Tag": "miza_krak1",
+          "Val": "true",
+          "CheckAt": "Start"
+      },
+      {
+          "Tag": "miza_krak1",
+          "Val": "true",
+          "CheckAt": "End"
       }
     ]
   }
