@@ -1,0 +1,27 @@
+@startuml
+
+state Priprava {
+    state LoadTutorial
+    state CheckTutorialData
+    state DisplayTaskInPanel
+    state case <<choice>>
+    state Testiranje <<exitPoint>>
+    state Branje <<exitPoint>>
+
+    [*] --> LoadTutorial
+    LoadTutorial --> Error : Tutorial ni bil najden
+    LoadTutorial --> DisplayTaskInPanel
+    DisplayTaskInPanel: prikaz naslova in opisa tutoriala na ekranu
+    DisplayTaskInPanel --> CheckTutorialData 
+    CheckTutorialData: preveri istroznost podatkov iz .json
+    CheckTutorialData : prikaz oblačkov na ekranu
+    CheckTutorialData --> case
+    case --> Branje : [obstajajo oblački]
+    case --> Testiranje : [ne obstajajo oblački, obstajajo testiranje]
+    case --> LoadTutorial : [ni oblačkov, niti testiranjeov]
+
+    CheckTutorialData --> Error : CheckTutorialData
+    Error --> [*]
+}
+
+@enduml
