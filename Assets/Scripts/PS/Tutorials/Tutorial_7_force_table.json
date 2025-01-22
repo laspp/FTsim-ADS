@@ -1,7 +1,7 @@
 {
   "TutorialStep":7,
   "TutorialTitle": "FORCE TABLE",
-  "TaskDescription": "Now we'll learn how to cheat PLC. On the left there is a Force table. When pressed, it ovverides the actual values of sensors. It will enables faster testing and speeds up your programing. Force all variables and check values in IO tab of your developement software. \n<b>Force table is ignored during testing</b>, therefore in this tutorial there is no test.",
+  "TaskDescription": "Now we'll learn how to cheat PLC. On the left there is a Force table. When pressed, it overides the actual values of sensors. It will enables faster testing and speeds up your programing. Force all variables and check values in IO tab of your developement software. \n<b>Force table is ignored during testing</b>, therefore in this tutorial there is no test.",
   "ChatBubbles": [
     {
       "Id": 0,

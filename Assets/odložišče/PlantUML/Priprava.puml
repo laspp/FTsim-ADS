@@ -9,19 +9,21 @@ state Priprava {
     state Branje <<exitPoint>>
 
     [*] --> LoadTutorial
-    LoadTutorial --> Error : Tutorial ni bil najden
+    LoadTutorial --> ErrorDialog : Tutorial ni bil najden ali \n neuspešna destirilizacija 
+    LoadTutorial : .json -> TutorialData objekt
     LoadTutorial --> DisplayTaskInPanel
     DisplayTaskInPanel: prikaz naslova in opisa tutoriala na ekranu
     DisplayTaskInPanel --> CheckTutorialData 
-    CheckTutorialData: preveri istroznost podatkov iz .json
-    CheckTutorialData : prikaz oblačkov na ekranu
+    CheckTutorialData : preveri ustroznost podatkov iz .json
+    CheckTutorialData : prikaz prvega oblačka na ekranu (če obstaja)
     CheckTutorialData --> case
-    case --> Branje : [obstajajo oblački]
-    case --> Testiranje : [ne obstajajo oblački, obstajajo testiranje]
-    case --> LoadTutorial : [ni oblačkov, niti testiranjeov]
+    case --> Branje : [oblački.Count > 2]
+    case --> Testiranje : [oblački.Count <= 1 & test.Count > 0]
+    case --> LoadTutorial : [oblački.Count <= 1 & test.Count = 0]
 
-    CheckTutorialData --> Error : CheckTutorialData
-    Error --> [*]
+  CheckTutorialData -[hidden]-> ErrorDialog  
+  ErrorDialog --> [*]
+  ErrorDialog : prikaz napake uporaniku
 }
 
 @enduml

@@ -1,0 +1,29 @@
+{
+    "TutorialStep": 6,
+    "TutorialTitle": "DEBOUNCER",
+    "TaskDescription": "Now you know something about timers. Their very common use is to debounce signals. It's a technique used to filter out noise from a signal and avoid multiple click detections, because some switches may produce multiple electronical signals when pressed once. It's much more reliable that detecting edges on a button, like we did previously. A step furter is also to count signal as valid on the receivers side, only if it has been up for short time, not always, but will leave this out for now. We'll learn here how to write code more minimalistic. Use a TP timer, set it's IN signal directly to tag representing <b>ButtonBlackRightDown</b>. The time period (PT) should be somewhere around 100ms, not more. Link the timer's output to new boolean variable called ButtonBlackRightDownDB. To avoid if statement, you can to that in the same row, where timer is declared, just ad a comma and lambda expriession Q => ButtonBlackRightDownDB. Usually we create a seperate GVL (Global Variable List) file and create a debouncer for every button, but currently your program is all in MAIN and it doesn't need to be defined in global spectre. Now you prepared your variable for later, implement debouncer using TON timers (why TON?) for red and green lights. Fix the code from first and second step and use the newly defined varibles to set LEDs state. Start testing as soon as you press the button. ",
+    "ChatBubbles": [],
+    "Tests": [
+        {
+        "Tag": "ButtonRed",
+        "TestRunTime": "1",
+        "Val": "true"
+        },
+        {
+        "Tag": "LEDRed",
+        "TestRunTime": "1",
+        "Val": "true"
+        },
+        {
+        "Tag": "ButtonGreen",
+        "TestRunTime": "1",
+        "Val": "true"
+        },
+        {
+        "Tag": "LEDGreen",
+        "Val": "true",
+        "TestRunTime": "1"
+        }
+    ],
+    "Detectors": []
+  }

@@ -381,7 +381,9 @@ public class TutorialManager : MonoBehaviour
         testButtonState = ButtonState.Read;
         testButton.interactable = false;
 
-        buttonNext.interactable = true;
+        if(tutorialLoader.currentTutorialIndex < 17){
+            buttonNext.interactable = true;
+        }
     }
 
 //----------------------Test----------------------
@@ -453,7 +455,7 @@ public class TutorialManager : MonoBehaviour
         bool curVal;
         float curTime = 0;
         float totalTime = test.StartTestDelay + test.TestRunTime;
-        float refreshRate = 1f; //change ONLY this value to set refresh rate
+        float refreshRate = 0.2f; //change ONLY this value to set refresh rate in seconds
         int refreshRateMiliseconds = (int)(refreshRate * 1000);
 
         Communication.TagLocation location = com.CheckTagLocation(test.Tag);

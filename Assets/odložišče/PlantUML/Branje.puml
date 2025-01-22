@@ -1,0 +1,29 @@
+@startuml
+
+state Branje {
+    state ButtonArrNext
+    state ButtonArrPrev
+    state DisplayChatBubbles
+    state ErrorDialog
+    state case <<choice>>
+    state Testiranje <<exitPoint>>
+
+    [*] --> ButtonArrNext : klik na ->
+    ButtonArrNext :  chatBubbleIndex++
+    [*] --> ButtonArrPrev : klik na <-
+    ButtonArrPrev : chatBubbleIndex--
+
+    ButtonArrNext --> DisplayChatBubbles
+    ButtonArrPrev --> DisplayChatBubbles
+    DisplayChatBubbles : prikaz oblačka 
+    DisplayChatBubbles --> ErrorDialog : napaka chatBubbleIndex ali \n mankajoči tekst v .json
+    
+    DisplayChatBubbles --> case
+    case --> Testiranje : [chatBubbleIndex == oblački.Count]
+    case --> [*] : [chatBubbleIndex < oblački.Count]
+
+    ErrorDialog --> [*]
+    ErrorDialog : prikaz napake uporaniku
+}
+
+@enduml

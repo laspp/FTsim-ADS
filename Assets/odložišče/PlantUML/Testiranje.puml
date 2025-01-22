@@ -1,0 +1,41 @@
+@startuml
+
+state Testiranje {
+    state Priprava <<exitPoint>>
+
+  [*] --> DisableAllToggles : klik na gumb Test
+  DisableAllToggles : onemogoči uporabo Force table
+  DisableAllToggles --> CheckDetectorsStart 
+  CheckDetectorsStart --> RunTest
+  CheckDetectorsStart --> TestFailed : Vrednosti detektorjev se ne ujemajo
+  CheckDetectorsStart : preveri detektorje
+
+  state RunTest {
+      state fillFalse <<expansionInput>>
+      state results <<expansionOutput>>
+
+      fillFalse --> CheckTagLocation
+      CheckTagLocation : vrne Input ali Output
+      CheckTagLocation --> GetTagValue
+      CheckTagLocation --> GetInputTagValue
+      GetInputTagValue : preveri vrednosti vhodov
+      GetInputTagValue --> results
+      
+      GetTagValue : preveri vrednosti izhodov
+      GetTagValue --> results
+  }
+  results --> CheckDetectorsEnd
+  results --> TestFailed : Vsaj en test False
+
+  CheckDetectorsEnd --> TestPassed
+  CheckDetectorsEnd --> TestFailed :  Vrednosti detektorjev se ne ujemajo
+  CheckDetectorsEnd : preveri detektorje
+
+  TestFailed : Prikaži rezultate v TestOutputConsole in \n obarvaj Test gumb rdeče
+  TestFailed --> [*]
+
+  TestPassed --> Priprava : klik na gumb Next
+  TestPassed : obarvaj Test gumb zeleno in \n ga preimenuj v Next 
+}
+
+@enduml

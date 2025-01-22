@@ -1,0 +1,59 @@
+@startuml
+!pragma teoz true
+participant TutorialManager
+activate TutorialManager
+participant Task1 as "MotorTableMovement 1"
+participant Task2 as "SwitchMachine"
+participant Task3 as "MotorTableMovement 2"
+
+{s} TutorialManager -> Task1: RunTest() 
+& TutorialManager -> Task2
+& TutorialManager -> Task3
+activate Task1
+activate Task2
+activate Task3
+rnote right of Task1
+   "Tag": "MotorTableMovement",
+    "TestRunTime": "2x",
+    "Val": "true",
+end rnote
+rnote right of Task2
+  "Tag": "SwitchMachine",
+  "TestRunTime": "2x",
+  "Val": "false",
+end rnote
+rnote right of Task3
+  "Tag": "MotorTableMovement",
+  "TestRunTime": "2x",
+  "Val": "false",
+  "StartTestDelay": "3x"
+end rnote
+
+Task1 -> Task1: GetTagValue() == Test.Val
+Task2 -> Task2: GetTagValue() == Test.Val
+Task1 -> Task1: Task.Delay(refreshRateMiliseconds)
+Task2 -> Task2: Task.Delay(refreshRateMiliseconds)
+
+Task1 -> Task1: GetTagValue() == Test.Val
+Task2 -> Task2: GetTagValue() == Test.Val
+Task1 -> Task1: Task.Delay(refreshRateMiliseconds)
+Task2 -> Task2: Task.Delay(refreshRateMiliseconds)
+Task1 -> TutorialManager: Return T
+deactivate Task1
+
+
+Task2 -> Task2: GetTagValue() != Test.Val
+Task2 -> TutorialManager: Return F
+deactivate Task2
+
+
+{m} Task3 -> Task3: GetTagValue() == Test.Val
+Task3 -> Task3: Task.Delay(refreshRateMiliseconds)
+Task3 -> Task3: GetTagValue() == Test.Val
+Task3 -> Task3: Task.Delay(refreshRateMiliseconds)
+{e} Task3 -> TutorialManager: Return T
+deactivate Task3
+
+{s} <-> {m} : 3x
+{m} <-> {e} : 2x
+@enduml

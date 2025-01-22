@@ -1,15 +1,21 @@
-//upper window
 PROGRAM MAIN
 VAR
 //	actuators: Actuators;
 //	ledTest: LedTest;
-//5
+//4
 buttonOldValue: BOOL;
 buttonRisingEdge: BOOL;
 timerButton_TP: TP;
-//6
+//5
 timer_TOF: TOF;
 timer_TON: TON;
+//6
+timer_ButtonRedDB_TON: TON;
+ButtonRedDB: BOOL;
+timer_ButtonGreenDB_TON: TON;
+ButtonGreenDB: BOOL;
+timer_ButtonBlackRightDownDB_TP: TP;
+ButtonBlackRightDownDB: BOOL;
 //9
 photocelOldValue: BOOL;
 photocelNewValue: BOOL;
@@ -26,6 +32,7 @@ tablePostionCount: INT;
 SwitchTablePositionOldValue: BOOL;
 //12
 timerMachine_TP: TP;
+timerValveMachine_TP: TP;
 //13
 timerMoveExitPistonF_TOF: TOF;
 moveExitPistonFallingEdge: BOOL;
@@ -40,19 +47,27 @@ beltTimeoutOldValue: BOOL;
 photocellExitOldValue: BOOL;
 piecesCounter: INT;
 timerBeltMoveLittle_TP: TP;
+	ButtonBlackLeftUp: BOOL;
 END_VAR
 
+
 //lower window
+//ButtonsDebouncer();
+//ledTest();
+//actuators();
+
 // 1 RED LIGHT
-	IO.LEDRed := IO.ButtonRed;
-
+	//IO.LEDRed := IO.ButtonRed;
+	IO.LEDRed := ButtonRedDB; //applied debouncer from step 6
+	
 // 2 RED AND GREEN LIGHT
-	IO.LEDGreen := IO.ButtonGreen;
-
+	//IO.LEDGreen := IO.ButtonGreen;
+	IO.LEDGreen := ButtonGreenDB; //applied debouncer from step 6
+	
 // 3 PRODUCTION START
 	IO.MotorCompressor := IO.SwitchCompressor;
 
-// 5 EDGE DETECTION
+// 4 EDGE DETECTION
 	IF NOT buttonOldValue AND IO.ButtonBlackLeftDown THEN
 		buttonRisingEdge := TRUE;
 	END_IF
@@ -64,13 +79,13 @@ END_VAR
 		timerButton_TP(IN := FALSE);
 	END_IF
 	
-	//commented because of 6
-	//IO.LEDBlueDown := timerButtonTP.Q;
+	//commented because of 5
+	//IO.LEDBlueDown := timerButton_TP.Q;
 	
 	//update old value
 	buttonOldValue := IO.ButtonBlackLeftDown;
 	
-// 6 TON and TOF TIMERS
+// 5 TON and TOF TIMERS
 	IF IO.ButtonBlackLeftDown THEN
 		timer_TOF(IN := TRUE, PT := T#3S);
 		timer_TON(IN := TRUE, PT := T#2S);
@@ -82,7 +97,13 @@ END_VAR
 	IO.LEDBlueUp := timer_TOF.Q;
 	IO.LEDBlueDown := timer_TON.Q;
 
-// 8 ENTRY PISTON (MANUAL)	
+// 6 DEBOUNCER
+	timer_ButtonBlackRightDownDB_TP(IN := IO.ButtonBlackRightDown, PT := T#50MS, Q => ButtonBlackRightDownDB);
+	// TON debouncers
+	timer_ButtonRedDB_TON(IN := IO.ButtonRed, PT := T#50MS, Q => ButtonRedDB);
+	timer_ButtonGreenDB_TON(IN := IO.ButtonGreen, PT := T#50MS, Q => ButtonGreenDB);
+	
+// 8 ENTRY PISTON (MANUAL)
 	IF IO.ToggleSwitch THEN
 		IO.ValveEntryForward := IO.ButtonBlackRightUp;
 		IO.ValveEntryBackward := IO.ButtonBlackLeftUp;
@@ -169,9 +190,10 @@ IF NOT IO.ToggleSwitch THEN
 //	END_IF
 
 //	IF timerMachine_TP.Q THEN
-//		IO.MotorTableMovement := FALSE;
-//		IO.ValveMachine := IO.ButtonBlackRightDown;
+//		IO.MotorTableMovement := FALSE;;
 //	END_IF
+	
+//	timerValveMachine_TP(IN := ButtonBlackRightDownDB, PT := T#500MS, Q => IO.ValveMachine);
 	
 // 13 EXIT PISTON (AUTO)
 	IF tablepostionCount = 2 THEN
