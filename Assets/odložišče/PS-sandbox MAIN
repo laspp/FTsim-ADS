@@ -183,17 +183,17 @@ IF NOT IO.ToggleSwitch THEN
 
 
 // 12 MACHINE WORK
-//	IF IO.SwitchMachine THEN 
-//		timerMachine_TP(IN := TRUE, PT := T#5S);
-//	ELSE
-//		timerMachine_TP(IN := FALSE);
-//	END_IF
+	IF IO.SwitchMachine THEN 
+		timerMachine_TP(IN := TRUE, PT := T#5S);
+	ELSE
+		timerMachine_TP(IN := FALSE);
+	END_IF
 
-//	IF timerMachine_TP.Q THEN
-//		IO.MotorTableMovement := FALSE;;
-//	END_IF
+	IF timerMachine_TP.Q THEN
+		IO.MotorTableMovement := FALSE;;
+	END_IF
 	
-//	timerValveMachine_TP(IN := ButtonBlackRightDownDB, PT := T#500MS, Q => IO.ValveMachine);
+	timerValveMachine_TP(IN := ButtonBlackRightDownDB, PT := T#500MS, Q => IO.ValveMachine);
 	
 // 13 EXIT PISTON (AUTO)
 	IF tablepostionCount = 2 THEN

@@ -1,7 +1,7 @@
 {
     "TutorialStep": 15,
     "TutorialTitle": "BELT TIMEOUT",
-    "TaskDescription": "Run your program again and remove workipece (key <b>C</b>) when the belt starts moving. See anything suspicious?\nYes, belt will never stop moving. Use force table to stop it.\nWhen working with constants, that affect actuators, <b>always implement timeouts</b>. In real systems, many factors affect the automated processes and it's programers responsibility to forsee them.\nWhen you start moving the belt, also start a timeout and assign 5 seconds to it.\nStart testing when belt starts moving and remove the workpiece before it reaches the photocell.",
+    "TaskDescription": "Run your program again and remove workipece (key <b>C</b>) when the belt starts moving. See anything suspicious?\nYes, belt will never stop moving. Use force table to stop it.\nWhen working with constants, that affect actuators, <b>always implement timeouts</b>. In real systems, many factors affect the automated processes and it's programers responsibility to forsee them.\nWhen you start moving the belt, also start a timeout and assign 5 second period to it.\nStart testing when belt starts moving and remove the workpiece before it reaches the photocell.",
     "ChatBubbles": [],
     "Tests": [
       {

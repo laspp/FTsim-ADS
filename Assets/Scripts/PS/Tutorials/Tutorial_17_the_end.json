@@ -1,7 +1,7 @@
 {
   "TutorialStep": 17,
   "TutorialTitle": "THE END",
-  "TaskDescription": "Congratulations! You reached the end of the tutorial. Hope you enjoyed it and learned something useful. \nIf you don't have any idea, what to do next upgrade your code, so it will work with multiple workpieces at once, not just one!\nGood luck with programing and and have fun!",
+  "TaskDescription": "Congratulations! You reached the end of the tutorial. Hope you enjoyed it and learned something useful. \nIf you don't have any idea, what to do next upgrade your code, so it will work with multiple workpieces at once, not just one!\nClick the checkbox in the top right corner of your screen, so tutorial will be hidden next time you log in. Click X or button tutorial in control panel to close it.\nGood luck with programing and and have fun!",
   "ChatBubbles": [
     {
       "Id": 0,
@@ -9,7 +9,7 @@
     },
     {
       "Id": 1,
-      "Text": "Disabled chatbubble."
+      "Text": "Disabled chatbubble, so that Read is displayed on test button."
     }
   ],
   "Tests": []

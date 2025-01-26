@@ -1,7 +1,7 @@
 {
     "TutorialStep": 12,
     "TutorialTitle": "MACHINE WORK",
-    "TaskDescription": "The piston on the pillar represents machine, that does some work on the piece beneath it. This could be a drill, laser, packaking machine...\nUse TP timer (Why?) and activate it for 5 seconds, when the <b>SwitchMachine</b> is pressed. When output is true stop table movement and link <b>ButtonBlackRightDown</b> with <b>ValveMachine</b>. This will enable manual control over the machine for specified period.\nWhen developing, you dont need to restart the scene when testing your program. Use force table to trigger SwitchMachine anytime!\nStart testing, when table start rotating. When workpiece is beneath the piston, pres and hold it for the purpose of test.",
+    "TaskDescription": "The piston on the pillar represents machine, that does some work on the piece beneath it. This could be a drill, laser, packaking machine...\nUse TP timer (Why?) and activate it for 5 seconds, when the <b>SwitchMachine</b> is pressed. When output is true stop table movement and link <b>ButtonBlackRightDown</b> (<b>D</b> key) with <b>ValveMachine</b>. This will enable manual control over the machine for specified period.\nWhen developing, you dont need to restart the scene when testing your program. Use force table to trigger SwitchMachine anytime!\nAlso implement debouncer for the button.\nStart testing, when table start rotating. When workpiece is beneath the piston, press and hold it for the purpose of test.",
     "ChatBubbles": [],
     "Tests": [
       {
