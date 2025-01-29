@@ -23,6 +23,11 @@
       "TestRunTime": "1"
     },
     {
+      "Tag": "SwitchCompressor",
+      "Val": "true",
+      "TestRunTime": "3"
+    },
+    {
       "Tag": "MotorCompressor",
       "Val": "true",
       "TestRunTime": "3"
