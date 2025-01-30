@@ -53,7 +53,7 @@ public class Test
 public class TutorialLoader : MonoBehaviour
 {
     public TutorialManager tutorialManager; 
-    public string tutorialsFolderPath = "Scripts/PS/Tutorials";
+    public string tutorialsFolderPath = "StreamingAssets/Tutorials-PS";
     public int currentTutorialIndex; 
 
     public TutorialData LoadTutorial(int tutorialIndex)

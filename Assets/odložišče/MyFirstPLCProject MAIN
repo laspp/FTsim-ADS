@@ -1,0 +1,18 @@
+PROGRAM MAIN
+VAR
+// here you define your variables
+
+END_VAR
+//---------------------------------------------------------------------------------------------------------
+// QUICK SYNTAX GUIDE FOR ST LANGUAGE
+// IO.val1 := IO:val2; we use := for assigning the value
+// If sentance has the folowing syntax:
+// IF <condition> THEN, where <condition> can be extended to <condition> AND <condition>, <condition> OR <condition>...
+//    code;
+// END_IF 
+// To use timer, first define it`s type and variable name in upper window and start it like:
+// timer(IN := TRUE, PT := T#XXS);
+// assignee it`s output to variable
+// timerOutput := Timer.Q;
+// don`t forget to reset the timer after it was used: timer(IN := FALSE);
+//-------Place for your code-------------------------------------------------------------------------------

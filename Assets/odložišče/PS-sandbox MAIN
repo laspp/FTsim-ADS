@@ -50,7 +50,7 @@ timerBeltMoveLittle_TP: TP;
 	ButtonBlackLeftUp: BOOL;
 END_VAR
 
-
+//---------------------------------------------------------------------------------------------------------
 //lower window
 //ButtonsDebouncer();
 //ledTest();
