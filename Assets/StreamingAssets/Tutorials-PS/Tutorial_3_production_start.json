@@ -1,7 +1,7 @@
 {
   "TutorialStep": 3,
   "TutorialTitle": "PRODUCTION START",
-  "TaskDescription": "Click button <b>NewWorkpiece</b> to add a new workpiece to the scene. As you can see it covers the first photocell in the process line. It's tag is <b>PhotocellEntry</b>. To complete the test, also turn on the motor for compres via <b>SwitchCompressor</b> and wait for 3 seconds to build up the preasure",
+  "TaskDescription": "Click button <b>NewWorkpiece</b> to add a new workpiece to the scene. As you can see it covers the first photocell in the process line. It's tag is <b>PhotocellEntry</b>. Furthermore we start <b>MotorCompressor</b> when <b>SwitchCompressor</b> is active to build up some preasure for later, when pistons will be used.  To complete the test, wait for 3 seconds to build up the preasure",
   "ChatBubbles": [
     {
       "Id": 0,

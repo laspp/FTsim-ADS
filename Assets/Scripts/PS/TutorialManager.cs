@@ -187,6 +187,8 @@ public class TutorialManager : MonoBehaviour
         TestOutputConsoleParent.SetActive(false);
         ClearCurrentChatBubbles();
         tutorialLoader.currentTutorialIndex = index;
+        buttonNext.interactable = false;
+        buttonPrevious.interactable = false;
         currentTutorialData = tutorialLoader.LoadTutorial(index);
         CheckTutorialData();
     }
@@ -222,8 +224,8 @@ public class TutorialManager : MonoBehaviour
                     ChangeStateToNext();
                 }
             } else if (!oblacki && testi){
-                buttonNext.interactable = false;
-                buttonPrevious.interactable = false;
+                // buttonNext.interactable = false;
+                // buttonPrevious.interactable = false;
 
                 Debug.Log($"!O_T test count:{currentTutorialData.Tests.Count}");
 
@@ -339,7 +341,7 @@ public class TutorialManager : MonoBehaviour
         if(chatBubbleIndex <= 0){
             buttonPrevious.interactable = false;
         }
-        buttonNext.interactable = true;
+        //buttonNext.interactable = true;
     }
 
     public void ButtonArrNext()

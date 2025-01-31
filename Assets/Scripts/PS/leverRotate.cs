@@ -11,7 +11,8 @@ public class leverRotate : MonoBehaviour
     public string SwitchCompressorTag = "SwitchCompressor";
     private int sensorValue;
     //private bool forceTrue, forceFalse;
-    
+    private Coroutine currentCoroutine;
+
     void Start()
     {
         com = GameObject.Find("Communication").GetComponent<Communication>();
@@ -20,11 +21,21 @@ public class leverRotate : MonoBehaviour
 
     public void SwitchCompressorChange(Toggle change)
     {
-        //Debug.Log("SwitchCompressorChange: " + change.isOn);
-        com.WriteToPlc(SwitchCompressorTag, change.isOn);
-        if (change && !isAnimating)
+        if (isAnimating)
         {
-            StartCoroutine(RotateLever(change.isOn));
+            // Stop the current animation and start new one in reversed direction
+            if (currentCoroutine != null)
+            {
+                StopCoroutine(currentCoroutine);
+                currentCoroutine = StartCoroutine(RotateLever(change.isOn));
+            } else {
+                isAnimating = false;
+            }
+        }
+        else
+        {
+            // Start the animation
+            currentCoroutine = StartCoroutine(RotateLever(change.isOn));
         }
     }
 
