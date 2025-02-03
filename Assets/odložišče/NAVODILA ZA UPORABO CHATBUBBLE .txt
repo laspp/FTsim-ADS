@@ -1,0 +1,7 @@
+NAVODILA ZA UPORABO CHATBUBBLE 
+KOtiran je v levi spodnji kot. Z PosX in posY nastavi lokacijo v sceni.
+
+Anchorji trikotnik in chat bubbla so scentrirani na sredino. 
+Če pričajukemo daljši tekst spremenimo Width TextPanel Objecta
+Lahko spremenimo tudi Height, vendar je treba prilagoditi PosY in tudi 
+trikotnik Panel Pos Y -X, prbližno za enako veliko cifro.

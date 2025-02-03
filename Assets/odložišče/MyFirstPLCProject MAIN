@@ -1,5 +1,6 @@
 PROGRAM MAIN
 VAR
+//<variableName>: <variableType>; example timer:TP;  or oldValue:BOOL;
 // here you define your variables
 
 END_VAR
