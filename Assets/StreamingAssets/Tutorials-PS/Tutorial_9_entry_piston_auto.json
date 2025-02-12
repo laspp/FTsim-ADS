@@ -1,7 +1,7 @@
 {
     "TutorialStep": 9,
     "TutorialTitle": "ENTRY PISTON (AUTO)",
-    "TaskDescription": "Upgrade your previous program, so when photocell detects workpiece, entry piston will push it forward. First, click DEL (<b>C</b> on keyboard) to remove previous NewWorkpiece.\n-Enclose your code in if statement, where ToggleSwitch is not activated.\n-Detect PhotocellEntry's rising edge with the help of two variables.\n-Use (TON-Timer On Delay) to wait 1 second after edge detection to not open the valve to soon.\n-Use (TOF-Timer oFF Delay or TP-Timer Pulse) timer to trigger signal for 3 seconds so the piston is fully extended\nIn the next tutorial, we will automaticly return the piston back to the starting position.\n-Start testing, just after you spawned new workipece.",
+    "TaskDescription": "Upgrade your previous program, so when photocell detects workpiece, entry piston will push it forward. First, click DEL (<b>C</b> on keyboard) to remove previous Workpiece.\n-Enclose your code in if statement, where ToggleSwitch is not activated.\nUse (TON-Timer On Delay) to wait 1 second after new piece has been detected to not open the valve to soon.\nThan use (TOF-Timer oFF Delay or TP-Timer Pulse) timer to trigger signal for 3 seconds so the piston is fully extended\nIn the next tutorial, we will automaticly return the piston back to the starting position.\nStart testing, just after you spawned new workipece.",
     "ChatBubbles": [ 
     {
         "Id": 0,

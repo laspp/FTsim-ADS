@@ -1,9 +1,19 @@
 {
     "TutorialStep": 10,
     "TutorialTitle": "RETURN ENTRY PISTON",
-    "TaskDescription": "To return entry piston back to the starting position, we will use <b>ValveEntryBackward</b>. Detect the falling edge of timer that you used for moving forward and link it to new TOF or TP timer, which activates the valve.\n-Start testing, just after piston is fully extended",
+    "TaskDescription": "To return entry piston back to the starting position, we will use <b>ValveEntryBackward</b>. Detect the falling edge of timer that you used for moving forward and link it to new TOF or TP timer, which activates the valve.\nStart testing, just after piston is fully extended",
     "ChatBubbles": [],
     "Tests": [
+      {
+        "Tag": "MotorCompressor",
+        "Val": "true",
+        "TestRunTime": "3"
+      },
+      {
+          "Tag": "ToggleSwitch",
+          "TestRunTime": "3",
+          "Val": "false"
+      },
       {
         "Tag": "ValveEntryBackward",
         "TestRunTime": "0.1",

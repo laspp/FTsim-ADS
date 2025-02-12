@@ -1,13 +1,8 @@
 {
     "TutorialStep": 4,
     "TutorialTitle": "EDGE DETECTION",
-    "TaskDescription": "Before we start programing the process line, we need to understand the bacis. We will work mostly with boolean values.The change of state is called edge.\nFALSE -> TRUE is rising edge\nTRUE -> FALSE is falling edge.\nIn this tutorial we will use edge detection of lower middle button (tag <b>IO.ButtonBlackLeftDown</b>, key <b>S</b>) to detect the edges.\nBut how do we programaticly detect pulse change? Your PLC somulator constantly loops the code written in MAIN. Whole cycle starts with reading values on input tags, than the code in MAIN is executed and when it comes to the end, the newly calculated values are written on output tags. Declare boolean variable <b>buttonOldValue</b> and at the end of current code assign value of ButtonBlackLeftDown to it.\nNow write and if statement that will check if buttonOldValue is different from current ButtonBlackLeftDown value. If it is, then we have detected the edge. Which one?\nOn rising edge, start <b>Timer Pulse</b> or shorter <b>TP</b> timer and set in on 2 seconds. Link timer's output (<timerName>.Q) to lower blue light (tag <b>LEDBlueDown</b>) and the light will turn on for 2 seconds after button was pressed\nStart testing as soon as you press down the button.",
-    "ChatBubbles": [
-      {
-        "Id": 0,
-        "Text": "Place mouse over the text and scrol down"
-      }
-    ],
+    "TaskDescription": "Before we start programing the process line, we need to understand the bacis. We will work mostly with boolean values.The change of state is called edge.\nFALSE -> TRUE is rising edge\nTRUE -> FALSE is falling edge.\nIn this tutorial we will use edge detection of lower middle button (tag <b>IO.ButtonBlackLeftDown</b>, key <b>S</b>) to detect the edges.\nBut how do we programaticly detect pulse change? Your PLC simulator constantly loops the code written in MAIN. Whole cycle starts with reading values on input tags, than the code in MAIN is executed and when it comes to the end, the newly calculated values are written on output tags. Declare boolean variable <b>buttonOldValue</b> and at the bottom of code and keep it there. Assign value of ButtonBlackLeftDown to it.\nNow write and if statement (<b>above</b> buttonOldValue assigment!) that will check if buttonOldValue is different from current ButtonBlackLeftDown value. If it is, then we have detected the edge. Which one?\nOn rising edge, start <b>Timer Pulse</b> or shorter <b>TP</b> timer and set in on 2 seconds. Link timer's output (<timerName>.Q) to lower blue light (tag <b>LEDBlueDown</b>) and the light will turn on for 2 seconds after button was pressed. Don't forget to set the IN signal of timer to false (reset the timer), when it's not used.\nStart testing as soon as you press down the button.",
+    "ChatBubbles": [],
     "Tests": [
       {
         "Tag": "LEDBlueDown",

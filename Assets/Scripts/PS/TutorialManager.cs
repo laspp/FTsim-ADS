@@ -341,7 +341,7 @@ public class TutorialManager : MonoBehaviour
         if(chatBubbleIndex <= 0){
             buttonPrevious.interactable = false;
         }
-        //buttonNext.interactable = true;
+        buttonNext.interactable = true;
     }
 
     public void ButtonArrNext()

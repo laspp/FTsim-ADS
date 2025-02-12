@@ -1,7 +1,7 @@
 {
   "TutorialStep": 2,
   "TutorialTitle": "RED AND GREEN LIGHT",
-  "TaskDescription": "Do some exercise and repeat whole process for the green light. Hold both of them for 1 second to pass the test",
+  "TaskDescription": "Do some exercise and repeat whole process for the green light.\n There is a shortcut, so you don't have to activate configuration every time code is update. Just clik the login icon and select <b>Login with online change</b> option in pop up window. If there are no errors, updated code is downloaded and already running on PLC! Otherwise, they will be displayed in Error List and login will proceed without download.\nHold red and green buttons for 1 second to pass the test",
   "ChatBubbles": [],
   "Tests": [
     {

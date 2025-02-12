@@ -26,7 +26,7 @@ public class WorkpieceCollision : MonoBehaviour
             Debug.LogError("Detector tag is not set for " + gameObject.name);
         }
     }
-    void OnTriggerEnter(Collider other)
+    public void OnTriggerEnter(Collider other)
     {
         //Debug.Log("Collision detected with: " + other.gameObject.name);
 
@@ -43,7 +43,7 @@ public class WorkpieceCollision : MonoBehaviour
 
     }
 
-    void OnTriggerExit(Collider other)
+    public void OnTriggerExit(Collider other)
     {
         if (other.gameObject.CompareTag("Workpiece"))
         {

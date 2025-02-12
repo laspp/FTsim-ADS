@@ -21,6 +21,8 @@ public class leverRotate : MonoBehaviour
 
     public void SwitchCompressorChange(Toggle change)
     {
+        com.WriteToPlc(SwitchCompressorTag, change.isOn);
+
         if (isAnimating)
         {
             // Stop the current animation and start new one in reversed direction

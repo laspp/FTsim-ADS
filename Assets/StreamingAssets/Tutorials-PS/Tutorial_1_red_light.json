@@ -1,14 +1,18 @@
 {
   "TutorialStep": 1,
   "TutorialTitle": "RED LIGHT",
-  "TaskDescription": "In TcXaeShell (Visual Studio) editor connect red button with the red light. First, check how are button and light defined in the IOs.\nWhen adressing tag value from IOs, use <b>IO.<tagName></b> syntax!\nLink them together, use := operator.\nTo pass the test, turn on the light by clicking on the red button and hold it and press test.",
+  "TaskDescription": "In TcXaeShell (Visual Studio) editor connect red button with the red light. First, check how are button and light defined in the IOs.\nWhen adressing tag value from IOs, use <b>IO.<tagName></b> syntax! Link them together, using := operator.\nFolow the next steps to run your program in TcXaeShell. All comands are positioned in the thirt row on top of your scrren:\n<b>1.</b> click Activate configuration button (yellow arrow next to tiny blue sqares) \n<b>2.</b> OK on pop-up (Project: PLC, Target: <Local>) \n<b>2.1</b> another pop-up might show, explaining that runtime licenses is missing. Go ahed and create new one. \n<b>3.</b> Another pop-up shows that requires restating TwinCAT System in Run Mode. Click OK. In bottom blue line gear is now moving inside green box\n<b>4.</b> Login to your PLC, by clicking green arrow pointing inside green box. Accept pop-up, that will create Port_851 application.\n<b>5.</b> Now you're live monitoring PLC's values. The last step is to click play (green triangle next to previous icon). In IO tab, photocels and SWitchTablePosition should have value set to True\nYou can't edit code until you logout. Press red arrow pointing out of red box\n<b>6.</b> Repeat the whole process <b>after changing the code</b> to run new code on PLC.\nTo pass the test, turn on the light by clicking on the red button and hold it and press test button.",
   "ChatBubbles": [
     {
       "Id": 0,
-      "Text": "This is the RED light button. Press <b>Q</b> on the keyboard"
+      "Text": "Place mouse over the text and scrol down. Use arrow to wiev next chat bubble."
     },
     {
       "Id": 1,
+      "Text": "This is the RED light button. Press <b>Q</b> on the keyboard"
+    },
+    {
+      "Id": 2,
       "Text": "This is the RED light, when programed right and pressed it should glow."
     }
   ],
