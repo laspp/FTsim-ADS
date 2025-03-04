@@ -132,7 +132,8 @@ public class TutorialManager : MonoBehaviour
     public Button buttonNext;
     public GridLayoutGroup gridToggles;
     public GameObject TestOutputConsoleParent;
-    private  TMP_Text testOutputConsole;    
+    private TMP_Text testOutputConsole;    
+    public ScrollRect tutorialPanelScrollRect;
 
     void Start()
     {
@@ -190,6 +191,7 @@ public class TutorialManager : MonoBehaviour
         buttonNext.interactable = false;
         buttonPrevious.interactable = false;
         currentTutorialData = tutorialLoader.LoadTutorial(index);
+        tutorialPanelScrollRect.verticalNormalizedPosition = 1;
         CheckTutorialData();
     }
     public void CheckTutorialData()

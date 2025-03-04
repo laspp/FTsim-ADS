@@ -12,6 +12,8 @@ public class PanelControls : MonoBehaviour
     public Transform LEDBlueUp;
     public Transform LEDBlueDown;
        
+    private int workpieceCounter = 0; // Counter for the number of workpieces
+    private const int maxWorkpieces = 50; // Maximum number of workpieces allowed
 
     void Start()
     {
@@ -39,10 +41,28 @@ public class PanelControls : MonoBehaviour
 
     public void CreateNewWorkpiece()
     {
-        Vector3 pos = spawnPoint.position;
-        GameObject clone = Instantiate(workpiece, new Vector3(pos.x, pos.y, pos.z), Quaternion.identity);
-        clone.tag = "Workpiece";
-        clone.SetActive(true);
+        if (workpieceCounter <= maxWorkpieces)
+        {
+            Vector3 pos = spawnPoint.position;
+            GameObject clone = Instantiate(workpiece, new Vector3(pos.x, pos.y, pos.z), Quaternion.identity);
+            clone.tag = "Workpiece";
+            clone.SetActive(true);
+            workpieceCounter++;
+        }
+        else
+        {
+            Debug.LogWarning("Maximum number of workpieces reached.");
+
+            if (GameObject.FindWithTag("Dialog_error_max_workpieces") == null)
+            {
+                Dialog.MessageBox(
+                    "Dialog_error_max_workpieces",
+                    "Runtime Error",
+                    $"Maximum number of workpieces reached.\nClicking DEL will remove workpiece from scene, that was generated first.",
+                    "DEL", () => { RemoveWorkpiece(); }, widthMax: 300, heightMax: 120
+                    );
+            }
+        }
     }
     public void RemoveWorkpiece()
     {
@@ -50,6 +70,7 @@ public class PanelControls : MonoBehaviour
         if (workPiece != null && workPiece.Length > 0)
         {
             Destroy(workPiece[0]);
+            workpieceCounter--;
         }
     }
 

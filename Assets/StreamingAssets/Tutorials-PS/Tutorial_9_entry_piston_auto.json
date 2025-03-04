@@ -2,12 +2,7 @@
     "TutorialStep": 9,
     "TutorialTitle": "ENTRY PISTON (AUTO)",
     "TaskDescription": "Upgrade your previous program, so when photocell detects workpiece, entry piston will push it forward. First, click DEL (<b>C</b> on keyboard) to remove previous Workpiece.\n-Enclose your code in if statement, where ToggleSwitch is not activated.\nUse (TON-Timer On Delay) to wait 1 second after new piece has been detected to not open the valve to soon.\nThan use (TOF-Timer oFF Delay or TP-Timer Pulse) timer to trigger signal for 3 seconds so the piston is fully extended\nIn the next tutorial, we will automaticly return the piston back to the starting position.\nStart testing, just after you spawned new workipece.",
-    "ChatBubbles": [ 
-    {
-        "Id": 0,
-        "Text": "When coding, use RESTART button to reset the scene. Don't forget starting the compressor!"
-    }
-    ],
+    "ChatBubbles": [],
     "Tests": [
     {
         "Tag": "MotorCompressor",
