@@ -1,7 +1,5 @@
 PROGRAM MAIN
 VAR
-//	actuators: Actuators;
-//	ledTest: LedTest;
 //4
 buttonOldValue: BOOL;
 buttonRisingEdge: BOOL;
@@ -21,7 +19,7 @@ photocelOldValue: BOOL;
 photocelNewValue: BOOL;
 timerMoveEntryPistonF_TP: TP;
 timerDelay_TON: TON;
-photoCellFalingEdge: BOOL;
+photoCellPieceDetected: BOOL;
 //10
 timerMoveEntryPistonFallingEdge: BOOL;
 timerMoveEntryPistonOldValue : BOOL;
@@ -47,14 +45,25 @@ beltTimeoutOldValue: BOOL;
 photocellExitOldValue: BOOL;
 piecesCounter: INT;
 timerBeltMoveLittle_TP: TP;
-	ButtonBlackLeftUp: BOOL;
+ButtonBlackLeftUp: BOOL;
 END_VAR
 
-//---------------------------------------------------------------------------------------------------------
-//lower window
-//ButtonsDebouncer();
-//ledTest();
-//actuators();
+//--------------------------------WINDOW WITH CODE-------------------------------------------------------------------------
+
+// QUICK SYNTAX GUIDE FOR ST LANGUAGE
+// IO.val1 := IO.val2; we use := for assigning the value
+// Conditional (if) sentance has the folowing syntax:
+// IF <condition> THEN, where <condition> can be extended to <condition> AND <condition>, <condition> OR <condition>...
+//    code;
+// END_IF 
+// <condition> can be <variableName> = TRUE or <variableName> = FALSE or <variableName> = <variableName> 
+// = means equal and <> means not equal, you can also use NOT <variableName> for negation 
+// To use timer, first define it`s type and variable name in upper window and start it like:
+// timer(IN := TRUE, PT := T#XXS);
+// assignee it`s output to variable
+// timerOutput := Timer.Q;
+// don`t forget to reset the timer after it was used: timer(IN := FALSE);
+//-------Place for your code------------------------------------------------------------------------------------------------
 
 // 1 RED LIGHT
 	//IO.LEDRed := IO.ButtonRed;
@@ -111,31 +120,21 @@ END_VAR
 
 // 9 ENTRY PISTON (AUTO)
 IF NOT IO.ToggleSwitch THEN
-	IF photocelOldValue AND NOT IO.PhotocellEntry THEN
-		photoCellFalingEdge := TRUE;
-	END_IF	
 		
-	IF photoCellFalingEdge AND NOT IO.PhotocellEntry THEN
+	IF NOT IO.PhotocellEntry THEN 
 		timerDelay_TON(IN := TRUE, PT := T#1S);
 	ELSE
 		timerDelay_TON(in := FALSE);
 	END_IF
 	
 	IF timerDelay_TON.Q THEN
-		photoCellFalingEdge := FALSE;
+		photoCellPieceDetected := FALSE;
 		timerMoveEntryPistonF_TP(IN := TRUE, PT := T#3S);
 	ELSE
 		timerMoveEntryPistonF_TP(IN := FALSE);	 
 	END_IF
 	
-	IF timerMoveEntryPistonF_TP.Q THEN
-		IO.valveEntryForward := TRUE;
-	ELSE
-		IO.valveEntryForward := FALSE;
-	END_IF
-
-	//update old value
-	photocelOldValue := IO.PhotocellEntry;
+	IO.valveEntryForward := timerMoveEntryPistonF_TP.Q;
 	
 // 10 RETURN ENTRY PISTON
 	IF timerMoveEntryPistonOldValue AND NOT timerMoveEntryPistonF_TP.Q THEN
@@ -152,11 +151,7 @@ IF NOT IO.ToggleSwitch THEN
 		timerMoveEntryPistonB_TP(IN := FALSE);
 	END_IF
 	
-	IF timerMoveEntryPistonB_TP.Q THEN
-		IO.ValveEntryBackward := TRUE;
-	ELSE
-		IO.ValveEntryBackward := FALSE;
-	END_IF
+	IO.ValveEntryBackward := timerMoveEntryPistonB_TP.Q;
 	
 	//update old value
 	timerMoveEntryPistonOldValue := timerMoveEntryPistonF_TP.Q;
@@ -184,13 +179,13 @@ IF NOT IO.ToggleSwitch THEN
 
 // 12 MACHINE WORK
 	IF IO.SwitchMachine THEN 
-		timerMachine_TP(IN := TRUE, PT := T#5S);
+		timerMachine_TP(IN := TRUE, PT := T#3S);
 	ELSE
 		timerMachine_TP(IN := FALSE);
 	END_IF
 
-	IF timerMachine_TP.Q THEN
-		IO.MotorTableMovement := FALSE;;
+	IF addToCount THEN
+		IO.MotorTableMovement := NOT timerMachine_TP.Q; 
 	END_IF
 	
 	timerValveMachine_TP(IN := ButtonBlackRightDownDB, PT := T#500MS, Q => IO.ValveMachine);
@@ -269,4 +264,4 @@ IF NOT IO.ToggleSwitch THEN
 	//update old value
 	photocellExitOldValue := IO.PhotocellExit;
 	
-END_IF // IF NOT IO.ToggleSwitch THEN 
+END_IF // IF NOT IO.ToggleSwitch 

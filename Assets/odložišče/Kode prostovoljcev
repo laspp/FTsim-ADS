@@ -1,0 +1,45 @@
+MATIJA
+buttonOldValue:BOOL;
+timer:TP;
+timerTON:TON;
+timerTOF:TOF;
+piecePresent:BOOL;
+piecePresentOld:BOOL;
+
+
+io.LEDRed := io.ButtonRed;
+io.LEDGreen := io.ButtonGreen;
+
+io.MotorCompressor := io.SwitchCompressor;
+
+piecepresent := NOT IO.PhotocellEntry;
+
+timerTON(in:= piecepresent, pt:=T#1S);
+
+IF timerTON.Q THEN
+	timer(IN:=TRUE, PT:=T#3S);
+ELSE
+	timer(IN:=FALSE);
+END_IF
+
+IO.ValveEntryForward := timer.Q;
+	
+//piecePresentOld := NOT io.PhotocellEntry;
+
+KRISTJAN
+IO.LEDRed := IO.ButtonRed;
+IO.LEDGreen := IO.ButtonGreen;
+
+IO.MotorCompressor := IO.SwitchCompressor;
+
+IF buttonOldValue = NOT IO.ButtonBlackLeftDown THEN
+	timer(IN := TRUE, PT := T#02S);
+ELSE
+	timer(IN := FALSE);
+END_IF
+
+IO.LEDBlueDown := timer.Q;
+	
+buttonOldValue := IO.ButtonBlackLeftDown;
+
+ROK
