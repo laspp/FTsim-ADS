@@ -34,7 +34,7 @@ public class Piston : MonoBehaviour
     public PistonLocation pistonType;
 
     Vector3 moveVector = new(0, -0.5f, 0);
-    public float speed = 0.01f;
+    public float speed = 0.005f;
     float position;
     float positionStart;
     float positionEnd;
@@ -67,7 +67,7 @@ public class Piston : MonoBehaviour
                 break;
             case PistonLocation.Belt:
                 //start and End are reversed because piston is rotated compared to Entry piston
-                positionStart = position + 1.422f;
+                positionStart = position + 1.622f;
                 positionEnd = position;
                 tagForward = tagValveExitBackward;
                 tagBackward = tagValveExitForward;

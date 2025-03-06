@@ -19,7 +19,7 @@ rnote right of Task1
 end rnote
 rnote right of Task2
   "Tag": "SwitchMachine",
-  "TestRunTime": "2x",
+  "TestRunTime": "6x",
   "Val": "false",
 end rnote
 rnote right of Task3
