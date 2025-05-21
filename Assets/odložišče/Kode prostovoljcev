@@ -43,3 +43,8 @@ IO.LEDBlueDown := timer.Q;
 buttonOldValue := IO.ButtonBlackLeftDown;
 
 ROK
+
+IO.LEDRed := IO.ButtonRed;
+IO.LEDGreen := IO.ButtonGreen;
+IO.MotorCompressor := IO.SwitchCompressor;
+IO.MotorCompressor := IO.SwitchCompressor;

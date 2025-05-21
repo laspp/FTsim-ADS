@@ -1,7 +1,7 @@
 {
   "TutorialStep": 3,
   "TutorialTitle": "PRODUCTION START",
-  "TaskDescription": "Click button <b>NewWorkpiece</b> to add a new workpiece to the scene. As you can see it covers the light ray of first photocell in the process line. It's tag is <b>PhotocellEntry</b>. The ray must be interrupted to pass the test. Furthermore we need to program <b>MotorCompressor</b> to run when <b>SwitchCompressor</b> is active. Compressor is used to increase preasure in air tank and move pistons when corresponding valves are opened. To complete the test, MotorCompressor should run for 3 seconds to build up the preasure",
+  "TaskDescription": "Click button <b>NewWorkpiece</b> to add a new workpiece to the scene. As you can see it covers the light ray of first photocell in the process line. It's tag is <b>PhotocellEntry</b>. The ray must be interrupted to pass the test. Furthermore we need to program <b>MotorCompressor</b> to run when <b>SwitchCompressor</b> is active. Compressor is used to increase preasure in air tank and move pistons when corresponding valves are opened. To complete the test, MotorCompressor should be running to build up the preasure",
   "ChatBubbles": [
     {
       "Id": 0,
@@ -13,7 +13,7 @@
     },
     {
       "Id": 2,
-      "Text": "If the  the preasure level bar is empty, pistons won't move."
+      "Text": "If the preasure level bar is empty, pistons won't move."
     }
   ],
   "Tests": [
