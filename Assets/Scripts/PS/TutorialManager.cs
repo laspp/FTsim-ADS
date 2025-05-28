@@ -444,6 +444,8 @@ public class TutorialManager : MonoBehaviour
             case ButtonState.Next:
             //switch to next tutorial
                 ClearCurrentChatBubbles();
+                buttonNext.interactable = false;
+                buttonPrevious.interactable = false;
                 TestOutputConsoleParent.SetActive(false);
 
                 currentTutorialData = tutorialLoader.LoadNextTutorial();
